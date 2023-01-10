@@ -1,5 +1,10 @@
+import Main from "./components/main/Main";
 function App() {
-  return <div>App</div>;
+  return (
+    <>
+      <Main />
+    </>
+  );
 }
 
 export default App;

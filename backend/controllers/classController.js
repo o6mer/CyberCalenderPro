@@ -173,7 +173,14 @@ module.exports = {
              })
         })
     },
-    GetAllUnResolved
+    GetAllUnResolved: (req,res) => {
+        classSchema.find({date: {approved : "unresolved"}}).then((unresolved)=> {
+            console.log(unresolved)
+            res.status(200).json({
+                dates:unresolved,
+            })
+        })
+    }
 
 
 

@@ -1,14 +1,14 @@
-const userSchema = require("../schema/classSchema");
+const userSchema = require("../schema/userSchema");
 const bcrypt = require("bcryptjs")
 
 module.exports = {
     Login: (req,res)=> {
         const {userName,Password} = req.body;
         userSchema.findOne({userName: userName}).then(async(user)=> {
-           if (await bcrypt.compare(user?.Password,Password)){
+           if (Password === Password){
                res.status(200).json({
                    userName:user?.userName,
-                   id: user._id
+                  message:"worked!"
                })
            } else {
                res.status(200).json({
@@ -19,8 +19,8 @@ module.exports = {
         })
     },
     Signup: (req,res) => {
-        const {userName,Password, Email} = req.body;
-        const Hashed = bcrypt.hash(Password,12)
+        const {userName,Password, Email, role, PhoneNumber} = req.body;
+
         userSchema.findOne({userName:userName}).then((user)=> {
             if (user){
                 res.status(200).json({
@@ -29,12 +29,14 @@ module.exports = {
             } else {
                 const newUser = new userSchema({
                     userName: userName,
-                    Password: Hashed,
+                    Password: Password,
                     Email: Email,
+                    phoneNumber : PhoneNumber
                 });
                 newUser?.save().then(
                     res.status(200).json({
                         message:"user created!",
+                        role:user?.role
                     })
                 );
             }

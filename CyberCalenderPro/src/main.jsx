@@ -5,10 +5,10 @@ import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./components/dashboard/Dashboard";
 import ErrorPage from "./components/error-page";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Login from "./components/userhandle/login.jsx";
 import Signup from "./components/userhandle/signup.jsx";
 import Main from "./components/main/Main.jsx";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -32,8 +32,22 @@ const router = createBrowserRouter([
     element: <Main />,
   },
 ]);
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#1E2022",
+    },
+    secondary: {
+      main: "#52616B",
+    },
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );

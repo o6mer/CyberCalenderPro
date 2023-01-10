@@ -5,7 +5,6 @@ import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-const BACKEND_URL = "";
 
 const Dashboard = () => {
   const [className, setClassName] = useState("");
@@ -19,7 +18,7 @@ const Dashboard = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(BACKEND_URL, {
+      const res = await axios.post("http://localhost:2000/addclass", {
         className,
         capacity,
         checklist,

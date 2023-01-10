@@ -17,6 +17,9 @@ module.exports = {
                             capacity: capacity,
                             checklist: checklist,
                         });
+                        res.status(200).json({
+                            message:"worked",
+                        })
                         clas?.save().then();
                     }
                 })

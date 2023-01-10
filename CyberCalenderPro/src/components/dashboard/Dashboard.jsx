@@ -1,17 +1,16 @@
 import React from "react";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { TextField } from "@mui/material";
+import NewClassForm from "./NewClassForm";
+import RequestList from "./RequestList/RequestList";
+import TopNavBar from "./TopNavBar/TopNavBar";
+
 const Dashboard = () => {
   return (
-    <main className="w-full h-full flex justify-center items-center">
-      <form action="">
-        <TextField label="Class Name" variant="outlined" type="text" />
-        <TextField label="Capacity" variant="outlined" type="number" />
-        <FormControlLabel control={<Checkbox defaultChecked />} label="AC" />
-        <FormControlLabel control={<Checkbox defaultChecked />} label="Zoom" />
-        <FormControlLabel control={<Checkbox defaultChecked />} label="PC's" />
-      </form>
+    <main className="w-full h-full flex flex-col bg-primary">
+      <TopNavBar />
+      <section className="w-full grow flex flex-col justify-center items-center p-2">
+        <NewClassForm />
+        <RequestList />
+      </section>
     </main>
   );
 };

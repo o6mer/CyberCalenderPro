@@ -19,7 +19,7 @@ const Dashboard = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(BACKEND_URL, {
+      const res = await axios.post("http://localhost:2000/addclass", {
         className,
         capacity,
         checklist,

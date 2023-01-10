@@ -26,7 +26,7 @@ module.exports = {
         );
 
     },
-    AddUserToWatingList: (req,res)=> {
+    AddUserToWaitingList: (req,res)=> {
         const {className, userName, date,time_range} = req.body
         let userExist = false;
         let dateExist = false;
@@ -109,6 +109,21 @@ module.exports = {
                         });
                         theClass.save()
                     }})})},
+    GetDateData: (req,res)=> {
+        const {className, date} = req.body;
+        let alldates ;
+        lassSchema
+            .findOne({className: className})
+            //if question exist...
+            .then((theClass) => {
+              alldates = theClass.date.filter((singleDate)=> {
+                   return singleDate.date = date
+               })
+                res.status(200).json({
+                    dates:alldates,
+                })
+            })
+    }
 
 
 

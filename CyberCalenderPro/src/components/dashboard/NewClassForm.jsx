@@ -24,6 +24,7 @@ const Dashboard = () => {
         checklist,
       });
       console.log(res.data);
+      clearForm();
     } catch (err) {
       console.log(err);
     }

@@ -69,7 +69,7 @@ module.exports = {
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
-        const data = {date:date,time_range:time_range,users: [userData], approved: false, _id:id}
+        const data = {date:date,time_range:time_range,users: [userData], approved: "unresolved", _id:id}
         classSchema
             .findOne({className: className})
             //if question exist...
@@ -173,6 +173,7 @@ module.exports = {
              })
         })
     },
+    GetAllUnResolved
 
 
 

@@ -43,6 +43,8 @@ export default function Login() {
         Password: password,
       });
 
+      //userName, role, userId
+      if (!res.data.message) alert("Invalid Email or password ");
       setUserData(res.data);
     } catch (err) {
       console.log(err);

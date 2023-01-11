@@ -29,7 +29,7 @@ const RequestList = () => {
   };
 
   return (
-    <div className="w-fit">
+    <div className="w-full">
       <Table>
         <TableHead>
           <TableRow>

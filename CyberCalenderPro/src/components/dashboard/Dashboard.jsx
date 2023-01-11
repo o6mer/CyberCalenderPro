@@ -1,23 +1,20 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { DashboardContext } from "../../contexts/DashboardContext";
-import { UserContext } from "../../contexts/UserContext";
 import NewClassForm from "./NewClassForm";
 import RequestList from "./RequestList/RequestList";
-import TopNavBar from "./TopNavBar/TopNavBar";
+import TopNavBar from "../TopNavBar";
+import { Avatar } from "@mui/material";
 
 const Dashboard = () => {
-  const { user } = useContext(UserContext);
-  const { requestList, setRequestList } = useContext(DashboardContext);
+  const { setRequestList } = useContext(DashboardContext);
 
-  console.log(user);
   useEffect(() => {
     const getRequests = async () => {
       try {
         const res = await axios.get("http://localhost:2000/unresolved");
 
         setRequestList(res.data.dates);
-        console.log(res.data);
       } catch (err) {
         console.log(err);
       }
@@ -26,8 +23,14 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="w-full h-full flex flex-col bg-primary">
-      <TopNavBar />
+    <main className="w-full h-full flex flex-col bg-primary px-80 absolute">
+      <TopNavBar>
+        <button className="justify-self-end">
+          <Avatar alt="Cindy Baker" sx={{ backgroundColor: "#1E2022" }}>
+            US
+          </Avatar>
+        </button>
+      </TopNavBar>
       <section className="w-full grow flex flex-col justify-center items-center p-2">
         <NewClassForm />
         <RequestList />

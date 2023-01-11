@@ -57,9 +57,9 @@ const Dashboard = () => {
     <form
       action=""
       onSubmit={submitHandler}
-      className="flex flex-col w-fit justify-center gap-4"
+      className="flex flex-col w-full justify-center gap-4"
     >
-      <div className="flex items-center justify-around">
+      <div className="flex items-center justify-between">
         <TextField
           error={classNameIsError}
           helperText={classNameIsError && "Field is required"}

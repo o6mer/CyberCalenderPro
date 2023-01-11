@@ -186,55 +186,44 @@ module.exports = {
     const { className } = req.body;
     const date = req.body.date;
 
-        let alldates ;
-        classSchema
-            .findOne({className: className})
-            //if question exist...
-            .then((theClass) => {
-              alldates = theClass.date.filter((singleDate)=> {
-                   return singleDate.date = date
-               })
-                res.status(200).json({
-                    dates:alldates,
-                })
-            })
-    },
-    ClassPerDay: (req,res) => {
-        const date= req.body.date;
-        let alldates;
-        classSchema
-            .find()
-            //if question exist...
-            .then((theClass) => {
-                theClass.map((singleClass)=>{
-                alldates = singleClass.date.filter((singleDate)=> {
-                    return singleDate.date = date
-                })
-                res.status(200).json({
-                    dates:alldates,
-                })
-            })
-            })
-    },
-    Approve: (req,res) => {
-      const {_id, approved} = req.body;
-         classSchema.find().then((classes)=> {
-             classes.map((singleClass)=> {
-                 singleClass.date.map((singleDate)=> {
-                     if (singleDate._id === _id){
-                         singleDate.approved = approved;
-                         singleDate.save()
-                         res.status(200).json({
-                             message:"worked!",
-                         })
-                     }
-                 })
-             })
-        })
-    },
-    GetAllUnResolved: (req,res) => {
-        classSchema.find({date: {approved : "unresolved"}}).then((unresolved)=> {
-            console.log(unresolved)
+    let alldates;
+    classSchema
+      .findOne({ className: className })
+      //if question exist...
+      .then((theClass) => {
+        alldates = theClass.date.filter((singleDate) => {
+          return (singleDate.date = date);
+        });
+        res.status(200).json({
+          dates: alldates,
+        });
+      });
+  },
+  ClassPerDay: (req, res) => {
+    const date = req.body.date;
+    let alldates;
+    classSchema
+      .find()
+      //if question exist...
+      .then((theClass) => {
+        theClass.map((singleClass) => {
+          alldates = singleClass.date.filter((singleDate) => {
+            return (singleDate.date = date);
+          });
+          res.status(200).json({
+            dates: alldates,
+          });
+        });
+      });
+  },
+  Approve: (req, res) => {
+    const { _id, approved } = req.body;
+    classSchema.find().then((classes) => {
+      classes.map((singleClass) => {
+        singleClass.date.map((singleDate) => {
+          if (singleDate._id === _id) {
+            singleDate.approved = approved;
+            singleDate.save();
             res.status(200).json({
               message: "worked!",
             });
@@ -243,6 +232,7 @@ module.exports = {
       });
     });
   },
+
   GetAllUnResolved: (req, res) => {
     classSchema
       .find({ date: { approved: "unresolved" } })

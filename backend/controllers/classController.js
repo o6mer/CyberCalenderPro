@@ -86,7 +86,7 @@ module.exports = {
             })},
     AddMeeting: (req,res)=> {
         const {className, phoneNumber,time_range, groupSize} = req.body
-        console.log(req.body)
+        // console.log(req.body)
         const date = req.body.date;
         let userData;
         let dateExist = false;
@@ -101,8 +101,9 @@ module.exports = {
             .findOne({className: className})
             //if question exist...
             .then((theClass) => {
-                console.log(className)
-                if (theClass?.date) {
+                console.log(theClass)
+
+
                     theClass?.date?.map((singleDate) => {
                         if (singleDate.date === date && singleDate.time_range === time_range) {
                             dateExist = true
@@ -111,13 +112,15 @@ module.exports = {
                             })
                         }
                     })
-                }
-                else if (dateExist === false && theClass?.capacity >= groupSize) {
-                    if (theClass) {
 
+                 if (dateExist === false && theClass?.capacity >= groupSize) {
+                    if (theClass) {
                         theClass.date.push(data);
                         theClass.save();
                         console.log("worked")
+                        res.status(200).json({
+                            message:data
+                        })
                     }
                 else {
                         console.log("class not exist")

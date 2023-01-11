@@ -86,6 +86,7 @@ module.exports = {
             })},
     AddMeeting: (req,res)=> {
         const {className, phoneNumber,time_range, groupSize} = req.body
+        console.log(req.body)
         const date = req.body.date;
         let userData;
         let dateExist = false;
@@ -93,23 +94,30 @@ module.exports = {
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
+
         const data = {date:date,time_range:time_range,users: [userData], approved: "unresolved", _id:id}
+
         classSchema
             .findOne({className: className})
             //if question exist...
             .then((theClass) => {
-                theClass.date.map((singleDate)=> {
-                    if (singleDate.date === date && singleDate.time_range === time_range) {
-                        dateExist = true
-                        res.status(200).json({
-                            message:"exist",
-                        })
-                    }
-                })
-                if (dateExist === false && theClass.capacity > groupSize) {
+                console.log(className)
+                if (theClass?.date) {
+                    theClass?.date?.map((singleDate) => {
+                        if (singleDate.date === date && singleDate.time_range === time_range) {
+                            dateExist = true
+                            res.status(200).json({
+                                message: "exist",
+                            })
+                        }
+                    })
+                }
+                else if (dateExist === false && theClass?.capacity >= groupSize) {
                     if (theClass) {
+
                         theClass.date.push(data);
                         theClass.save();
+                        console.log("worked")
                     }
                 else {
                         console.log("class not exist")
@@ -179,7 +187,7 @@ module.exports = {
             //if question exist...
             .then((theClass) => {
                 theClass.map((singleClass)=>{
-                singleClass.date.map((singleDate)=> {
+                singleClass?.date?.map((singleDate)=> {
                     if (singleDate.date === date){
                         alldates.push(singleDate)
                     }

@@ -119,7 +119,7 @@ module.exports = {
                         theClass.save();
                         console.log("worked")
                         res.status(200).json({
-                            message:data
+                            data:data
                         })
                     }
                 else {
@@ -182,25 +182,6 @@ module.exports = {
                 })
             })
     },
-    ClassPerDay: (req,res) => {
-        const date= req.body.date;
-        let alldates;
-        classSchema
-            .find()
-            //if question exist...
-            .then((theClass) => {
-                theClass.map((singleClass)=>{
-                singleClass?.date?.map((singleDate)=> {
-                    if (singleDate.date === date){
-                        alldates.push(singleDate)
-                    }
-                })
-            })
-                res.status(200).json({
-                    dates:alldates,
-                })
-            })
-    },
     Approve: (req,res) => {
       const {_id, approved} = req.body;
          classSchema.find().then((classes)=> {
@@ -258,13 +239,32 @@ module.exports = {
                     console.log(newDate)
                     singleClass?.date?.push(newDate, time_range,userData, id)
 
-                    // console.log(singleClass)
-                    // singleClass?.save()
                 }
             }
         })
 
     },
+    SendClassesAndRanges: (req,res)=> {
+        const className = [];
+        const classData = []
+        classSchema.find().then((classes)=>{
+            classes.map((clas)=>{
+                const SignleClassTimeRange = [];
+                className.push(clas.className);
+                clas.date.map((singleDate)=>{
+                    SignleClassTimeRange.unshift(singleDate)
+                })
+
+                classData.push({
+                    className: clas.className,
+                    date_data: SignleClassTimeRange
+                })
+            })
+            res.status(200).json({
+                data: classData
+            })
+        })
+    }
 
 
 

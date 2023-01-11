@@ -181,13 +181,15 @@ module.exports = {
             //if question exist...
             .then((theClass) => {
                 theClass.map((singleClass)=>{
-                alldates = singleClass.date.filter((singleDate)=> {
-                    return singleDate.date = date
+                singleClass.date.map((singleDate)=> {
+                    if (singleDate.date === date){
+                        alldates.push(singleDate)
+                    }
                 })
+            })
                 res.status(200).json({
                     dates:alldates,
                 })
-            })
             })
     },
     Approve: (req,res) => {

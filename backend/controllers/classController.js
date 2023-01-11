@@ -168,6 +168,9 @@ module.exports = {
                      if (singleDate._id === _id){
                          singleDate.approved = approved;
                          singleDate.save()
+                         res.status(200).json({
+                             message:"worked!",
+                         })
                      }
                  })
              })
@@ -181,6 +184,7 @@ module.exports = {
             })
         })
     }
+
 
 
 

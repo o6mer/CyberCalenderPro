@@ -1,5 +1,6 @@
 const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
+const { v4: uuidv4 } = require('uuid');
 
 
 // function toDate(date) {
@@ -56,7 +57,7 @@ module.exports = {
         let userExist = false;
         let dateExist = false;
         let userData ;
-        const id = ObjectId()
+        const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
@@ -88,7 +89,7 @@ module.exports = {
         const date = req.body.date;
         let userData;
         let dateExist = false;
-        const id = ObjectId()
+        const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
@@ -133,7 +134,7 @@ module.exports = {
         })
     },
     RemoveUserFromDate: (req,res) => {
-        const id = ObjectId()
+        const id = uuidv4();
         const {className, phoneNumber,time_range} = req.body
         const date =req.body.date;
         let userData;
@@ -216,6 +217,7 @@ module.exports = {
     AddDateRange: (req,res)=> {
         const {time_range,className, phoneNumber} = req.body;
         const date = new Date(req.body.date);
+        const id = uuidv4();
         const endDate = new Date(req.body?.enddate);
         let difference = endDate.getTime() - date.getTime();
         Date.prototype.addDays = function(days) {

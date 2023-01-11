@@ -28,8 +28,11 @@ const CalenderPage = () => {
   async function dateSelectedHandler(date) {
     setSelectedDate(date);
     try {
+      const formatedDate = dateFormat(date, "isoDate")
+        .toString()
+        .replace("-", ",");
       const res = await axios.post("http://localhost:2000/classperday", {
-        date: dateFormat(date, "isoDate"),
+        date: formatedDate,
       });
       const { dates } = res.data;
       setAvilableTimeList(buildAvilableTimesList(dates));

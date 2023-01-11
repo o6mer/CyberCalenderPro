@@ -1,8 +1,10 @@
 import React from "react";
 
-const TopNavBar = ({ children }) => {
+const TopNavBar = ({ align, children }) => {
   return (
-    <nav className="flex w-full justify-end bg-thirdy p-2 h-[10%] shadow-lg absolute top-0 left-0 px-80">
+    <nav
+      className={`flex w-full justify-${align} bg-thirdy p-2 h-fit shadow-lg px-80 `}
+    >
       {children}
     </nav>
   );

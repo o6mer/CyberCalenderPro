@@ -36,7 +36,6 @@ export default function Login() {
 
   async function Handler(e) {
     e.preventDefault();
-    //need to state
     try {
       const res = await axios.post("http://localhost:2000/login", {
         email,
@@ -44,10 +43,9 @@ export default function Login() {
       });
 
       //userName, role, userId
-      if (!res.data.message) alert("Invalid Email or password ");
       setUserData(res.data);
     } catch (err) {
-      console.log(err);
+      if (!err.response.data.message) alert("Invalid Email or password ");
     }
   }
 

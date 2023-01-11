@@ -23,18 +23,20 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="w-full h-full flex flex-col bg-primary px-80 absolute">
-      <TopNavBar>
+    <main className="w-full h-full flex flex-col bg-primary ">
+      <TopNavBar align="end">
         <button className="justify-self-end">
           <Avatar alt="Cindy Baker" sx={{ backgroundColor: "#1E2022" }}>
             US
           </Avatar>
         </button>
       </TopNavBar>
-      <section className="w-full grow flex flex-col justify-center items-center p-2">
-        <NewClassForm />
-        <RequestList />
-      </section>
+      <div className=" px-80">
+        <section className="w-full grow flex flex-col justify-center items-center">
+          <NewClassForm />
+          <RequestList />
+        </section>
+      </div>
     </main>
   );
 };

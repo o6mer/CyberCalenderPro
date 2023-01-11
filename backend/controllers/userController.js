@@ -7,11 +7,14 @@ module.exports = {
         userSchema.findOne({userName: userName}).then(async(user)=> {
            if (Password === Password){
                res.status(200).json({
+                   message:true,
                    userName:user?.userName,
-                  message:"worked!"
+                   role:user?.role,
+                   userId: user._id,
+
                })
            } else {
-               res.status(200).json({
+               res.status(400).json({
                    message:false,
                })
            }

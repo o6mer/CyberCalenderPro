@@ -2,29 +2,26 @@ const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
 
 
-function toDate(date) {
-    const currentTime = date;
-    currentTime.setDate(currentTime.getDate() - currentTime.getDay());
-    const month = currentTime.getMonth() + 1
-    const day = currentTime.getDate()
-    const year = currentTime.getFullYear()
-    return (day + "/" + month + "/" + year);
-}
-function getDay(date){
-    const currentTime = date;
-    currentTime.setDate(currentTime.getDate() - currentTime.getDay());
-    const month = currentTime.getMonth() + 1
-    const day = currentTime.getDate()
-    return day
-}
+// function toDate(date) {
+//     const currentTime = date;
+//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+//     const month = currentTime.getMonth() + 1
+//     const day = currentTime.getDate()
+//     const year = currentTime.getFullYear()
+//     return (day + "/" + month + "/" + year);
+// }
+// function getDay(date){
+//     const currentTime = date;
+//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+//     const month = currentTime.getMonth() + 1
+//     const day = currentTime.getDate()
+//     return day
+// }
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
     return date;
 }
-
-var date = new Date();
-
 module.exports = {
     createClass: (req, res) => {
         const {className, capacity, checklist} = req.body
@@ -160,7 +157,7 @@ module.exports = {
         const {className} = req.body;
         const date = req.body.date;
 
-        let alldates ;
+        let alldates;
         classSchema
             .findOne({className: className})
             //if question exist...
@@ -219,7 +216,7 @@ module.exports = {
     AddDateRange: (req,res)=> {
         const {time_range,className, phoneNumber} = req.body;
         const date = new Date(req.body.date);
-        const endDate = new Date(req.body.enddate);
+        const endDate = new Date(req.body?.enddate);
         let difference = endDate.getTime() - date.getTime();
         Date.prototype.addDays = function(days) {
             const date = new Date(this.valueOf());

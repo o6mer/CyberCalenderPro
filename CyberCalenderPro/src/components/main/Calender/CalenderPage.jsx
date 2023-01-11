@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dateFormat, { masks } from "dateformat";
@@ -10,6 +10,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import { UserContext } from "../../../contexts/UserContext";
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);
+  const [avilableClassList, setAvilableClassList] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date(
@@ -18,30 +19,36 @@ const CalenderPage = () => {
       startDate.getDate() + 14
     )
   );
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState();
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [groupSize, setGroupSize] = useState("");
 
-  const { user } = useContext(UserContext);
+  const { user, classesData } = useContext(UserContext);
 
-  async function dateSelectedHandler(date) {
-    setSelectedDate(date);
-    try {
-      const formatedDate = dateFormat(date, "isoDate")
-        .toString()
-        .replace("-", ",");
-      const res = await axios.post("http://localhost:2000/classperday", {
-        date: formatedDate,
-      });
-      const { dates } = res.data;
-      setAvilableTimeList(buildAvilableTimesList(dates));
-    } catch (err) {
-      console.log(err);
-    }
+  useEffect(() => {
+    dateSelectedHandler(new Date());
+    const classes = classesData.map((c) => c.className);
+    setAvilableClassList([...classes]);
+    setSelectedClass(classes[0]);
+  }, []);
+
+  function dateSelectedHandler(date) {
+    const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
+    setSelectedDate(formatedDate);
+    const times = {};
+    classesData.forEach((c) => {
+      times[c.className] = buildAvilableTimesList(
+        c.date_data.map((d) => {
+          if (d.date === formatedDate) return d.time_range;
+        })
+      );
+    });
+    console.log(times);
+    setAvilableTimeList(times[selectedClass]);
   }
 
-  function buildAvilableTimesList(takenTimes = ["09:00-09:30", "13:00-13:30"]) {
+  function buildAvilableTimesList(takenTimes) {
     let list = [];
     for (let i = 8; i < 21; i++) {
       if (i < 10) {
@@ -53,9 +60,12 @@ const CalenderPage = () => {
       }
     }
 
+    if (!takenTimes) return list;
+
     list = list.filter(
       (timeRange) => !takenTimes.find((takenTime) => timeRange === takenTime)
     );
+
     return list;
   }
 
@@ -106,7 +116,7 @@ const CalenderPage = () => {
               onChange={(e) => setSelectedTime(e.target.value)}
             >
               <option value="">Select Time</option>
-              {avilableTimeList.map((timeRange) => (
+              {avilableTimeList?.map((timeRange) => (
                 <option value={timeRange} key={timeRange}>
                   {timeRange}
                 </option>

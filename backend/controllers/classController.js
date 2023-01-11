@@ -1,6 +1,30 @@
 const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
 
+
+function toDate(date) {
+    const currentTime = date;
+    currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+    const month = currentTime.getMonth() + 1
+    const day = currentTime.getDate()
+    const year = currentTime.getFullYear()
+    return (day + "/" + month + "/" + year);
+}
+function getDay(date){
+    const currentTime = date;
+    currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+    const month = currentTime.getMonth() + 1
+    const day = currentTime.getDate()
+    return day
+}
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
+
+var date = new Date();
+
 module.exports = {
     createClass: (req, res) => {
         const {className, capacity, checklist} = req.body
@@ -30,7 +54,8 @@ module.exports = {
 
     },
     AddUserToWaitingList: (req,res)=> {
-        const {className, phoneNumber, date,time_range} = req.body
+        const {className, phoneNumber,time_range} = req.body
+        const date = req.body.date;
         let userExist = false;
         let dateExist = false;
         let userData ;
@@ -49,7 +74,7 @@ module.exports = {
                         singleDate.users.phoneNumber.map((userPhone)=> {
                             if (userPhone === phoneNumber){
                                 userExist = true;
-                                return;
+
                             }
                         })
                         if (userExist === true){
@@ -62,7 +87,8 @@ module.exports = {
                 })
             })},
     AddMeeting: (req,res)=> {
-        const {className, phoneNumber, date,time_range} = req.body
+        const {className, phoneNumber,time_range, groupSize} = req.body
+        const date = req.body.date;
         let userData;
         let dateExist = false;
         const id = ObjectId()
@@ -82,11 +108,12 @@ module.exports = {
                         })
                     }
                 })
-                if (dateExist === false) {
+                if (dateExist === false && theClass.capacity > groupSize) {
                     if (theClass) {
                         theClass.date.push(data);
                         theClass.save();
-                    } else {
+                    }
+                else {
                         console.log("class not exist")
                     }
                 }
@@ -110,7 +137,8 @@ module.exports = {
     },
     RemoveUserFromDate: (req,res) => {
         const id = ObjectId()
-        const {className, phoneNumber, date,time_range} = req.body
+        const {className, phoneNumber,time_range} = req.body
+        const date =req.body.date;
         let userData;
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
@@ -126,10 +154,12 @@ module.exports = {
                         singleDate.users = singleDate.users.filter((users) => {
                             return users !== userName
                         });
-                        theClass.save()
+                        theClass.save().then()
                     }})})},
     GetDateData: (req,res)=> {
-        const {className, date} = req.body;
+        const {className} = req.body;
+        const date = req.body.date;
+
         let alldates ;
         classSchema
             .findOne({className: className})
@@ -144,7 +174,7 @@ module.exports = {
             })
     },
     ClassPerDay: (req,res) => {
-        const { date} = req.body;
+        const date= req.body.date;
         let alldates;
         classSchema
             .find()
@@ -183,8 +213,46 @@ module.exports = {
                 dates:unresolved,
             })
         })
-    }
+    },
+    AddDateRange: (req,res)=> {
+        const {time_range,className, phoneNumber} = req.body;
+        const date = new Date(req.body.date);
+        const endDate = new Date(req.body.enddate);
+        let difference = endDate.getTime() - date.getTime();
+        Date.prototype.addDays = function(days) {
+            const date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+        let TotalDays = Math.ceil(difference / (1000 * 3600 * 24)); //day diffrence
+        console.log(TotalDays)
+        let userData;
+        userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
+            userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, Email:user?.Email}
+        console.log(userData)
+        })
+        classSchema.find({className: className}).then((singleClass)=> {
+            console.log(singleClass)
+            let newDate = date
+            for(let i= 0; i < TotalDays; i++){
 
+                if (newDate.getDay() >= 5 ){
+                    console.log(newDate.getDay())
+                    newDate = date.addDays(i)
+                }
+                else {
+                    newDate = date.addDays(i)
+                    console.log("thios is new date", newDate.getDay())
+                    console.log(newDate)
+                    singleClass?.date?.push(newDate, time_range,userData, id)
+
+                    // console.log(singleClass)
+                    // singleClass?.save()
+                }
+            }
+        })
+
+    },
 
 
 

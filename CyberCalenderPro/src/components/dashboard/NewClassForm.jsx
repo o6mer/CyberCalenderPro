@@ -5,7 +5,6 @@ import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
-const BACKEND_URL = "";
 
 const Dashboard = () => {
   const [className, setClassName] = useState("");
@@ -30,6 +29,7 @@ const Dashboard = () => {
         checklist,
       });
       console.log(res.data);
+      clearForm();
     } catch (err) {
       console.log(err);
     }

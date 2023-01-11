@@ -15,7 +15,7 @@ const RequestList = () => {
 
   const updateRequestStatus = async ({ _id, aprooved }) => {
     try {
-      const req = await axios.post(`http://localhost:2000/approve`, {
+      const req = await axios.post(`http://localhost:2000/aproove`, {
         _id,
         aprooved,
       });

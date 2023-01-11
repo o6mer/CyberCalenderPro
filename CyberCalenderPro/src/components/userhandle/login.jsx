@@ -39,8 +39,8 @@ export default function Login() {
     //need to state
     try {
       const res = await axios.post("http://localhost:2000/login", {
-        Email: email,
-        Password: password,
+        email,
+        password,
       });
 
       //userName, role, userId

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -6,6 +6,8 @@ import TopNavBar from "../TopNavBar";
 import HomePage from "./home/HomePage";
 import CalenderPage from "./Calender/CalenderPage";
 import AdvancedPage from "./Advanced/AdvancedPage";
+import axios from "axios";
+import { UserContext } from "../../contexts/UserContext";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,6 +42,25 @@ function a11yProps(index) {
 function Main() {
   const [value, setValue] = useState(0);
   const [currentPageName, setCurrentPageName] = useState("home");
+
+  const { setClassesData } = useContext(UserContext);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const res = await axios.post("http://localhost:2000/classesdata");
+
+        const { data } = res.data;
+        if (!data) return;
+
+        console.log(data);
+        setClassesData(data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getData();
+  }, []);
 
   const handleChange = (e, newValue) => {
     setCurrentPageName(e.target.name);

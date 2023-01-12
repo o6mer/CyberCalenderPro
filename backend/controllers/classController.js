@@ -235,6 +235,7 @@ module.exports = {
             classSchema.findOne({className: className}).then((singleClass) => {
                 console.log(singleClass)
                 let newDate = date
+                let ifexist = false;
                 for (let i = 0; i < TotalDays; i++) {
                     if (newDate.getDay() >= 5) {
                         newDate = date.addDays(i)
@@ -248,16 +249,24 @@ module.exports = {
                             year: newDate.getFullYear()
                         }
                         const dateEdit = datesimplefide.year + "," + datesimplefide.month + "," + datesimplefide.day;
-                        // console.log(dateEdit)
+
                         time_range.map((singleTimerange)=>{
                             const insert = {
                                 date: dateEdit,
                                 time_range: singleTimerange,
                                 users: [userData],
-                                _id:id
+                                _id:id,
+                                approved:"unresolved"
                             }
+                            singleClass.date.forEach((singleDate)=>{
+                                if (singleDate.date === insert.date){
+                                    if(singleDate.time_range === singleTimerange){
+                                        ifexist = true;
+                                    }
+                                }
+                            })
                             // console.log(insert)
-                            singleClass?.date?.push(insert)
+                            if(ifexist=== false) singleClass?.date?.push(insert)
                         })
 
 

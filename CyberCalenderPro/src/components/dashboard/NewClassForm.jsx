@@ -54,91 +54,93 @@ const Dashboard = () => {
     });
   };
   return (
-    <form
-      action=""
-      onSubmit={submitHandler}
-      className="flex flex-col w-full justify-center gap-4"
-    >
-      <div className="flex items-center justify-between">
-        <TextField
-          error={classNameIsError}
-          helperText={classNameIsError && "Field is required"}
-          label="Class Name"
-          variant="outlined"
-          type="text"
-          value={className}
-          onChange={(e) => {
-            setClassName(e.currentTarget.value);
-            setClassNameIsError(false);
-          }}
-        />
-        <TextField
-          error={capacityIsError}
-          helperText={capacityIsError && "Field is required"}
-          label="Capacity"
-          variant="outlined"
-          type="number"
-          value={capacity}
-          onChange={(e) => {
-            setCapacity(e.currentTarget.value);
-            setCapacityIsError(false);
-          }}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="ac"
-              checked={checklist.ac}
-              value={checklist.ac}
-              onChange={handleChecklistChange}
-            />
-          }
-          label="AC"
-        />
+    <section className="w-[50%] flex flex-col items-center">
+      <form
+        action=""
+        onSubmit={submitHandler}
+        className="flex flex-col w-full justify-center gap-4"
+      >
+        <div className="flex items-center justify-between">
+          <TextField
+            error={classNameIsError}
+            helperText={classNameIsError && "Field is required"}
+            label="Class Name"
+            variant="outlined"
+            type="text"
+            value={className}
+            onChange={(e) => {
+              setClassName(e.currentTarget.value);
+              setClassNameIsError(false);
+            }}
+          />
+          <TextField
+            error={capacityIsError}
+            helperText={capacityIsError && "Field is required"}
+            label="Capacity"
+            variant="outlined"
+            type="number"
+            value={capacity}
+            onChange={(e) => {
+              setCapacity(e.currentTarget.value);
+              setCapacityIsError(false);
+            }}
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="ac"
+                checked={checklist.ac}
+                value={checklist.ac}
+                onChange={handleChecklistChange}
+              />
+            }
+            label="AC"
+          />
 
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="zoom"
-              checked={checklist.zoom}
-              value={checklist.zoom}
-              onChange={handleChecklistChange}
-            />
-          }
-          label="Zoom"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              name="pcs"
-              checked={checklist.pcs}
-              value={checklist.pcs}
-              onChange={handleChecklistChange}
-            />
-          }
-          label="PC's"
-        />
-      </div>
-      <div className="flex justify-between">
-        <Button
-          variant="outlined"
-          className=""
-          type="button"
-          onClick={clearForm}
-          endIcon={<DeleteIcon fontSize="large" />}
-        >
-          Clear
-        </Button>
-        <Button
-          variant="contained"
-          className=""
-          type="submit"
-          endIcon={<AddIcon fontSize="large" />}
-        >
-          Add
-        </Button>
-      </div>
-    </form>
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="zoom"
+                checked={checklist.zoom}
+                value={checklist.zoom}
+                onChange={handleChecklistChange}
+              />
+            }
+            label="Zoom"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                name="pcs"
+                checked={checklist.pcs}
+                value={checklist.pcs}
+                onChange={handleChecklistChange}
+              />
+            }
+            label="PC's"
+          />
+        </div>
+        <div className="flex justify-between">
+          <Button
+            variant="outlined"
+            className=""
+            type="button"
+            onClick={clearForm}
+            endIcon={<DeleteIcon fontSize="large" />}
+          >
+            Clear
+          </Button>
+          <Button
+            variant="contained"
+            className=""
+            type="submit"
+            endIcon={<AddIcon fontSize="large" />}
+          >
+            Add
+          </Button>
+        </div>
+      </form>
+    </section>
   );
 };
 

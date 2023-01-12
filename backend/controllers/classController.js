@@ -205,10 +205,17 @@ module.exports = {
         })
     },
     GetAllUnResolved: (req,res) => {
-        classSchema.find({approved : "unresolved"}).then((unresolved)=> {
-
+        const sendunresolved = []
+            classSchema.find().then((ClassArray)=> {
+                ClassArray.map((singleClass)=>{
+                   singleClass.date.map((singleDate)=>{
+                       if (singleDate.approved === "unresolved"){
+                           sendunresolved.push(singleDate)
+                       }
+                   })
+               })
             res.status(200).json({
-                dates:unresolved,
+                dates:sendunresolved,
             })
         })
     },

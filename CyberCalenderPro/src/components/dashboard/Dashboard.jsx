@@ -11,9 +11,14 @@ const Dashboard = () => {
     const getRequests = async () => {
       try {
         const res = await axios.get("http://localhost:2000/unresolved");
-        console.log(res.data);
-        const classes = res.data.dates;
-        setRequestList();
+        const list = [];
+        res.data.dates.forEach((c) =>
+          c.date.forEach((date) =>
+            list.push({ ...date, className: c.className })
+          )
+        );
+        console.log(list);
+        setRequestList(list);
       } catch (err) {
         console.log(err);
       }

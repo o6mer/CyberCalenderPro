@@ -13,12 +13,13 @@ import { DashboardContext } from "../../../contexts/DashboardContext";
 const RequestList = () => {
   const { requestList, setRequestList } = useContext(DashboardContext);
 
-  const updateRequestStatus = async ({ _id, aprooved }) => {
+  const updateRequestStatus = async ({ _id, approved }) => {
     try {
-      const req = await axios.post(`http://localhost:2000/apporve`, {
+      const res = await axios.post(`http://localhost:2000/approve`, {
         _id,
-        aprooved,
+        approved,
       });
+      console.log(res.data);
       setRequestList((prev) => {
         prev = prev.filter((request) => request._id !== _id);
         return [...prev];
@@ -50,7 +51,7 @@ const RequestList = () => {
           {requestList?.map((request) => (
             <TableRow hover key={request._id}>
               <TableCell>{request.className}</TableCell>
-              <TableCell>{request.user.name}</TableCell>
+              <TableCell>{request.users?.at(0)?.userName}</TableCell>
               <TableCell>{request.date}</TableCell>
               <TableCell>{request.time_range}</TableCell>
               <TableCell>
@@ -60,7 +61,7 @@ const RequestList = () => {
                       onClick={() =>
                         updateRequestStatus({
                           _id: request._id,
-                          aprooved: true,
+                          approved: true,
                         })
                       }
                     >
@@ -72,7 +73,7 @@ const RequestList = () => {
                       onClick={() =>
                         updateRequestStatus({
                           _id: request._id,
-                          aprooved: false,
+                          approved: false,
                         })
                       }
                     >

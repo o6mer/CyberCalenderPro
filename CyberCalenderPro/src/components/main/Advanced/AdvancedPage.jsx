@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {useContext} from "@types/react";
+import {useContext} from "react";
 import {UserContext} from "../../../contexts/UserContext.jsx";
 
 function AdvancedPage(){
@@ -12,9 +12,9 @@ function AdvancedPage(){
   const { classesData } = useContext(UserContext);
   const [classesClone,setClassesClone] = useState(classesData)
   const [checkes, setcheckes] = useState([
-    { name: "AC", check: false },
-    { name: "Zoom", check: false },
-    { name: "Pcs", check: false },
+    { ac: false },
+    { zoom: true,  },
+    { pcs: true  },
   ]);
   const clone = checkes;
 
@@ -22,10 +22,15 @@ function AdvancedPage(){
     if (checkes[factor].check === true) {
       clone[factor].check = false;
       setcheckes([...clone]);
+      setClassesClone(classesData)
       // setAllApartments(allApartments2);
     } else {
         clone[factor].check = true;
         setcheckes([...clone]);
+        classesClone.filter((single_class)=>{
+                return date.checked[factor] === true
+            })
+
     }
     }
 

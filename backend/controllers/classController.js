@@ -1,6 +1,28 @@
 const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
+const { v4: uuidv4 } = require('uuid');
 
+
+// function toDate(date) {
+//     const currentTime = date;
+//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+//     const month = currentTime.getMonth() + 1
+//     const day = currentTime.getDate()
+//     const year = currentTime.getFullYear()
+//     return (day + "/" + month + "/" + year);
+// }
+// function getDay(date){
+//     const currentTime = date;
+//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+//     const month = currentTime.getMonth() + 1
+//     const day = currentTime.getDate()
+//     return day
+// }
+Date.prototype.addDays = function(days) {
+    var date = new Date(this.valueOf());
+    date.setDate(date.getDate() + days);
+    return date;
+}
 module.exports = {
     createClass: (req, res) => {
         const {className, capacity, checklist} = req.body
@@ -30,11 +52,12 @@ module.exports = {
 
     },
     AddUserToWaitingList: (req,res)=> {
-        const {className, phoneNumber, date,time_range} = req.body
+        const {className, phoneNumber,time_range} = req.body
+        const date = req.body.date;
         let userExist = false;
         let dateExist = false;
         let userData ;
-        const id = ObjectId()
+        const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
@@ -49,7 +72,7 @@ module.exports = {
                         singleDate.users.phoneNumber.map((userPhone)=> {
                             if (userPhone === phoneNumber){
                                 userExist = true;
-                                return;
+
                             }
                         })
                         if (userExist === true){
@@ -62,31 +85,44 @@ module.exports = {
                 })
             })},
     AddMeeting: (req,res)=> {
-        const {className, phoneNumber, date,time_range} = req.body
+        const {className, phoneNumber,time_range, groupSize} = req.body
+        // console.log(req.body)
+        const date = req.body.date;
         let userData;
         let dateExist = false;
-        const id = ObjectId()
+        const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
-        const data = {date:date,time_range:time_range,users: [userData], approved: false, _id:id}
+
+        const data = {date:date,time_range:time_range,users: [userData], approved: "unresolved", _id:id}
+
         classSchema
             .findOne({className: className})
             //if question exist...
             .then((theClass) => {
-                theClass.date.map((singleDate)=> {
-                    if (singleDate.date === date && singleDate.time_range === time_range) {
-                        dateExist = true
-                        res.status(200).json({
-                            message:"exist",
-                        })
-                    }
-                })
-                if (dateExist === false) {
+                console.log(theClass)
+
+
+                    theClass?.date?.map((singleDate) => {
+                        if (singleDate.date === date && singleDate.time_range === time_range) {
+                            dateExist = true
+                            res.status(200).json({
+                                message: "exist",
+                            })
+                        }
+                    })
+
+                 if (dateExist === false && theClass?.capacity >= groupSize) {
                     if (theClass) {
                         theClass.date.push(data);
                         theClass.save();
-                    } else {
+                        console.log("worked")
+                        res.status(200).json({
+                            data:data
+                        })
+                    }
+                else {
                         console.log("class not exist")
                     }
                 }
@@ -109,8 +145,9 @@ module.exports = {
         })
     },
     RemoveUserFromDate: (req,res) => {
-        const id = ObjectId()
-        const {className, phoneNumber, date,time_range} = req.body
+        const id = uuidv4();
+        const {className, phoneNumber,time_range} = req.body
+        const date =req.body.date;
         let userData;
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
@@ -126,11 +163,13 @@ module.exports = {
                         singleDate.users = singleDate.users.filter((users) => {
                             return users !== userName
                         });
-                        theClass.save()
+                        theClass.save().then()
                     }})})},
     GetDateData: (req,res)=> {
-        const {className, date} = req.body;
-        let alldates ;
+        const {className} = req.body;
+        const date = req.body.date;
+
+        let alldates;
         classSchema
             .findOne({className: className})
             //if question exist...
@@ -143,23 +182,6 @@ module.exports = {
                 })
             })
     },
-    ClassPerDay: (req,res) => {
-        const { date} = req.body;
-        let alldates;
-        classSchema
-            .find()
-            //if question exist...
-            .then((theClass) => {
-                theClass.map((singleClass)=>{
-                alldates = singleClass.date.filter((singleDate)=> {
-                    return singleDate.date = date
-                })
-                res.status(200).json({
-                    dates:alldates,
-                })
-            })
-            })
-    },
     Approve: (req,res) => {
       const {_id, approved} = req.body;
          classSchema.find().then((classes)=> {
@@ -168,11 +190,81 @@ module.exports = {
                      if (singleDate._id === _id){
                          singleDate.approved = approved;
                          singleDate.save()
+                         res.status(200).json({
+                             message:"worked!",
+                         })
                      }
                  })
              })
         })
     },
+    GetAllUnResolved: (req,res) => {
+        classSchema.find({date: {approved : "unresolved"}}).then((unresolved)=> {
+            console.log(unresolved)
+            res.status(200).json({
+                dates:unresolved,
+            })
+        })
+    },
+    AddDateRange: (req,res)=> {
+        const {time_range,className, phoneNumber} = req.body;
+        const date = new Date(req.body.date);
+        const id = uuidv4();
+        const endDate = new Date(req.body?.enddate);
+        let difference = endDate.getTime() - date.getTime();
+        Date.prototype.addDays = function(days) {
+            const date = new Date(this.valueOf());
+            date.setDate(date.getDate() + days);
+            return date;
+        }
+        let TotalDays = Math.ceil(difference / (1000 * 3600 * 24)); //day diffrence
+        console.log(TotalDays)
+        let userData;
+        userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
+            userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, Email:user?.Email}
+        console.log(userData)
+        })
+        classSchema.find({className: className}).then((singleClass)=> {
+            console.log(singleClass)
+            let newDate = date
+            for(let i= 0; i < TotalDays; i++){
+
+                if (newDate.getDay() >= 5 ){
+                    console.log(newDate.getDay())
+                    newDate = date.addDays(i)
+                }
+                else {
+                    newDate = date.addDays(i)
+                    console.log("thios is new date", newDate.getDay())
+                    console.log(newDate)
+                    singleClass?.date?.push(newDate, time_range,userData, id)
+
+                }
+            }
+        })
+
+    },
+    SendClassesAndRanges: (req,res)=> {
+        const className = [];
+        const classData = []
+        classSchema.find().then((classes)=>{
+            classes.map((clas)=>{
+                const SignleClassTimeRange = [];
+                className.push(clas.className);
+                clas.date.map((singleDate)=>{
+                    SignleClassTimeRange.unshift(singleDate)
+                })
+
+                classData.push({
+                    className: clas.className,
+                    date_data: SignleClassTimeRange
+                })
+            })
+            res.status(200).json({
+                data: classData
+            })
+        })
+    }
 
 
 

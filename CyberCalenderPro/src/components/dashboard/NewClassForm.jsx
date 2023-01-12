@@ -14,9 +14,14 @@ const Dashboard = () => {
     zoom: true,
     pcs: true,
   });
+  const [classNameIsError, setClassNameIsError] = useState(false);
+  const [capacityIsError, setCapacityIsError] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
+    if (!className) setClassNameIsError(true);
+    if (!capacity) setCapacityIsError(true);
+    if (!capacity || !className) return;
     try {
       const res = await axios.post("http://localhost:2000/addclass", {
         className,
@@ -52,24 +57,32 @@ const Dashboard = () => {
     <form
       action=""
       onSubmit={submitHandler}
-      className="flex flex-col w-fit gap-2 "
+      className="flex flex-col w-full justify-center gap-4"
     >
-      <div className="flex items-center justify-around">
+      <div className="flex items-center justify-between">
         <TextField
-          required
+          error={classNameIsError}
+          helperText={classNameIsError && "Field is required"}
           label="Class Name"
           variant="outlined"
           type="text"
           value={className}
-          onChange={(e) => setClassName(e.currentTarget.value)}
+          onChange={(e) => {
+            setClassName(e.currentTarget.value);
+            setClassNameIsError(false);
+          }}
         />
         <TextField
-          required
+          error={capacityIsError}
+          helperText={capacityIsError && "Field is required"}
           label="Capacity"
           variant="outlined"
           type="number"
           value={capacity}
-          onChange={(e) => setCapacity(e.currentTarget.value)}
+          onChange={(e) => {
+            setCapacity(e.currentTarget.value);
+            setCapacityIsError(false);
+          }}
         />
         <FormControlLabel
           control={

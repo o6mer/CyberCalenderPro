@@ -1,17 +1,20 @@
 const userSchema = require("../schema/userSchema");
-const bcrypt = require("bcryptjs")
+// const bcrypt = require("bcryptjs")
 
 module.exports = {
     Login: (req,res)=> {
-        const {userName,Password} = req.body;
-        userSchema.findOne({userName: userName}).then(async(user)=> {
-           if (Password === Password){
+        const {email,password} = req.body;
+        userSchema.findOne({Email: email}).then(async(user)=> {
+           if (user?.Password === password){
                res.status(200).json({
+                   message:true,
                    userName:user?.userName,
-                  message:"worked!"
+                   role:user?.role,
+                   userId: user?._id,
+
                })
            } else {
-               res.status(200).json({
+               res.status(400).json({
                    message:false,
                })
            }

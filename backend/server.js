@@ -35,5 +35,5 @@ mongoose?.connection.on("connected", () => {
 
 
 http.listen(port, () => {
-    console.log(`server running at http://localhost:${port}/`);
+    console.log(`Server running at http://localhost:${port}/`);
 });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import { TableSortLabel, Tooltip } from "@mui/material";
@@ -8,48 +8,10 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import axios from "axios";
-
-const list = [
-  {
-    _id: "id1",
-    className: "aa",
-    user: {
-      name: "omer",
-      phoneNumber: "1111",
-      email: "email@gmail.com",
-    },
-    date: "30/01/2023",
-    time_range: "10:30-11:00",
-    aprooved: false,
-  },
-  {
-    _id: "id2",
-    className: "bb",
-    user: {
-      name: "omer",
-      phoneNumber: "1111",
-      email: "email@gmail.com",
-    },
-    date: "30/01/2023",
-    time_range: "10:30-11:00",
-    aprooved: false,
-  },
-  {
-    _id: "id3",
-    className: "cc",
-    user: {
-      name: "omer",
-      phoneNumber: "1111",
-      email: "email@gmail.com",
-    },
-    date: "30/01/2023",
-    time_range: "10:30-11:00",
-    aprooved: false,
-  },
-];
+import { DashboardContext } from "../../../contexts/DashboardContext";
 
 const RequestList = () => {
-  const [requestList, setRequestList] = useState(list);
+  const { requestList, setRequestList } = useContext(DashboardContext);
 
   const updateRequestStatus = async ({ _id, aprooved }) => {
     try {
@@ -57,7 +19,6 @@ const RequestList = () => {
         _id,
         aprooved,
       });
-      console.log(req.data);
       setRequestList((prev) => {
         prev = prev.filter((request) => request._id !== _id);
         return [...prev];
@@ -68,7 +29,7 @@ const RequestList = () => {
   };
 
   return (
-    <div className="w-fit">
+    <div className="w-full">
       <Table>
         <TableHead>
           <TableRow>

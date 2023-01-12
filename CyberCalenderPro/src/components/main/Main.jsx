@@ -53,7 +53,6 @@ function Main() {
         const { data } = res.data;
         if (!data) return;
 
-        console.log(data);
         setClassesData(data);
       } catch (err) {
         console.log(err);

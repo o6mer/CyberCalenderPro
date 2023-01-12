@@ -11,6 +11,7 @@ import { UserContext } from "../../../contexts/UserContext";
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);
   const [avilableClassList, setAvilableClassList] = useState([]);
+  const [currentShownTimes, setCurrentShownTimes] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(
     new Date(
@@ -33,6 +34,10 @@ const CalenderPage = () => {
     setSelectedClass(classes[0]);
   }, []);
 
+  useEffect(() => {
+    setCurrentShownTimes(avilableTimeList[selectedClass]);
+  }, [selectedClass]);
+
   function dateSelectedHandler(date) {
     const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
     setSelectedDate(formatedDate);
@@ -44,8 +49,7 @@ const CalenderPage = () => {
         })
       );
     });
-    console.log(times);
-    setAvilableTimeList(times[selectedClass]);
+    setAvilableTimeList(times);
   }
 
   function buildAvilableTimesList(takenTimes) {
@@ -79,7 +83,14 @@ const CalenderPage = () => {
         groupSize,
         phoneNumber: user.phone,
       });
-      console.log(res.data);
+      setAvilableTimeList((prev) => {
+        console.log(prev[selectedClass]);
+        prev[selectedClass] = prev[selectedClass].filter(
+          (t) => t.time_range !== selectedTime
+        );
+        setCurrentShownTimes([...prev[selectedClass]]);
+        return { ...prev };
+      });
     } catch (err) {
       console.log(err);
     }
@@ -116,7 +127,7 @@ const CalenderPage = () => {
               onChange={(e) => setSelectedTime(e.target.value)}
             >
               <option value="">Select Time</option>
-              {avilableTimeList?.map((timeRange) => (
+              {currentShownTimes?.map((timeRange) => (
                 <option value={timeRange} key={timeRange}>
                   {timeRange}
                 </option>
@@ -133,10 +144,11 @@ const CalenderPage = () => {
               onChange={(e) => setSelectedClass(e.target.value)}
             >
               <option value="">Select Class</option>
-              <option value="c1">C1</option>
-              <option value="c2">C2</option>
-              <option value="c3">C3</option>
-              <option value="c4">C4</option>
+              {avilableClassList.map((className) => (
+                <option value={className} key={className}>
+                  {className}
+                </option>
+              ))}
             </select>
           </label>
 

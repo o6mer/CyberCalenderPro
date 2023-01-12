@@ -3,7 +3,11 @@ import NavBar from "./components/General/NavBar";
 function App() {
   return (
     <>
-      <NavBar />
+      {/* <NavBar />  */}
+      <NavBar>
+        hghgfjfghjgf
+      </NavBar>
+      
     </>
   );
 }

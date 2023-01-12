@@ -1,31 +1,35 @@
 import React, { useState } from "react";
 import * as MuiIcons from '@mui/icons-material'
-import { Link } from "react-router-dom";
 
-export const SidebarData = [
-    {
-        title: 'Login',
-        path: '/Login',
-        icon: <MuiIcons.Person />,
-        className: 'nav-text'
-    },
-    {
-        title: 'Admin',
-        path: '/',
-        icon: <MuiIcons.ManageAccounts />,
-        className: 'nav-text'
-    },
-    {
-        title: 'Schedule',
-        path: '/',
-        icon: <MuiIcons.EventNote />,
-        className: 'nav-text'
-    },
-    {
-        title: 'Classrooms',
+export const SidebarData = (user)=>{
+
+    const SidebarDataLinks = [
+        {
+            title: 'Schedule',
+            path: '/',
+            icon: <MuiIcons.EventNote />,
+        },
+        {
+        title: 'Class view',
         path: '/',
         icon: <MuiIcons.MeetingRoom />,
-        className: 'nav-text'
     },
-    
 ]
+
+// adding User
+user?SidebarDataLinks.unshift({
+    title: user,
+    path: '/',
+    icon: <MuiIcons.Person />,
+},)
+:
+SidebarDataLinks.unshift({
+    title: 'Login',
+    path: '/Login',
+    icon: <MuiIcons.Person />,
+},)
+// adding User
+
+return SidebarDataLinks
+
+}

@@ -68,9 +68,6 @@ function Main() {
 
   return (
     <main className="h-full">
-      <TopNavBar align="start">
-        <p className="text-3xl text-white ">{currentPageName}</p>
-      </TopNavBar>
       <div className="w-full">
         <div className="w-full flex justify-center">
           <Tabs

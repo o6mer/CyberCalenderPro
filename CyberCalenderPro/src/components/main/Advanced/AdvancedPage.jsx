@@ -13,7 +13,7 @@ function AdvancedPage(){
   const [classesClone,setClassesClone] = useState(classesData)
   const [checkes, setcheckes] = useState([
     { ac: false },
-    { zoom: true,  },
+    { zoom: true },
     { pcs: true  },
   ]);
   const clone = checkes;

@@ -84,10 +84,10 @@ const CalenderPage = () => {
         phoneNumber: user.phone,
       });
       setAvilableTimeList((prev) => {
-        console.log(prev[selectedClass]);
         prev[selectedClass] = prev[selectedClass].filter(
-          (t) => t.time_range !== selectedTime
+          (t) => t !== selectedTime
         );
+        console.log(prev[selectedClass]);
         setCurrentShownTimes([...prev[selectedClass]]);
         return { ...prev };
       });

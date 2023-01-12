@@ -163,8 +163,8 @@ export default function NavBar({ children }) {
         <Divider />
         <List>
           {links.map((item, index) => (
-            <NavLink to={item.path}>
-              <ListItem key={index} disablePadding sx={{ display: "block" }}>
+            <NavLink to={item.path} key={index}>
+              <ListItem disablePadding sx={{ display: "block" }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -227,7 +227,7 @@ export default function NavBar({ children }) {
       {/*MainPage*/}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Typography paragraph>{children}</Typography>
+        {children}
       </Box>
       {/*MainPage*/}
     </Box>

@@ -66,7 +66,6 @@ function Main() {
     setValue(newValue);
   };
 
-  console.log("hi");
   return (
     <main className="h-full">
       <div className="w-full">

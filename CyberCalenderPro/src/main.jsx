@@ -31,10 +31,7 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-  {
-    path: "/main",
-    element: <Main />,
-  },
+
 ]);
 
 const theme = createTheme({

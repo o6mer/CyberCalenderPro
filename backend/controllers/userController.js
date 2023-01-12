@@ -1,5 +1,5 @@
 const userSchema = require("../schema/userSchema");
-const bcrypt = require("bcryptjs")
+// const bcrypt = require("bcryptjs")
 
 module.exports = {
     Login: (req,res)=> {

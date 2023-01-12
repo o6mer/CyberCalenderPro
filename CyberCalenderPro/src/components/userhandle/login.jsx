@@ -30,7 +30,7 @@ export default function Login() {
     if (userData.role === "admin") {
       navigate("/dashboard");
     } else {
-      navigate("/main");
+      navigate("/");
     }
   }, [userData]);
 

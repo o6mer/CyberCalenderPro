@@ -84,10 +84,10 @@ const CalenderPage = () => {
         phoneNumber: user.phone,
       });
       setAvilableTimeList((prev) => {
-        console.log(prev[selectedClass]);
         prev[selectedClass] = prev[selectedClass].filter(
-          (t) => t.time_range !== selectedTime
+          (t) => t !== selectedTime
         );
+        console.log(prev[selectedClass]);
         setCurrentShownTimes([...prev[selectedClass]]);
         return { ...prev };
       });
@@ -121,6 +121,7 @@ const CalenderPage = () => {
           <label htmlFor="select-time">
             Time Range:{" "}
             <select
+              className="border p-2 rounded-xl"
               name=""
               id="select-time"
               value={selectedTime}
@@ -138,6 +139,7 @@ const CalenderPage = () => {
           <label htmlFor="select-class">
             Class Room:{" "}
             <select
+              className="border p-2 rounded-xl"
               name=""
               id="select-class"
               value={selectedClass}

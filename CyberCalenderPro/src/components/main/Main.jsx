@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import TopNavBar from "../TopNavBar";
 import HomePage from "./home/HomePage";
 import CalenderPage from "./Calender/CalenderPage";
 import AdvancedPage from "./Advanced/AdvancedPage";
@@ -68,9 +67,6 @@ function Main() {
 
   return (
     <main className="h-full">
-      <TopNavBar align="start">
-        <p className="text-3xl text-white ">{currentPageName}</p>
-      </TopNavBar>
       <div className="w-full">
         <div className="w-full flex justify-center">
           <Tabs

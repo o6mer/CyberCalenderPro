@@ -302,7 +302,7 @@ module.exports = {
                     className: clas.className,
                     date_data: SignleClassTimeRange,
                     capacity: clas.capacity,
-                    checklist:clas.checklist
+                    checklist:clas.checklist,
                 })
             })
             res.status(200).json({

@@ -29,7 +29,7 @@ function createData(date, time_range,approved, users) {
 
 function Row(props) {
 
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = React.useState(true);
     const {row} = props
 
     console.log(row)
@@ -61,6 +61,7 @@ function Row(props) {
                                         <TableCell>Date</TableCell>
                                         <TableCell>Time Range</TableCell>
                                         <TableCell align="right">Request</TableCell>
+                                        <TableCell align="right">user</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -70,7 +71,9 @@ function Row(props) {
                                                 {singleDate.date}
                                             </TableCell>
                                             <TableCell>{singleDate.time_range}</TableCell>
+                                            <TableCell>{singleDate.approved.toString()}</TableCell>
                                             {singleDate.users.map((user)=>{
+                                                console.log(singleDate.approved)
                                                 return <TableCell align="right">{user.userName}</TableCell>
                                             })}
 
@@ -101,7 +104,7 @@ export default function CollapsibleTable(props) {
     const classesData = props.values;
 
     const rows =classesData
-    console.log(rows)
+    // console.log(rows)
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">

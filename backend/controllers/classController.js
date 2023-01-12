@@ -106,8 +106,6 @@ module.exports = {
         const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
-
-
             const data = {date: date, time_range: time_range, users: [userData], approved: "unresolved", _id: id}
             classSchema
                 .findOne({className: className})
@@ -116,9 +114,14 @@ module.exports = {
                     theClass?.date?.map((singleDate) => {
                         if (singleDate.date === date && singleDate.time_range === time_range) {
                             dateExist = true
-                            res.status(200).json({
-                                message: "exist",
-                            })
+                            if(singleDate.approved !== "unresolved"){
+                                theClass.date.push(data);
+                                theClass.save();
+                            } else {
+                                res.status(200).json({
+                                    message: "exist",
+                                })
+                            }
                         }
                     })
 
@@ -297,7 +300,9 @@ module.exports = {
                 })
                 classData.push({
                     className: clas.className,
-                    date_data: SignleClassTimeRange
+                    date_data: SignleClassTimeRange,
+                    capacity: clas.capacity,
+                    checklist:clas.checklist
                 })
             })
             res.status(200).json({

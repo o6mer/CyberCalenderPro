@@ -1,39 +1,88 @@
-import React, {useEffect, useState} from "react";
-import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
+import React, {useContext, useEffect, useState} from "react";
+import {
+    FormControl,
+    InputLabel,
+    ListItem,
+    ListSubheader,
+    MenuItem,
+    Select,
+    selectClasses,
+    TextField
+} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {useContext} from "react";
+
+import axios from "axios";
 import {UserContext} from "../../../contexts/UserContext.jsx";
+import ListItemText from "@mui/material/ListItemText";
+import List from "@mui/material/List";
 
 function AdvancedPage(){
-  const [age, setAge] = React.useState('');
-  const [capacity,setCapacity] = useState()
-  const [checked, setChecked] = useState(true);
-  const { classesData } = useContext(UserContext);
+  const [ClassSelect, setClass] = React.useState();
+  const [capacity,setCapacity] = useState(0)
+    const clone = [];
+  const [loading, setLoading] = useState(false);
+    const {classesData} = useContext(UserContext);
   const [classesClone,setClassesClone] = useState(classesData)
-  const [checkes, setcheckes] = useState([
+  const [checks, setchecks] = useState([
     { ac: false },
-    { zoom: true },
-    { pcs: true  },
+    { zoom: false },
+    { pcs: false  },
   ]);
-  const clone = checkes;
+  const backup_checks = checks
+function FilterAc(){
+    if(checks[0].ac === true){
+        setchecks(...checks, checks[0].ac === false)
+    } else{
+        setchecks(...checks, checks[0].ac === true)
+    }
+}
+function FilterZoom() {
+    if(checks[1].zoom === true){
+        setchecks(...checks, checks[1].zoom === false)
+    } else{
+        setchecks(...checks, checks[1].zoom === true)
+    }
+}
+function FilterPc() {
+    if(checks[2].pc === true){
+        setchecks(...checks, checks[2].pcs === false)
+    } else{
+        setchecks(...checks, checks[2].pcs === true)
+    }
+}
+function Search() {
+      setCapacity(Number(capacity))
+    const filterClassName = classesClone.filter((singleClass)=>{
+        console.log(singleClass.capacity)
+            if (singleClass.capacity > capacity && singleClass.className === ClassSelect) {
+                clone.push(singleClass)
+                console.log("yeah")
+                return singleClass
+            } else if (!ClassSelect){
+                if (singleClass.capacity > capacity){
+                    return singleClass
+                }
+            }
+    })
+    setClassesClone(filterClassName)
 
-  function FilterChecked(factor) {
-    if (checkes[factor].check === true) {
-      clone[factor].check = false;
-      setcheckes([...clone]);
-      setClassesClone(classesData)
-      // setAllApartments(allApartments2);
-    } else {
-        clone[factor].check = true;
-        setcheckes([...clone]);
-        classesClone.filter((single_class)=>{
-                return date.checked[factor] === true
+    if(filterClassName.length !== 0 ){ // check if filter working
+        filterClassName.map((singleClass)=>{
+            console.log(singleClass)
+            if (checks[0].ac === singleClass.checklist.ac && checks[1].zoom === singleClass.checklist.zoom && checks[2].pcs === singleClass.checklist.pcs){
+                clone.push(singleClass)
+            }
             })
-
+    } else {
+        classesClone.map((singleClass)=>{
+            if (checks[0].ac === singleClass.checklist.ac && checks[1].zoom === singleClass.checklist.zoom && checks[2].pcs === singleClass.checklist.pcs){
+                clone.push(singleClass)
+            }
+        })
     }
-    }
-
+    setClassesClone(clone)
+}
   //     const returnArray = allApartments.filter((apartment) => {
   //       // console.log(apartment.checked[factor].check);
   //       return apartment.checked[factor].check !== false;
@@ -47,30 +96,34 @@ function AdvancedPage(){
   //   });
   // }
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setClass(event.target.value);
   };
 
-  return <div>
+  return <div id={"that"}>
     <FormControl>
       <InputLabel id="demo-simple-select-label">Class</InputLabel>
       <Select
-          sx={{width:"50px"}}
+          sx={{width:"150px"}}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={age}
+          value={selectClasses}
           label="Class"
           onChange={handleChange}
       >
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
+          {classesClone.map((singleClass,index)=>{
+              return <MenuItem key={index} value={singleClass.className}>{singleClass.className}</MenuItem>
+          }
+              )}
+
       </Select>
     </FormControl>
+      <button onClick={Search}>button</button>
       <TextField
           id="outlined-number"
           label="Capacity"
           onChange={(e)=>setCapacity(e.target.value)}
           type="number"
+          value={capacity}
           InputLabelProps={{
               shrink: true,
           }}
@@ -78,8 +131,8 @@ function AdvancedPage(){
     <FormControlLabel
         control={
           <Checkbox
-              onChange={() => FilterChecked(0)}
-              checked={checkes[0]?.check}
+              onChange={() => FilterPc}
+              // checked={checks[2].pc?.check}
           />
         }
         label="Pcs"
@@ -87,8 +140,8 @@ function AdvancedPage(){
     <FormControlLabel
         control={
           <Checkbox
-              onChange={() => FilterChecked(1)}
-              checked={checkes[1]?.check}
+              onChange={() => FilterZoom}
+              // checked={checks[1].zoom?.check}
           />
         }
         label="Zoom"
@@ -96,13 +149,36 @@ function AdvancedPage(){
     <FormControlLabel
         control={
           <Checkbox
-              onChange={() => FilterChecked(2)}
-              checked={checkes[2]?.check}
+              onChange={() => FilterAc}
+              // checked={checks[0].ac?.check}
           />
         }
         label="AC"
     />
-
+      <List
+          sx={{
+              width: '100%',
+              bgcolor: 'background.paper',
+              position: 'relative',
+              overflow: 'auto',
+              height:"100hv",
+              '& ul': { padding: 0 },
+          }}
+          subheader={<li />}
+      >
+          {classesClone.map((singleClass,index) => (
+              <li key={`section-${index}`}>
+                  <ul>
+                      <ListSubheader>{singleClass.className}</ListSubheader>
+                      {singleClass.date_data.map((singleDate,index) => (
+                          <ListItem key={index}>
+                              <ListItemText primary={singleDate.date +" ---- " + singleDate.time_range } />
+                          </ListItem>
+                      ))}
+                  </ul>
+              </li>
+          ))}
+      </List>
 
   </div>;
 };

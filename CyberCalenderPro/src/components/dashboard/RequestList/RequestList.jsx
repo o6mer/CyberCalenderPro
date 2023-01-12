@@ -47,7 +47,7 @@ const RequestList = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {requestList.map((request) => (
+          {requestList?.map((request) => (
             <TableRow hover key={request._id}>
               <TableCell>{request.className}</TableCell>
               <TableCell>{request.user.name}</TableCell>

@@ -1,8 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
 import {
-    FormControl,
+    Button,
+    FormControl, FormLabel,
     InputLabel,
-    ListItem,
+    ListItem, ListItemAvatar,
     ListSubheader,
     MenuItem,
     Select,
@@ -10,12 +11,16 @@ import {
     TextField
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
+
 
 import axios from "axios";
 import {UserContext} from "../../../contexts/UserContext.jsx";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
+import Container from "@mui/material/Container";
+import ListItemButton from "@mui/material/ListItemButton";
+import CollapsibleTable from "./table.jsx";
+// import Grid from "@mui/material/Grid";
 
 function AdvancedPage(){
   const [ClassSelect, setClass] = React.useState();
@@ -50,12 +55,12 @@ function FilterPc() {
     }
 }
 function Search() {
+    Rest();
       setCapacity(Number(capacity))
     const filterClassName = classesClone.filter((singleClass)=>{
         console.log(singleClass.capacity)
             if (singleClass.capacity > capacity && singleClass.className === ClassSelect) {
                 clone.push(singleClass)
-               
                 return singleClass
             } else if (!ClassSelect){
                 if (singleClass.capacity > capacity){
@@ -64,7 +69,6 @@ function Search() {
             }
     })
     setClassesClone(filterClassName)
-
     if(filterClassName.length !== 0 ){ // check if filter working
         filterClassName.map((singleClass)=>{
             console.log(singleClass.checklist)
@@ -82,23 +86,16 @@ function Search() {
     setClassesClone(clone)
     clone = []
 }
-  //     const returnArray = allApartments.filter((apartment) => {
-  //       // console.log(apartment.checked[factor].check);
-  //       return apartment.checked[factor].check !== false;
-  //     });
-  //     setAllApartments(returnArray);
-  //   }
-  // // }
-  // function SortByRank(number) {
-  //   allApartments.filter((apartment) => {
-  //     return apartment.reviews.overwall >= number;
-  //   });
-  // }
+function Rest() {
+      setClassesClone(classesData)
+}
+
   const handleChange = (event) => {
     setClass(event.target.value);
   };
 
   return <div id={"that"}>
+      <Container maxWidth={"sm"} >
     <FormControl>
       <InputLabel id="demo-simple-select-label">Class</InputLabel>
       <Select
@@ -116,7 +113,7 @@ function Search() {
 
       </Select>
     </FormControl>
-      <button onClick={Search}>button</button>
+<FormControl>
       <TextField
           id="outlined-number"
           label="Capacity"
@@ -127,58 +124,59 @@ function Search() {
               shrink: true,
           }}
       />
-    <FormControlLabel
-        control={
+
+    <div style={{margin:"50px"}}>
+        <Button variant="contained"onClick={Rest}>Rest</Button>
+        <Button variant="contained"onClick={Search}>Search</Button>
+    </div>
+
+</FormControl>
+          <FormControl>
+          <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+     <ListItem
+        secondaryAction={
           <Checkbox
               onChange={() => FilterPc}
               // checked={checks[2].pc?.check}
           />
         }
         label="Pcs"
-    />
-    <FormControlLabel
-        control={
+     >
+         <ListItemButton>
+             <ListItemText primary={"Pcs"} />
+         </ListItemButton>
+     </ListItem>
+    <ListItem
+        secondaryAction={
           <Checkbox
               onChange={() => FilterZoom}
               // checked={checks[1].zoom?.check}
           />
         }
         label="Zoom"
-    />
-    <FormControlLabel
-        control={
+    >
+        <ListItemButton>
+            <ListItemText primary={"Zoom"} />
+        </ListItemButton>
+    </ListItem>
+     <ListItem
+         secondaryAction={
           <Checkbox
               onChange={() => FilterAc}
               // checked={checks[0].ac?.check}
           />
         }
         label="AC"
-    />
-      <List
-          sx={{
-              width: '100%',
-              bgcolor: 'background.paper',
-              position: 'relative',
-              overflow: 'auto',
-              height:"100hv",
-              '& ul': { padding: 0 },
-          }}
-          subheader={<li />}
-      >
-          {classesClone.map((singleClass,index) => (
-              <li key={`section-${index}`}>
-                  <ul>
-                      <ListSubheader>{singleClass.className}</ListSubheader>
-                      {singleClass.date_data.map((singleDate,index) => (
-                          <ListItem key={index}>
-                              <ListItemText primary={singleDate.date +" ---- " + singleDate.time_range } />
-                          </ListItem>
-                      ))}
-                  </ul>
-              </li>
-          ))}
-      </List>
+     >
+         <ListItemButton>
+             <ListItemText primary={"AC"} />
+         </ListItemButton>
+     </ListItem>
+          </List>
+          </FormControl>
 
+          <CollapsibleTable values={classesClone}/>
+      </Container>
   </div>;
 };
 

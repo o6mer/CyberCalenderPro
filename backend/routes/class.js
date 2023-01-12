@@ -14,7 +14,7 @@ router.post('/removeuser', RemoveUserFromDate)//remove user from waiting list
 router.post("/getdatedata", GetDateData) //get all data for cirten date by class --tested
 router.post("/approve", Approve) // --tested
 router.get("/unresolved", GetAllUnResolved) // --tested
-router.post("/adddaterange", AddDateRange)
+router.post("/adddaterange", AddDateRange) // --tested
 router.post("/classesData", SendClassesAndRanges) //send all classes and time_ranges -- tested
 
 

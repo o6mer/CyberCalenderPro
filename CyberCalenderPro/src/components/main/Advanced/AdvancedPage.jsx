@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {FormControl, InputLabel, MenuItem, Select, TextField} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import {useContext} from "@types/react";
+import {useContext} from "react";
 import {UserContext} from "../../../contexts/UserContext.jsx";
 
 function AdvancedPage(){

@@ -59,9 +59,11 @@ module.exports = {
         let userData ;
         const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
-            userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
-        })
-
+            userData = {
+                userName: user?.userName,
+                phoneNumber: user?.phoneNumber,
+                Email: user?.Email
+            }
         classSchema
             .findOne({className: className})
             //if question exist...
@@ -69,20 +71,28 @@ module.exports = {
                 theClass.date.map((singleDate)=> {
                     if (singleDate.date === date && singleDate.time_range === time_range){
                         dateExist = true;
-                        singleDate.users.phoneNumber.map((userPhone)=> {
+                        singleDate.users?.phoneNumber?.map((userPhone)=> {
                             if (userPhone === phoneNumber){
                                 userExist = true;
-
+                                console.log("im the problem")
                             }
                         })
                         if (userExist === true){
                             console.log("already exist")
                         } else {
-                            singleDate.users.unshift(userData)
-                            theClass.save()
-                        }
+                                console.log(userData)
+                                singleDate.users.push(userData)
+                                console.log(theClass)
+                            theClass.markModified("date")
+                                theClass.save().then(()=> {
+                                    res.status(200).json({
+                                        message:true
+                                    })
+                                }).catch(err=> console.log(err))
+                            }
                     }
                 })
+        })
             })},
     AddMeeting: (req,res)=> {
         const {className, phoneNumber,time_range, groupSize} = req.body
@@ -94,9 +104,7 @@ module.exports = {
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
         })
-
         const data = {date:date,time_range:time_range,users: [userData], approved: "unresolved", _id:id}
-
         classSchema
             .findOne({className: className})
             //if question exist...
@@ -168,7 +176,6 @@ module.exports = {
     GetDateData: (req,res)=> {
         const {className} = req.body;
         const date = req.body.date;
-
         let alldates;
         classSchema
             .findOne({className: className})
@@ -189,7 +196,8 @@ module.exports = {
                  singleClass.date.map((singleDate)=> {
                      if (singleDate._id === _id){
                          singleDate.approved = approved;
-                         singleDate.save()
+                         singleClass.markModified("date")
+                         singleClass.save()
                          res.status(200).json({
                              message:"worked!",
                          })
@@ -199,7 +207,7 @@ module.exports = {
         })
     },
     GetAllUnResolved: (req,res) => {
-        classSchema.find({date: {approved : "unresolved"}}).then((unresolved)=> {
+        classSchema.find({approved : "unresolved"}).then((unresolved)=> {
             console.log(unresolved)
             res.status(200).json({
                 dates:unresolved,
@@ -207,10 +215,12 @@ module.exports = {
         })
     },
     AddDateRange: (req,res)=> {
-        const {time_range,className, phoneNumber} = req.body;
+        const {className, phoneNumber} = req.body;
         const date = new Date(req.body.date);
+        const time_range = req.body.time_range
         const id = uuidv4();
         const endDate = new Date(req.body?.enddate);
+        const arrayDemi = []
         let difference = endDate.getTime() - date.getTime();
         Date.prototype.addDays = function(days) {
             const date = new Date(this.valueOf());
@@ -221,26 +231,43 @@ module.exports = {
         console.log(TotalDays)
         let userData;
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
-            userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, Email:user?.Email}
-        console.log(userData)
-        })
-        classSchema.find({className: className}).then((singleClass)=> {
-            console.log(singleClass)
-            let newDate = date
-            for(let i= 0; i < TotalDays; i++){
+            userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, Email: user?.Email}
+            classSchema.findOne({className: className}).then((singleClass) => {
+                console.log(singleClass)
+                let newDate = date
+                for (let i = 0; i < TotalDays; i++) {
+                    if (newDate.getDay() >= 5) {
+                        newDate = date.addDays(i)
+                    } else {
+                        newDate = date.addDays(i)
+                        // console.log("thios is new date", newDate.getDay())
+                        // console.log(newDate)
+                        const datesimplefide = {
+                            day: newDate.getDate(),
+                            month: newDate.getMonth() + 1,
+                            year: newDate.getFullYear()
+                        }
+                        const dateEdit = datesimplefide.year + "," + datesimplefide.month + "," + datesimplefide.day;
+                        // console.log(dateEdit)
+                        time_range.map((singleTimerange)=>{
+                            const insert = {
+                                date: dateEdit,
+                                time_range: singleTimerange,
+                                users: [userData],
+                                _id:id
+                            }
+                            // console.log(insert)
+                            singleClass?.date?.push(insert)
+                        })
 
-                if (newDate.getDay() >= 5 ){
-                    console.log(newDate.getDay())
-                    newDate = date.addDays(i)
-                }
-                else {
-                    newDate = date.addDays(i)
-                    console.log("thios is new date", newDate.getDay())
-                    console.log(newDate)
-                    singleClass?.date?.push(newDate, time_range,userData, id)
 
+                    }
                 }
-            }
+                // console.log(arrayDemi)
+
+                // singleClass?.markModified("date")
+                singleClass?.save().then(res.status(200).json({message: true})).catch(err=>console.log(err))
+            })
         })
 
     },
@@ -254,7 +281,6 @@ module.exports = {
                 clas.date.map((singleDate)=>{
                     SignleClassTimeRange.unshift(singleDate)
                 })
-
                 classData.push({
                     className: clas.className,
                     date_data: SignleClassTimeRange

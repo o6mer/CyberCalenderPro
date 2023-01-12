@@ -27,7 +27,7 @@ SidebarDataLinks.unshift({
 
 SidebarDataLinks.push({
     title: 'Logout',
-    path: '/Profile/'+user,
+    path: '/',
     icon: <MuiIcons.Logout />,
 },)
 }
@@ -36,7 +36,7 @@ else{
 SidebarDataLinks.unshift({
     title: 'Login',
     path: '/Login',
-    icon: <MuiIcons.Person />,
+    icon: <MuiIcons.Login />,
 },)
 }
 // adding User

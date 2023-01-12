@@ -20,35 +20,33 @@ import List from "@mui/material/List";
 function AdvancedPage(){
   const [ClassSelect, setClass] = React.useState();
   const [capacity,setCapacity] = useState(0)
-    const clone = [];
+    let clone = [];
   const [loading, setLoading] = useState(false);
     const {classesData} = useContext(UserContext);
   const [classesClone,setClassesClone] = useState(classesData)
-  const [checks, setchecks] = useState([
-    { ac: false },
-    { zoom: false },
-    { pcs: false  },
-  ]);
+  const [checks, setchecks] = useState(
+      {ac: true, zoom: true, pcs: true}
+  );
   const backup_checks = checks
 function FilterAc(){
     if(checks[0].ac === true){
-        setchecks(...checks, checks[0].ac === false)
+        setchecks(...checks, checks.ac === false)
     } else{
-        setchecks(...checks, checks[0].ac === true)
+        setchecks(...checks, checks.ac === true)
     }
 }
 function FilterZoom() {
     if(checks[1].zoom === true){
-        setchecks(...checks, checks[1].zoom === false)
+        setchecks(...checks, checks.zoom === false)
     } else{
-        setchecks(...checks, checks[1].zoom === true)
+        setchecks(...checks, checks.zoom === true)
     }
 }
 function FilterPc() {
     if(checks[2].pc === true){
-        setchecks(...checks, checks[2].pcs === false)
+        setchecks(...checks, checks.pcs === false)
     } else{
-        setchecks(...checks, checks[2].pcs === true)
+        setchecks(...checks, checks.pcs === true)
     }
 }
 function Search() {
@@ -57,7 +55,7 @@ function Search() {
         console.log(singleClass.capacity)
             if (singleClass.capacity > capacity && singleClass.className === ClassSelect) {
                 clone.push(singleClass)
-                console.log("yeah")
+               
                 return singleClass
             } else if (!ClassSelect){
                 if (singleClass.capacity > capacity){
@@ -69,19 +67,20 @@ function Search() {
 
     if(filterClassName.length !== 0 ){ // check if filter working
         filterClassName.map((singleClass)=>{
-            console.log(singleClass)
-            if (checks[0].ac === singleClass.checklist.ac && checks[1].zoom === singleClass.checklist.zoom && checks[2].pcs === singleClass.checklist.pcs){
+            console.log(singleClass.checklist)
+            if (checks.ac === singleClass.checklist.ac && checks.zoom === singleClass.checklist.zoom && checks.pcs === singleClass.checklist.pcs){
                 clone.push(singleClass)
             }
             })
     } else {
         classesClone.map((singleClass)=>{
-            if (checks[0].ac === singleClass.checklist.ac && checks[1].zoom === singleClass.checklist.zoom && checks[2].pcs === singleClass.checklist.pcs){
+            if (checks.ac === singleClass.checklist.ac && checks.zoom === singleClass.checklist.zoom && checks.pcs === singleClass.checklist.pcs){
                 clone.push(singleClass)
             }
         })
     }
     setClassesClone(clone)
+    clone = []
 }
   //     const returnArray = allApartments.filter((apartment) => {
   //       // console.log(apartment.checked[factor].check);

@@ -76,6 +76,8 @@ module.exports = {
                         singleDate.users?.phoneNumber?.map((userPhone)=> {
                             if (userPhone === phoneNumber){
                                 userExist = true;
+
+                                console.log("im the problem")
                             }
                         })
                         if (userExist === true){
@@ -84,6 +86,7 @@ module.exports = {
                            })
                         } else {
                                 singleDate.users.push(userData)
+
                             theClass.markModified("date")
                                 theClass.save().then(()=> {
                                     res.status(200).json({
@@ -103,6 +106,7 @@ module.exports = {
         const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
+
 
             const data = {date: date, time_range: time_range, users: [userData], approved: "unresolved", _id: id}
             classSchema
@@ -205,10 +209,17 @@ module.exports = {
         })
     },
     GetAllUnResolved: (req,res) => {
-        classSchema.find({approved : "unresolved"}).then((unresolved)=> {
-
+        const sendunresolved = []
+            classSchema.find().then((ClassArray)=> {
+                ClassArray.map((singleClass)=>{
+                   singleClass.date.map((singleDate)=>{
+                       if (singleDate.approved === "unresolved"){
+                           sendunresolved.push(singleDate)
+                       }
+                   })
+               })
             res.status(200).json({
-                dates:unresolved,
+                dates:sendunresolved,
             })
         })
     },
@@ -243,7 +254,6 @@ module.exports = {
                             year: newDate.getFullYear()
                         }
                         const dateEdit = datesimplefide.year + "," + datesimplefide.month + "," + datesimplefide.day;
-
                         time_range.map((singleTimerange)=>{
                             const insert = {
                                 date: dateEdit,

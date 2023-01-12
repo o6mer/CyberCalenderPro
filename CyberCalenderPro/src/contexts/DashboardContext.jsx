@@ -40,7 +40,7 @@ const list = [
   },
 ];
 const DashboardContextProvider = ({ children }) => {
-  const [requestList, setRequestList] = useState(list);
+  const [requestList, setRequestList] = useState();
   return (
     <DashboardContext.Provider value={{ requestList, setRequestList }}>
       {children}

@@ -4,15 +4,12 @@ import "./index.css";
 import App from "./App";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Dashboard from "./components/dashboard/Dashboard";
-import ErrorPage from "./components/error-page";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Login from "./components/userhandle/login.jsx";
 import Signup from "./components/userhandle/signup.jsx";
-import Main from "./components/main/Main.jsx";
 import UserConextProvider from "./contexts/UserContext";
-import DashboardContextProvider, {
-  DashboardContext,
-} from "./contexts/DashboardContext";
+import DashboardContextProvider from "./contexts/DashboardContext";
+import ErrorPage from "./components/General/error-page";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -31,7 +28,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-
 ]);
 
 const theme = createTheme({

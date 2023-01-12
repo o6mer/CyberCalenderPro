@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
-import { TableSortLabel, Tooltip } from "@mui/material";
+import { Alert, Fade, TableSortLabel, Tooltip } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -11,6 +11,8 @@ import axios from "axios";
 import { DashboardContext } from "../../../contexts/DashboardContext";
 
 const RequestList = () => {
+  const [isSent, setIsSent] = useState(false);
+
   const { requestList, setRequestList } = useContext(DashboardContext);
 
   const updateRequestStatus = async ({ _id, approved }) => {
@@ -19,6 +21,8 @@ const RequestList = () => {
         _id,
         approved,
       });
+      setIsSent(true);
+      setTimeout(() => setIsSent(false), 2000);
       console.log(res.data);
       setRequestList((prev) => {
         prev = prev.filter((request) => request._id !== _id);
@@ -30,7 +34,7 @@ const RequestList = () => {
   };
 
   return (
-    <div className="w-full">
+    <section className="w-[50%]">
       <Table>
         <TableHead>
           <TableRow>
@@ -51,7 +55,9 @@ const RequestList = () => {
           {requestList?.map((request) => (
             <TableRow hover key={request._id}>
               <TableCell>{request.className}</TableCell>
-              <TableCell>{request.users?.at(0)?.userName}</TableCell>
+              <TableCell>
+                {request.users?.at(0)?.userName || "No User"}
+              </TableCell>
               <TableCell>{request.date}</TableCell>
               <TableCell>{request.time_range}</TableCell>
               <TableCell>
@@ -86,7 +92,20 @@ const RequestList = () => {
           ))}
         </TableBody>
       </Table>
-    </div>
+      <Fade in={isSent}>
+        <Alert
+          severity="success"
+          sx={{
+            position: "absolute",
+            bottom: "5%",
+            right: "50%",
+            translate: "50% 0",
+          }}
+        >
+          Request Saved!
+        </Alert>
+      </Fade>
+    </section>
   );
 };
 

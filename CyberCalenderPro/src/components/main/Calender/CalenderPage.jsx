@@ -53,7 +53,7 @@ const CalenderPage = () => {
     classesData.forEach((c) => {
       times[c.className] = buildAvilableTimesList(
         c.date_data.map((d) => {
-          if (d.date === formatedDate) return d.time_range;
+          if (d.date === formatedDate && d.approved) return d.time_range;
         })
       );
     });
@@ -77,7 +77,6 @@ const CalenderPage = () => {
     list = list.filter(
       (timeRange) => !takenTimes.find((takenTime) => timeRange === takenTime)
     );
-
     return list;
   }
 
@@ -99,7 +98,6 @@ const CalenderPage = () => {
         prev[selectedClass] = prev[selectedClass].filter(
           (t) => t !== selectedTime
         );
-        console.log(prev[selectedClass]);
         setCurrentShownTimes([...prev[selectedClass]]);
         return { ...prev };
       });

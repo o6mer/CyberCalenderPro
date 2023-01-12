@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import HomePage from "./home/HomePage";
 import CalenderPage from "./Calender/CalenderPage";
-import AdvancedPage from "./Advanced/AdvancedPage";
+import AdvancedPage from "./Advanced/AdvancedPage.jsx";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
 

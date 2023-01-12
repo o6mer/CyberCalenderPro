@@ -32,7 +32,9 @@ module.exports = {
                 //if question exist...
                 .then((theClass) => {
                     if (theClass) {
-                        console.log("exist")
+                        res.status(400).json({
+                            message:"class exist"
+                        })
                     } else {
                         const clas = new classSchema({
                             className: className,
@@ -74,15 +76,17 @@ module.exports = {
                         singleDate.users?.phoneNumber?.map((userPhone)=> {
                             if (userPhone === phoneNumber){
                                 userExist = true;
+
                                 console.log("im the problem")
                             }
                         })
                         if (userExist === true){
-                            console.log("already exist")
+                           res.status(400).json({
+                               message:"already exist"
+                           })
                         } else {
-                                console.log(userData)
                                 singleDate.users.push(userData)
-                                console.log(theClass)
+
                             theClass.markModified("date")
                                 theClass.save().then(()=> {
                                     res.status(200).json({
@@ -96,22 +100,19 @@ module.exports = {
             })},
     AddMeeting: (req,res)=> {
         const {className, phoneNumber,time_range, groupSize} = req.body
-        // console.log(req.body)
         const date = req.body.date;
         let userData;
         let dateExist = false;
         const id = uuidv4();
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
-            userData = {userName:user?.userName, phoneNumber: user?.phoneNumber, email:user?.email}
-        })
-        const data = {date:date,time_range:time_range,users: [userData], approved: "unresolved", _id:id}
-        classSchema
-            .findOne({className: className})
-            //if question exist...
-            .then((theClass) => {
-                console.log(theClass)
+            userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
 
 
+            const data = {date: date, time_range: time_range, users: [userData], approved: "unresolved", _id: id}
+            classSchema
+                .findOne({className: className})
+                //if question exist...
+                .then((theClass) => {
                     theClass?.date?.map((singleDate) => {
                         if (singleDate.date === date && singleDate.time_range === time_range) {
                             dateExist = true
@@ -121,20 +122,21 @@ module.exports = {
                         }
                     })
 
-                 if (dateExist === false && theClass?.capacity >= groupSize) {
-                    if (theClass) {
-                        theClass.date.push(data);
-                        theClass.save();
-                        console.log("worked")
-                        res.status(200).json({
-                            data:data
-                        })
+                    if (dateExist === false && theClass?.capacity >= groupSize) {
+                        if (theClass) {
+                            theClass.date.push(data);
+                            theClass.save();
+                            res.status(200).json({
+                                data: data
+                            })
+                        } else {
+                            res.status(200).json({
+                                message: "class not exist"
+                            })
+                        }
                     }
-                else {
-                        console.log("class not exist")
-                    }
-                }
-            })
+                })
+        })
     },
     GetClassData: (req,res) => {
         const {className} = req.body
@@ -207,10 +209,17 @@ module.exports = {
         })
     },
     GetAllUnResolved: (req,res) => {
-        classSchema.find({approved : "unresolved"}).then((unresolved)=> {
-            console.log(unresolved)
+        const sendunresolved = []
+            classSchema.find().then((ClassArray)=> {
+                ClassArray.map((singleClass)=>{
+                   singleClass.date.map((singleDate)=>{
+                       if (singleDate.approved === "unresolved"){
+                           sendunresolved.push(singleDate)
+                       }
+                   })
+               })
             res.status(200).json({
-                dates:unresolved,
+                dates:sendunresolved,
             })
         })
     },
@@ -228,12 +237,10 @@ module.exports = {
             return date;
         }
         let TotalDays = Math.ceil(difference / (1000 * 3600 * 24)); //day diffrence
-        console.log(TotalDays)
         let userData;
         userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
             userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, Email: user?.Email}
             classSchema.findOne({className: className}).then((singleClass) => {
-                console.log(singleClass)
                 let newDate = date
                 let ifexist = false;
                 for (let i = 0; i < TotalDays; i++) {
@@ -241,15 +248,12 @@ module.exports = {
                         newDate = date.addDays(i)
                     } else {
                         newDate = date.addDays(i)
-                        // console.log("thios is new date", newDate.getDay())
-                        // console.log(newDate)
                         const datesimplefide = {
                             day: newDate.getDate(),
                             month: newDate.getMonth() + 1,
                             year: newDate.getFullYear()
                         }
                         const dateEdit = datesimplefide.year + "," + datesimplefide.month + "," + datesimplefide.day;
-
                         time_range.map((singleTimerange)=>{
                             const insert = {
                                 date: dateEdit,
@@ -265,14 +269,13 @@ module.exports = {
                                     }
                                 }
                             })
-                            // console.log(insert)
                             if(ifexist=== false) singleClass?.date?.push(insert)
                         })
 
 
                     }
                 }
-                // console.log(arrayDemi)
+
 
                 // singleClass?.markModified("date")
                 singleClass?.save().then(res.status(200).json({message: true})).catch(err=>console.log(err))

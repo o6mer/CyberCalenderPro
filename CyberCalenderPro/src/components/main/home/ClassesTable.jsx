@@ -146,29 +146,28 @@ const tableData = [{
   "c2": 'Fullstack',
   "c3": 'Fullstack',
   "c4": 'Fullstack'
-}
-]
+}]
 const ClassesTable = () => {
   return <TableContainer component={Paper}>
-            <Table aria-aria-label="simple table">
+            <Table aria-label="simple table">
               <TableHead>
-                <TableCell>Time</TableCell>
-                <TableCell>C1</TableCell>
-                <TableCell>C2</TableCell>
-                <TableCell>C3</TableCell>
-                <TableCell>C4</TableCell>
+                <TableCell align="center">Time</TableCell>
+                <TableCell align="center">C1</TableCell>
+                <TableCell align="center">C2</TableCell>
+                <TableCell align="center">C3</TableCell>
+                <TableCell align="center">C4</TableCell>
               </TableHead>
               <TableBody>
                 {
-                  tableData.map(row =>(
+                  tableData.map((row,i,element) =>(
                     <TableRow key={row.Time}
                     sx={{'&:last-child td, &:last-child th' : {border:0}}}
                     >
-                      <TableCell>{row.Time}</TableCell>
-                      <TableCell>{row.c1}</TableCell>
-                      <TableCell>{row.c2}</TableCell>
-                      <TableCell>{row.c3}</TableCell>
-                      <TableCell>{row.c4}</TableCell>
+                      <TableCell align="center">`{row.Time}-{element[i+1]?.Time? element[i+1].Time:"20:00"}`</TableCell>
+                      <TableCell align="center">{row.c1}</TableCell>
+                      <TableCell align="center">{row.c2}</TableCell>
+                      <TableCell align="center">{row.c3}</TableCell>
+                      <TableCell align="center">{row.c4}</TableCell>
                     </TableRow>
                   ))
                 }
@@ -178,5 +177,3 @@ const ClassesTable = () => {
 };
 
 export default ClassesTable;
-
-

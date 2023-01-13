@@ -11,23 +11,34 @@ export const SidebarData = (user)=>{
         },
         {
         title: 'Class view',
-        path: '/',
+        path: '/clas',
         icon: <MuiIcons.MeetingRoom />,
     },
 ]
 
 // adding User
-user?SidebarDataLinks.unshift({
-    title: user,
-    path: '/',
+if(user){
+console.log(user==='Roei Zaro')
+SidebarDataLinks.unshift({
+    title: 'Profile',
+    path: '/Profile/'+user,
     icon: <MuiIcons.Person />,
 },)
-:
+
+SidebarDataLinks.push({
+    title: 'Logout',
+    path: '/',
+    icon: <MuiIcons.Logout />,
+},)
+}
+
+else{
 SidebarDataLinks.unshift({
     title: 'Login',
     path: '/Login',
-    icon: <MuiIcons.Person />,
+    icon: <MuiIcons.Login />,
 },)
+}
 // adding User
 
 return SidebarDataLinks

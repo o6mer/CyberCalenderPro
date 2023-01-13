@@ -10,17 +10,16 @@ import {
     selectClasses,
     TextField
 } from "@mui/material";
+import "./advancedpage.css"
 import Checkbox from "@mui/material/Checkbox";
-
-
-import axios from "axios";
 import {UserContext} from "../../../contexts/UserContext.jsx";
 import ListItemText from "@mui/material/ListItemText";
 import List from "@mui/material/List";
 import Container from "@mui/material/Container";
 import ListItemButton from "@mui/material/ListItemButton";
 import CollapsibleTable from "./table.jsx";
-// import Grid from "@mui/material/Grid";
+
+
 
 function AdvancedPage(){
   const [ClassSelect, setClass] = React.useState();
@@ -95,7 +94,8 @@ function Rest() {
   };
 
   return <div id={"that"}>
-      <Container maxWidth={"sm"} >
+      <Container maxWidth={"md"} >
+          <div className={"sideNav"}>
     <FormControl>
       <InputLabel id="demo-simple-select-label">Class</InputLabel>
       <Select
@@ -112,11 +112,11 @@ function Rest() {
               )}
 
       </Select>
-    </FormControl>
-<FormControl>
+
       <TextField
-          id="outlined-number"
+          id="filled-number"
           label="Capacity"
+          sx={{width:"150px", marginTop:"5px"}}
           onChange={(e)=>setCapacity(e.target.value)}
           type="number"
           value={capacity}
@@ -125,14 +125,13 @@ function Rest() {
           }}
       />
 
-    <div style={{margin:"50px"}}>
-        <Button variant="contained"onClick={Rest}>Rest</Button>
-        <Button variant="contained"onClick={Search}>Search</Button>
+    <div sx={{width:"100%"}}>
+        <Button variant="outlined"onClick={Rest} sx={{width:"90%"}}>Rest</Button>
+        <Button variant="contained"onClick={Search} sx={{width:"90%"}}>Search</Button>
     </div>
 
-</FormControl>
-          <FormControl>
-          <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+
+          <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', marginTop:"5px"}}>
      <ListItem
         secondaryAction={
           <Checkbox
@@ -174,9 +173,14 @@ function Rest() {
      </ListItem>
           </List>
           </FormControl>
-
+      </div>
+{/*<ResponsiveDrawer>*/}
+          <Container maxWidth={"sm"} >
           <CollapsibleTable values={classesClone}/>
+              </Container>
+{/*</ResponsiveDrawer>*/}
       </Container>
+
   </div>;
 };
 

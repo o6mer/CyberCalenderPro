@@ -99,12 +99,12 @@ Row.propTypes = {
 };
 
 
-export default function CollapsibleTable(props) {
+export default function   CollapsibleTable(props) {
 
     const classesData = props.values;
 
     const rows =classesData
-    // console.log(rows)
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">

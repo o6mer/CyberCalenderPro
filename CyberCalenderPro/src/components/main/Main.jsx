@@ -2,10 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import TopNavBar from "../TopNavBar";
 import HomePage from "./home/HomePage";
 import CalenderPage from "./Calender/CalenderPage";
-import AdvancedPage from "./Advanced/AdvancedPage";
+import AdvancedPage from "./Advanced/AdvancedPage.jsx";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
 
@@ -66,7 +65,6 @@ function Main() {
     setValue(newValue);
   };
 
-  console.log("hi");
   return (
     <main className="h-full">
       <div className="w-full">

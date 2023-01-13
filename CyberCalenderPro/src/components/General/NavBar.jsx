@@ -87,6 +87,7 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function NavBar({ children }) {
+
     const theme = useTheme();
     const { user } = React.useContext(UserContext)
     const links = SidebarData(user['userName']);
@@ -262,4 +263,5 @@ export default function NavBar({ children }) {
             {/*MainPage*/}
         </Box >
     );
+
 }

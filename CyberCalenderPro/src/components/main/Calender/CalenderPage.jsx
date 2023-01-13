@@ -3,11 +3,13 @@ import React, { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import dateFormat, { masks } from "dateformat";
-import { Button, TextField } from "@mui/material";
+import { Alert, Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { UserContext } from "../../../contexts/UserContext";
+import { Fade } from "@mui/material";
+
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);
   const [avilableClassList, setAvilableClassList] = useState([]);
@@ -24,6 +26,8 @@ const CalenderPage = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [selectedClass, setSelectedClass] = useState("");
   const [groupSize, setGroupSize] = useState("");
+  const [isError, setIsError] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
   const { user, classesData } = useContext(UserContext);
 
@@ -36,7 +40,11 @@ const CalenderPage = () => {
 
   useEffect(() => {
     setCurrentShownTimes(avilableTimeList[selectedClass]);
-  }, [selectedClass]);
+  }, [selectedClass, selectedDate]);
+
+  useEffect(() => {
+    setIsError(false);
+  }, [selectedClass, selectedTime, groupSize]);
 
   function dateSelectedHandler(date) {
     const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
@@ -45,7 +53,7 @@ const CalenderPage = () => {
     classesData.forEach((c) => {
       times[c.className] = buildAvilableTimesList(
         c.date_data.map((d) => {
-          if (d.date === formatedDate) return d.time_range;
+          if (d.date === formatedDate && d.approved) return d.time_range;
         })
       );
     });
@@ -69,12 +77,15 @@ const CalenderPage = () => {
     list = list.filter(
       (timeRange) => !takenTimes.find((takenTime) => timeRange === takenTime)
     );
-
     return list;
   }
 
   async function submitHandler(e) {
     e.preventDefault();
+    if (!selectedDate || !selectedTime || !selectedClass || !groupSize) {
+      setIsError(true);
+      return setTimeout(() => setIsError(false), 2000);
+    }
     try {
       const res = await axios.post("http://localhost:2000/addMeeting", {
         date: selectedDate,
@@ -84,13 +95,14 @@ const CalenderPage = () => {
         phoneNumber: user.phone,
       });
       setAvilableTimeList((prev) => {
-        console.log(prev[selectedClass]);
         prev[selectedClass] = prev[selectedClass].filter(
-          (t) => t.time_range !== selectedTime
+          (t) => t !== selectedTime
         );
         setCurrentShownTimes([...prev[selectedClass]]);
         return { ...prev };
       });
+      setIsSent(true);
+      return setTimeout(() => setIsSent(false), 2000);
     } catch (err) {
       console.log(err);
     }
@@ -103,7 +115,7 @@ const CalenderPage = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-8 px-80 py-8">
+    <div className="w-full h-full flex flex-col items-center justify-center gap-8  py-8 relative">
       <Calendar
         onChange={dateSelectedHandler}
         onActiveStartDateChange={(date) => {
@@ -116,28 +128,15 @@ const CalenderPage = () => {
         minDate={startDate}
         maxDate={endDate}
       />
-      <form onSubmit={submitHandler} className="flex flex-col w-full gap-2">
-        <div className="flex items-center justify-between">
-          <label htmlFor="select-time">
-            Time Range:{" "}
-            <select
-              name=""
-              id="select-time"
-              value={selectedTime}
-              onChange={(e) => setSelectedTime(e.target.value)}
-            >
-              <option value="">Select Time</option>
-              {currentShownTimes?.map((timeRange) => (
-                <option value={timeRange} key={timeRange}>
-                  {timeRange}
-                </option>
-              ))}
-            </select>
-          </label>
-
+      <form
+        onSubmit={submitHandler}
+        className="flex flex-col justify-center w-max gap-2"
+      >
+        <div className="flex items-center justify-center gap-6">
           <label htmlFor="select-class">
             Class Room:{" "}
             <select
+              className="border p-2 rounded-xl"
               name=""
               id="select-class"
               value={selectedClass}
@@ -152,7 +151,26 @@ const CalenderPage = () => {
             </select>
           </label>
 
+          <label htmlFor="select-time">
+            Time Range:{" "}
+            <select
+              className="border p-2 rounded-xl"
+              name=""
+              id="select-time"
+              value={selectedTime}
+              onChange={(e) => setSelectedTime(e.target.value)}
+            >
+              <option value="">Select Time</option>
+              {currentShownTimes?.map((timeRange) => (
+                <option value={timeRange} key={timeRange}>
+                  {timeRange}
+                </option>
+              ))}
+            </select>
+          </label>
+
           <TextField
+            sx={{ width: "fit-content" }}
             size="small"
             label="Group Size"
             variant="outlined"
@@ -184,6 +202,32 @@ const CalenderPage = () => {
           </Button>
         </div>
       </form>
+      <Fade in={isError}>
+        <Alert
+          severity="error"
+          sx={{
+            position: "absolute",
+            bottom: "5%",
+            right: "50%",
+            translate: "50% 0",
+          }}
+        >
+          Please fill al the fields
+        </Alert>
+      </Fade>
+      <Fade in={isSent}>
+        <Alert
+          severity="success"
+          sx={{
+            position: "absolute",
+            bottom: "5%",
+            right: "50%",
+            translate: "50% 0",
+          }}
+        >
+          Meeting Saved!
+        </Alert>
+      </Fade>
     </div>
   );
 };

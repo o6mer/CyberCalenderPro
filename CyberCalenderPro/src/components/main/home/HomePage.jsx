@@ -1,8 +1,9 @@
 import React from "react";
 import ClassesTable from "./ClassesTable";
 
+
 const HomePage = () => {
-  return <ClassesTable></ClassesTable>;
+  return <ClassesTable />;
 };
 
 export default HomePage;

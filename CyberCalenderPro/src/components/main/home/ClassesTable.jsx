@@ -4,149 +4,150 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const classesTimeTable = [{
     "Time": "8:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Free',
+    "c2": 'QA',
+    "c3": 'Free',
+    "c4": 'Physics'
 }, {
     "Time": "8:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Free',
+    "c2": 'QA',
+    "c3": 'Free',
+    "c4": 'Physics'
 }, {
     "Time": "9:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "9:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "10:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "10:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "11:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "11:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "12:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "12:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "13:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "13:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "14:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "14:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "15:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "15:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "16:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "16:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
 }, {
     "Time": "17:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
 }, {
     "Time": "17:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
 }, {
     "Time": "18:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
 }, {
     "Time": "18:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
 }, {
     "Time": "19:00",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
 }, {
     "Time": "19:30",
-    "c1": 'Fullstack',
-    "c2": 'Fullstack',
-    "c3": 'Fullstack',
-    "c4": 'Fullstack'
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
 }]
+
 const slotTimesLookup = {};
 const classRows = []
 let i = 1
@@ -172,7 +173,6 @@ const slotColumnCommonFields = {
     sortable: false,
     filterable: false,
     pinnable: false,
-    hideable: false,
     minWidth: 140,
     cellClassName: (params) => params.value,
     colSpan: ({ row, field, value }) => {
@@ -208,25 +208,25 @@ for (let i = 0; i < classesTimeTable.length; i++) {
 
 const rootStyles = {
     width: '100%',
-    '& .Maths': {
+    '& .Fullstack-oct': {
         backgroundColor: 'rgba(157, 255, 118, 0.49)',
     },
-    '& .English': {
+    '& .QA': {
         backgroundColor: 'rgba(255, 255, 10, 0.49)',
     },
-    '& .Lab': {
+    '& .Fullstack-nov': {
         backgroundColor: 'rgba(150, 150, 150, 0.49)',
     },
-    '& .Chemistry': {
+    '& .Free': {
         backgroundColor: 'rgba(255, 150, 150, 0.49)',
     },
     '& .Physics': {
         backgroundColor: 'rgba(10, 150, 255, 0.49)',
     },
-    '& .Music': {
+    '& .Fullstack-self': {
         backgroundColor: 'rgba(224, 183, 60, 0.55)',
     },
-    '& .Dance': {
+    '& .Bezeq': {
         backgroundColor: 'rgba(200, 150, 255, 0.49)',
     },
 };
@@ -249,6 +249,8 @@ export default function ClassesTable() {
                 showCellRightBorder
                 showColumnRightBorder
                 disableColumnReorder
+                
+                
             />
         </Box>
     );

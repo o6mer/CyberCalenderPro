@@ -10,10 +10,16 @@ import Signup from "./components/userhandle/signup.jsx";
 import UserConextProvider from "./contexts/UserContext";
 import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
+import ClassView from "./components/Classroom/ClassView";
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Classroom/:classroomName",
+    element: <ClassView />,
     errorElement: <ErrorPage />,
   },
   {

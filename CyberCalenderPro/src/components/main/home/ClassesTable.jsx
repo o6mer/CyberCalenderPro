@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { useContext } from 'react';
 import { UserContext } from '../../../contexts/UserContext';
 import { Box, Button, Typography } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -31,7 +30,8 @@ const classesTimeTable = [
     { "Time": "19:00" },
     { "Time": "19:30" },
     { "Time": "20:00" },
-    { "Time": "20:30" }]
+    { "Time": "20:30" }
+]
 
 const slotTimesLookup = {}; 
 classesTimeTable.map((specificTimeData, i, classesTimeTable) =>

@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router();
 
 const {
-    Approve, createClass, AddUserToWaitingList,
+    Approve, createClass, AddUserToWaitingList,IdAuth,
     GetClassData, RemoveUserFromDate, AddMeeting, GetDateData, GetAllUnResolved, AddDateRange, SendClassesAndRanges
 } = require('../controllers/classController');
 
@@ -16,6 +16,7 @@ router.post("/approve", Approve) // --tested
 router.get("/unresolved", GetAllUnResolved) // --tested
 router.post("/adddaterange", AddDateRange) // --tested
 router.post("/classesData", SendClassesAndRanges) //send all classes and time_ranges -- tested
+router.post("/auth", IdAuth)
 
 
 module.exports = router;

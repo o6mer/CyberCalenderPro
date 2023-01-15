@@ -23,8 +23,7 @@ Date.prototype.addDays = function(days) {
     date.setDate(date.getDate() + days);
     return date;
 }
-module.exports = {
-    createClass: (req, res) => {
+module.exports = {createClass: (req, res) => {
         const {className, capacity, checklist} = req.body
         return (
             classSchema
@@ -52,96 +51,108 @@ module.exports = {
                 })
         );
 
-    },
-    AddUserToWaitingList: (req,res)=> {
+    }, AddUserToWaitingList: (req,res)=> {
         const {className, phoneNumber,time_range} = req.body
         const date = req.body.date;
         let userExist = false;
         let dateExist = false;
         let userData ;
         const id = uuidv4();
-        userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
-            userData = {
-                userName: user?.userName,
-                phoneNumber: user?.phoneNumber,
-                Email: user?.Email
-            }
-        classSchema
-            .findOne({className: className})
-            //if question exist...
-            .then((theClass) => {
-                theClass.date.map((singleDate)=> {
-                    if (singleDate.date === date && singleDate.time_range === time_range){
-                        dateExist = true;
-                        singleDate.users?.phoneNumber?.map((userPhone)=> {
-                            if (userPhone === phoneNumber){
-                                userExist = true;
+        try {
+            userSchema.findOne({phoneNumber: phoneNumber}).then((user) => {
+                userData = {
+                    userName: user?.userName,
+                    phoneNumber: user?.phoneNumber,
+                    Email: user?.Email
+                }
+                classSchema
+                    .findOne({className: className})
+                    //if question exist...
+                    .then((theClass) => {
+                        theClass.date.map((singleDate) => {
+                            if (singleDate.date === date && singleDate.time_range === time_range) {
+                                dateExist = true;
+                                singleDate.users?.phoneNumber?.map((userPhone) => {
+                                    if (userPhone === phoneNumber) {
+                                        userExist = true;
 
-                                console.log("im the problem")
+                                        console.log("im the problem")
+                                    }
+                                })
+                                if (userExist === true) {
+                                    res.status(400).json({
+                                        message: "already exist"
+                                    })
+                                } else {
+                                    singleDate.users.push(userData)
+
+                                    theClass.markModified("date")
+                                    theClass.save().then(() => {
+                                        res.status(200).json({
+                                            message: true
+                                        })
+                                    }).catch(err => console.log(err))
+                                }
                             }
                         })
-                        if (userExist === true){
-                           res.status(400).json({
-                               message:"already exist"
-                           })
-                        } else {
-                                singleDate.users.push(userData)
+                    })
+            })
+        } catch (err){
+            res.status(400).json({
+                message: err
+            })
+        }
 
-                            theClass.markModified("date")
-                                theClass.save().then(()=> {
-                                    res.status(200).json({
-                                        message:true
-                                    })
-                                }).catch(err=> console.log(err))
-                            }
-                    }
-                })
-        })
-            })},
-    AddMeeting: (req,res)=> {
+    }, AddMeeting: (req,res)=> {
         const {className, phoneNumber,time_range, groupSize} = req.body
         const date = req.body.date;
         let userData;
         let dateExist = false;
         const id = uuidv4();
-        userSchema.findOne({phoneNumber: phoneNumber}).then((user)=> {
-            userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
-            const data = {date: date, time_range: time_range, users: [userData], approved: "unresolved", _id: id}
-            classSchema
-                .findOne({className: className})
-                //if question exist...
-                .then((theClass) => {
-                    theClass?.date?.map((singleDate) => {
-                        if (singleDate.date === date && singleDate.time_range === time_range) {
-                            dateExist = true
-                            if(singleDate.approved !== "unresolved"){
+        try {
+            userSchema.findOne({phoneNumber: phoneNumber}).then((user) => {
+                userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
+                const data = {date: date, time_range: time_range, users: [userData], approved: "unresolved", _id: id}
+                classSchema
+                    .findOne({className: className})
+                    //if question exist...
+                    .then((theClass) => {
+                        theClass?.date?.map((singleDate) => {
+                            if (singleDate.date === date && singleDate.time_range === time_range) {
+                                dateExist = true
+                                if (singleDate.approved !== "unresolved") {
+                                    theClass.date.push(data);
+                                    theClass.save();
+                                } else {
+                                    res.status(200).json({
+                                        message: "exist",
+                                    })
+                                }
+                            }
+                        })
+
+                        if (dateExist === false && theClass?.capacity >= groupSize) {
+                            if (theClass) {
                                 theClass.date.push(data);
                                 theClass.save();
+                                res.status(200).json({
+                                    data: data
+                                })
                             } else {
                                 res.status(200).json({
-                                    message: "exist",
+                                    message: "class not exist"
                                 })
                             }
                         }
                     })
 
-                    if (dateExist === false && theClass?.capacity >= groupSize) {
-                        if (theClass) {
-                            theClass.date.push(data);
-                            theClass.save();
-                            res.status(200).json({
-                                data: data
-                            })
-                        } else {
-                            res.status(200).json({
-                                message: "class not exist"
-                            })
-                        }
-                    }
-                })
         })
-    },
-    GetClassData: (req,res) => {
+        } catch (err){
+            res.status(400).json({
+                message: err
+            })
+        }
+    }, GetClassData: (req,res) => {
         const {className} = req.body
         classSchema
             .findOne({className: className}).then((theClass)=> {
@@ -156,8 +167,7 @@ module.exports = {
                 })
             }
         })
-    },
-    RemoveUserFromDate: (req,res) => {
+    }, RemoveUserFromDate: (req,res) => {
         const id = uuidv4();
         const {className, phoneNumber,time_range} = req.body
         const date =req.body.date;
@@ -177,8 +187,7 @@ module.exports = {
                             return users !== userName
                         });
                         theClass.save().then()
-                    }})})},
-    GetDateData: (req,res)=> {
+                    }})})}, GetDateData: (req,res)=> {
         const {className} = req.body;
         const date = req.body.date;
         let alldates;
@@ -186,49 +195,46 @@ module.exports = {
             .findOne({className: className})
             //if question exist...
             .then((theClass) => {
-              alldates = theClass.date.filter((singleDate)=> {
-                   return singleDate.date = date
-               })
+                alldates = theClass.date.filter((singleDate)=> {
+                    return singleDate.date = date
+                })
                 res.status(200).json({
                     dates:alldates,
                 })
             })
-    },
-    Approve: (req,res) => {
-      const {_id, approved} = req.body;
-         classSchema.find().then((classes)=> {
-             classes.map((singleClass)=> {
-                 singleClass.date.map((singleDate)=> {
-                     if (singleDate._id === _id){
-                         singleDate.approved = approved;
-                         singleClass.markModified("date")
-                         singleClass.save()
-                         res.status(200).json({
-                             message:"worked!",
-                         })
-                     }
-                 })
-             })
+    }, Approve: (req,res) => {
+        const {_id, approved} = req.body;
+        classSchema.find().then((classes)=> {
+            classes.map((singleClass)=> {
+                singleClass.date.map((singleDate)=> {
+                    if (singleDate._id === _id){
+                        singleDate.approved = approved;
+                        singleClass.markModified("date")
+                        singleClass.save()
+                        res.status(200).json({
+                            message:"worked!",
+                        })
+                    }
+                })
+            })
         })
-    },
-    GetAllUnResolved: (req,res) => {
+    }, GetAllUnResolved: (req,res) => {
         const sendunresolved = []
         const addclasses = []
-            classSchema.find().then((ClassArray)=> {
-                ClassArray.map((singleClass)=>{
-                   singleClass.date.map((singleDate)=>{
-                       if (singleDate.approved === "unresolved"){
-                           sendunresolved.push({...singleDate, className: singleClass.className})
-                       }
-                   })
-
+        classSchema.find().then((ClassArray)=> {
+            ClassArray.map((singleClass)=>{
+                singleClass.date.map((singleDate)=>{
+                    if (singleDate.approved === "unresolved"){
+                        sendunresolved.push({...singleDate, className: singleClass.className})
+                    }
                 })
+
+            })
             res.status(200).json({
                 dates:sendunresolved,
             })
         })
-    },
-    AddDateRange: (req,res)=> {
+    }, AddDateRange: (req,res)=> {
         const {className, phoneNumber} = req.body;
         const date = new Date(req.body.date);
         const time_range = req.body.time_range
@@ -287,8 +293,7 @@ module.exports = {
             })
         })
 
-    },
-    SendClassesAndRanges: (req,res)=> {
+    }, SendClassesAndRanges: (req,res)=> {
         const className = [];
         const classData = []
         classSchema.find().then((classes)=>{
@@ -302,16 +307,35 @@ module.exports = {
                     className: clas.className,
                     date_data: SignleClassTimeRange,
                     capacity: clas.capacity,
-                    checklist:clas.checklist
+                    checklist:clas.checklist,
                 })
             })
             res.status(200).json({
                 data: classData
             })
         })
-    }
+    }, IdAuth: (req,res)=>{
+        const id = req.body.id;
+        try {
+            userSchema.findOne({_id: id}).then((user) => {
+                if (user) {
+                    res.status(200).json({
+                        exist: true,
+                        userName: user?.userName,
+                        role: user?.role,
+                        userId: user?._id,
+                        phoneNumber: user?.phoneNumber
+                    })
+                } else {
+                    res.status(400).json({
+                        exist: false,
+                    })
+                }
+            })
+        } catch (err) {
+            res.status(400).json({
+                message: err,
+            })
+        }
 
-
-
-
-}
+    }}

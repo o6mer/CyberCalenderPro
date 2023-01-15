@@ -100,9 +100,9 @@ function AdvancedPage() {
   };
 
   return (
-    <div id={"that"} className="overflow-x-hidden">
+    <div id={"that"}>
       <Container maxWidth={"md"}>
-        <div className={"sideNav overflow-x-hidden"}>
+        <div className={"sideNav"}>
           <FormControl>
             <InputLabel id="demo-simple-select-label">Class</InputLabel>
             <Select

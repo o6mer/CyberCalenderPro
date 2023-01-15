@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import dateFormat, { masks } from "dateformat";
 import { Alert, Button, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -29,7 +28,8 @@ const CalenderPage = () => {
   const [isError, setIsError] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const { user, classesData, buildAvilableTimesList } = useContext(UserContext);
+  const { user, classesData, getAviliableTimeListByDate } =
+    useContext(UserContext);
 
   useEffect(() => {
     dateSelectedHandler(new Date());
@@ -47,16 +47,8 @@ const CalenderPage = () => {
   }, [selectedClass, selectedTime, groupSize]);
 
   function dateSelectedHandler(date) {
-    const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
-    setSelectedDate(formatedDate);
-    const times = {};
-    classesData.forEach((c) => {
-      times[c.className] = buildAvilableTimesList(
-        c.date_data.map((d) => {
-          if (d.date === formatedDate && d.approved) return d.time_range;
-        })
-      );
-    });
+    setSelectedDate(date);
+    const times = getAviliableTimeListByDate(date);
     setAvilableTimeList(times);
   }
 

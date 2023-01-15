@@ -1,10 +1,24 @@
 import { createContext, useState } from "react";
+import dateFormat, { masks } from "dateformat";
 
 export const UserContext = createContext();
 
 const UserConextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [classesData, setClassesData] = useState([]);
+
+  function getAviliableTimeListByDate(date) {
+    const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
+    const times = {};
+    classesData.forEach((c) => {
+      times[c.className] = buildAvilableTimesList(
+        c.date_data.map((d) => {
+          if (d.date === formatedDate && d.approved) return d.time_range;
+        })
+      );
+    });
+    return times;
+  }
 
   function buildAvilableTimesList(takenTimes) {
     let list = [];
@@ -33,7 +47,7 @@ const UserConextProvider = ({ children }) => {
         setUser,
         classesData,
         setClassesData,
-        buildAvilableTimesList,
+        getAviliableTimeListByDate,
       }}
     >
       {children}

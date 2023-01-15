@@ -11,6 +11,7 @@ import UserConextProvider from "./contexts/UserContext";
 import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
 import ProtectedRoutes from "./components/General/ProtectedRoutes";
+import ClassView from "./components/classview/classselect.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +19,15 @@ const router = createBrowserRouter([
       <ProtectedRoutes>
         <App />
       </ProtectedRoutes>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/classview",
+    element: (
+        <ProtectedRoutes>
+          <ClassView />
+        </ProtectedRoutes>
     ),
     errorElement: <ErrorPage />,
   },

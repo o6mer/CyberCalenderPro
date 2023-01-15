@@ -10,3 +10,15 @@
     align-items: stretch;
     right:0;
 }
+@media only screen and (max-width: 700px) {
+    .sideNav{
+        display: none;
+    }
+    .datepicker {
+        display: flex;
+        position:fixed;
+        top:0;
+        width:100%;
+    }
+
+}

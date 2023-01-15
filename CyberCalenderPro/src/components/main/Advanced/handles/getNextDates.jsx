@@ -17,6 +17,7 @@ const dateConverted = new Date(date);
             month: dateAdded.getMonth() + 1,
             year: dateAdded.getFullYear()
         }
+
         const dateEdit = datesimplefide.year + "," + datesimplefide.month + "," + datesimplefide.day;
         dates.push(dateEdit)
 

@@ -17,15 +17,23 @@ import List from "@mui/material/List";
 import Container from "@mui/material/Container";
 import ListItemButton from "@mui/material/ListItemButton";
 import CollapsibleTable from "./table.jsx";
+import DayConvert from "./handles/dayconvert.js";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+
+
 
 
 function AdvancedPage() {
   const [ClassSelect, setClass] = useState();
   const [capacity, setCapacity] = useState(0);
   const today = new Date()
+const [datePick,setDatePick] = useState(today);
   let clone = [];
+  const [reload,setReload] = useState(true)
   const { classesData, getAviliableTimeListByDate } = useContext(UserContext);
-  const [avilableDates,setAvilableDates ] = useState(Object.entries(getAviliableTimeListByDate(today)))
+  const [avilableDates,setAvilableDates ] = useState(Object.entries(getAviliableTimeListByDate(DayConvert(today))))
   const [classesClone, setClassesClone] = useState(classesData);
   const [checks, setChecks] = useState({ ac: true, zoom: true, pcs: true });
   function FilterAc() {
@@ -96,10 +104,13 @@ function AdvancedPage() {
   function Rest() {
     setClassesClone(classesData);
   }
+function ChangeDatePick(e){
+  setDatePick(e?.$d)
+  setReload(false)
+  setReload(true)
+  setAvilableDates(Object.entries(getAviliableTimeListByDate(DayConvert(e.$d))))
+}
 
-  const handleChange = (event) => {
-    setClass(event.target.value);
-  };
 
   return (
     <div id={"that"} className="overflow-x-hidden">
@@ -108,12 +119,12 @@ function AdvancedPage() {
           <FormControl>
             <InputLabel id="demo-simple-select-label">Class</InputLabel>
             <Select
-              sx={{ width: "150px" }}
+              sx={{width: "100%", marginTop: "5px"}}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={selectClasses}
               label="Class"
-              onChange={handleChange}
+              onChange={e=> setClass(e.target.value)}
             >
               {classesClone.map((singleClass, index) => {
                 return (
@@ -123,11 +134,21 @@ function AdvancedPage() {
                 );
               })}
             </Select>
-
+            <div className={"datepicker"}>
+            <LocalizationProvider  sx={{width: "100%", marginTop: "15px"}} dateAdapter={AdapterDayjs}>
+              <DesktopDatePicker
+                  label="Date desktop"
+                    inputFormat="MM/DD/YYYY"
+                  value={datePick}
+                  onChange={ChangeDatePick}
+                  renderInput={(params) => <TextField {...params} />}
+              />
+            </LocalizationProvider>
+            </div>
             <TextField
               id="filled-number"
               label="Capacity"
-              sx={{ width: "150px", marginTop: "5px" }}
+              sx={{ width: "100%", marginTop: "5px" }}
               onChange={(e) => setCapacity(e.target.value)}
               type="number"
               value={capacity}
@@ -136,25 +157,14 @@ function AdvancedPage() {
               }}
             />
 
-            <div>
-              <Button variant="outlined" onClick={Rest} sx={{ width: "90%" }}>
-                Rest
-              </Button>
-              <Button
-                variant="contained"
-                onClick={Search}
-                sx={{ width: "90%" }}
-              >
-                Search
-              </Button>
-            </div>
+
 
             <List
               dense
               sx={{
                 width: "100%",
                 maxWidth: 360,
-                bgcolor: "background.paper",
+                bgColor: "background.paper",
                 marginTop: "5px",
               }}
             >
@@ -162,7 +172,7 @@ function AdvancedPage() {
                 secondaryAction={
                   <Checkbox
                     onChange={() => FilterPc}
-                    // checked={checks[2].pc?.check}
+
                   />
                 }
                 label="Pcs"
@@ -175,7 +185,7 @@ function AdvancedPage() {
                 secondaryAction={
                   <Checkbox
                     onChange={() => FilterZoom}
-                    // checked={checks[1].zoom?.check}
+
                   />
                 }
                 label="Zoom"
@@ -198,13 +208,24 @@ function AdvancedPage() {
                 </ListItemButton>
               </ListItem>
             </List>
+            <div >
+              <Button variant="outlined" onClick={Rest} sx={{ width: "100%" }}>
+                Rest
+              </Button>
+              <Button
+                  variant="contained"
+                  onClick={Search}
+                  sx={{ width: "100%" }}
+              >
+                Search
+              </Button>
+            </div>
           </FormControl>
         </div>
-        {/*<ResponsiveDrawer>*/}
+        {reload?
         <Container maxWidth={"sm"}>
-          <CollapsibleTable values={avilableDates} clone={classesClone} date={today}/>
-        </Container>
-        {/*</ResponsiveDrawer>*/}
+          <CollapsibleTable values={avilableDates} clone={classesClone} date={datePick}/>
+        </Container>:<p>Reload!</p>}
       </Container>
     </div>
   );

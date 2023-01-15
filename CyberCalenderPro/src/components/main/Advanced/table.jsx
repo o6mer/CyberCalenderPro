@@ -15,6 +15,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {useContext} from "react";
 import {UserContext} from "../../../contexts/UserContext.jsx";
+import AddMeeting from "./handles/createMeeting.jsx";
+import DayConvert from "./handles/dayconvert.js";
 
 function createData(date, time_range,approved, users) {
     return {
@@ -28,7 +30,10 @@ function createData(date, time_range,approved, users) {
 }
 
 function Row(props) {
+    const { user } = useContext(UserContext);
+    const {day} = props
     const {hours} = props;
+    const date = DayConvert(day)
     const {row} = props;
     let classHours;
     for(let i =0;i < hours.length;i++){
@@ -41,6 +46,9 @@ function Row(props) {
     }
     const [open, setOpen] = React.useState(true);
 
+    function Del(index) {
+        classHours = classHours.splice(index,1)
+    }
 
 
     return (
@@ -73,13 +81,15 @@ function Row(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {classHours.map((singleDate) => (
+                                    {classHours.map((singleDate,index) => (
                                         <TableRow key={singleDate}>
                                             <TableCell component="th" scope="row">
                                                 {singleDate}
                                             </TableCell>
                                             <TableCell component="th" scope="row">
-                                                {singleDate}
+                                                <button onClick={()=> {
+                                                    AddMeeting(date, singleDate, row.capacity, row.className, user.phone); Del(singleDate)
+                                                }}>Take This meeting</button>
                                             </TableCell>
 
                                         </TableRow>
@@ -108,8 +118,6 @@ export default function   CollapsibleTable(props) {
     const classesData = props.clone;
     const day = props.date;
     const hours = props.values;
-    console.log(classesData)
-    console.log(hours)
     const rows =classesData
 
     return (
@@ -124,7 +132,7 @@ export default function   CollapsibleTable(props) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row,index) => {
-                        return <Row key={index} hours={hours} row={row}/>
+                        return <Row key={index} hours={hours} day={day} row={row}/>
                     })}
                 </TableBody>
             </Table>

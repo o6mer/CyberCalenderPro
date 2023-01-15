@@ -22,10 +22,9 @@ function AdvancedPage() {
   const [ClassSelect, setClass] = React.useState();
   const [capacity, setCapacity] = useState(0);
   let clone = [];
-  const { classesData } = useContext(UserContext);
+  const { classesData, getAviliableTimeListByDate } = useContext(UserContext);
   const [classesClone, setClassesClone] = useState(classesData);
   const [checks, setChecks] = useState({ ac: true, zoom: true, pcs: true });
-
   function FilterAc() {
     if (checks.ac === true) {
       setChecks(...checks, checks.ac === false);

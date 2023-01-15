@@ -51,7 +51,6 @@ function AdvancedPage() {
     Rest();
     setCapacity(Number(capacity));
     const filterClassName = classesClone.filter((singleClass) => {
-      console.log(singleClass.capacity);
       if (
         singleClass.capacity > capacity &&
         singleClass.className === ClassSelect
@@ -68,7 +67,6 @@ function AdvancedPage() {
     if (filterClassName.length !== 0) {
       // check if filter working
       filterClassName.map((singleClass) => {
-        console.log(singleClass.checklist);
         if (
           checks.ac === singleClass.checklist.ac &&
           checks.zoom === singleClass.checklist.zoom &&

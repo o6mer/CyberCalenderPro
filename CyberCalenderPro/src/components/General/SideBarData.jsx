@@ -1,46 +1,41 @@
 import React, { useState } from "react";
-import * as MuiIcons from '@mui/icons-material'
+import * as MuiIcons from "@mui/icons-material";
 
-export const SidebarData = (user)=>{
-
-    const SidebarDataLinks = [
-        {
-            title: 'Schedule',
-            path: '/',
-            icon: <MuiIcons.EventNote />,
-        },
-        {
-        title: 'Class view',
-        path: '/clas',
-        icon: <MuiIcons.MeetingRoom />,
+export const SidebarData = (user) => {
+  const SidebarDataLinks = [
+    {
+      title: "Schedule",
+      path: "/",
+      icon: <MuiIcons.EventNote />,
     },
-]
+    {
+      title: "Class view",
+      path: "/clas",
+      icon: <MuiIcons.MeetingRoom />,
+    },
+  ];
 
-// adding User
-if(user){
-console.log(user==='Roei Zaro')
-SidebarDataLinks.unshift({
-    title: 'Profile',
-    path: '/Profile/'+user,
-    icon: <MuiIcons.Person />,
-},)
+  // adding User
+  if (user) {
+    SidebarDataLinks.unshift({
+      title: "Profile",
+      path: "/Profile/" + user,
+      icon: <MuiIcons.Person />,
+    });
 
-SidebarDataLinks.push({
-    title: 'Logout',
-    path: '/',
-    icon: <MuiIcons.Logout />,
-},)
-}
+    SidebarDataLinks.push({
+      title: "Logout",
+      path: "/",
+      icon: <MuiIcons.Logout />,
+    });
+  } else {
+    SidebarDataLinks.unshift({
+      title: "Login",
+      path: "/Login",
+      icon: <MuiIcons.Login />,
+    });
+  }
+  // adding User
 
-else{
-SidebarDataLinks.unshift({
-    title: 'Login',
-    path: '/Login',
-    icon: <MuiIcons.Login />,
-},)
-}
-// adding User
-
-return SidebarDataLinks
-
-}
+  return SidebarDataLinks;
+};

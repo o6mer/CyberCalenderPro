@@ -3,11 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Alert, Button, TextField } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { UserContext } from "../../../contexts/UserContext";
 import { Fade } from "@mui/material";
+import dateFormat, { masks } from "dateformat";
 
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);
@@ -47,7 +47,8 @@ const CalenderPage = () => {
   }, [selectedClass, selectedTime, groupSize]);
 
   function dateSelectedHandler(date) {
-    setSelectedDate(date);
+    const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
+    setSelectedDate(formatedDate);
     const times = getAviliableTimeListByDate(date);
     setAvilableTimeList(times);
   }

@@ -33,21 +33,21 @@ function AdvancedPage(){
   );
   const backup_checks = checks
 function FilterAc(){
-    if(checks[0].ac === true){
+    if(checks.ac === true){
         setchecks(...checks, checks.ac === false)
     } else{
         setchecks(...checks, checks.ac === true)
     }
 }
 function FilterZoom() {
-    if(checks[1].zoom === true){
+    if(checks.zoom === true){
         setchecks(...checks, checks.zoom === false)
     } else{
         setchecks(...checks, checks.zoom === true)
     }
 }
 function FilterPc() {
-    if(checks[2].pc === true){
+    if(checks.pcs === true){
         setchecks(...checks, checks.pcs === false)
     } else{
         setchecks(...checks, checks.pcs === true)
@@ -102,7 +102,7 @@ function Rest() {
           sx={{width:"150px"}}
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={selectClasses}
+          value={ClassSelect}
           label="Class"
           onChange={handleChange}
       >

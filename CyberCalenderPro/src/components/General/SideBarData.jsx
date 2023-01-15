@@ -10,7 +10,7 @@ export const SidebarData = (user) => {
     },
     {
       title: "Class view",
-      path: "/clas",
+      path: "/classview",
       icon: <MuiIcons.MeetingRoom />,
     },
   ];

@@ -7,20 +7,12 @@ export default function ClassView(){
     const { classesData } = useContext(UserContext);
     console.log(classesData)
 
-
-
     return (<>
-        <Container maxWidth="sm">
+        <Container maxWidth="sm" sx={{display:"flex", justifyContent:"center",alignItems:"center", height:"100vh"}}>
             {classesData.map((singleClass,index)=>{
-               return <CardClass key={index} name={singleClass.className} capacity={singleClass.capacity} />
+               return <CardClass key={index} name={singleClass.className} capacity={singleClass.capacity} values={singleClass} />
             })}
         </Container>
-
-
-
-
-
-
         </>
     )
 }

@@ -6,7 +6,6 @@ import {
   ListItem,
   MenuItem,
   Select,
-  selectClasses,
   SwipeableDrawer,
   TextField,
 } from "@mui/material";
@@ -22,6 +21,9 @@ import DayConvert from "./handles/dayconvert.js";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import AcUnitIcon from "@mui/icons-material/AcUnit.js";
+import VideocamIcon from "@mui/icons-material/Videocam.js";
+import ComputerIcon from "@mui/icons-material/Computer.js";
 
 function AdvancedPage() {
   const today = new Date();
@@ -176,7 +178,7 @@ const FilterOpetions = ({
     setReload(false);
     setReload(true);
     setAvilableDates(
-      Object.entries(getAviliableTimeListByDate(DayConvert(e.$d)))
+      Object.entries(getAviliableTimeListByDate(DayConvert(e?.$d)))
     );
   }
   return (
@@ -233,12 +235,14 @@ const FilterOpetions = ({
           marginTop: "5px",
         }}
       >
+
         <ListItem
           secondaryAction={<Checkbox onChange={() => FilterPc} />}
           label="Pcs"
         >
           <ListItemButton>
             <ListItemText primary={"Pcs"} />
+            <ComputerIcon/>
           </ListItemButton>
         </ListItem>
         <ListItem
@@ -247,6 +251,7 @@ const FilterOpetions = ({
         >
           <ListItemButton>
             <ListItemText primary={"Zoom"} />
+            <VideocamIcon/>
           </ListItemButton>
         </ListItem>
         <ListItem
@@ -260,6 +265,7 @@ const FilterOpetions = ({
         >
           <ListItemButton>
             <ListItemText primary={"AC"} />
+            <AcUnitIcon/>
           </ListItemButton>
         </ListItem>
       </List>

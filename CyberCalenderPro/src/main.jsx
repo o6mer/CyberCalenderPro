@@ -12,6 +12,7 @@ import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
 import ProtectedRoutes from "./components/General/ProtectedRoutes";
 import ClassView from "./components/classview/classselect.jsx";
+import SingleClass from "./components/classview/singleClass.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
+  {
+    path: "/SingleClass/:name",
+    element: <SingleClass/>
+  }
 ]);
 
 const theme = createTheme({

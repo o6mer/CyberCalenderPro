@@ -283,7 +283,7 @@ export default function NavBar({ children }) {
       {/*Navs*/}
 
       {/*MainPage*/}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <DrawerHeader sx={{ height: "0%" }} />
         <>{children}</>
       </Box>

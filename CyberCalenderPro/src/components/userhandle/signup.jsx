@@ -12,39 +12,18 @@ import TextField from "@mui/material/TextField";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
+import { useUserHandle } from "../../hooks/useUserHandle";
 
 export default function Signup() {
   const [userName, setUserName] = useState();
   const [password, setPassword] = useState();
   const [phone, setPhone] = useState();
   const [email, setEmail] = useState();
-  const [userData, setUserData] = useState();
 
-  const { setUser } = useContext(UserContext);
-
-  useEffect(() => {
-    if (!userData) return;
-    setUser(userData);
-    if (userData.role === "admin") {
-      navigate("/dashboard");
-    } else {
-      navigate("/main");
-    }
-  }, [userData]);
-
-  async function HandleSub(e) {
+  const { signup } = useUserHandle();
+  function HandleSub(e) {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:2000/signup", {
-        userName: userName,
-        Password: password,
-        Email: email,
-        PhoneNumber: phone,
-      });
-      setUserData(res.data);
-    } catch (err) {
-      console.log(err);
-    }
+    signup({ email, password, userName, phone });
   }
 
   return (

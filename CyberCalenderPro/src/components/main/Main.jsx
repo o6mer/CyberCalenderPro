@@ -7,6 +7,7 @@ import CalenderPage from "./Calender/CalenderPage";
 import AdvancedPage from "./Advanced/AdvancedPage.jsx";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContext";
+import { useUserHandle } from "../../hooks/useUserHandle";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -39,10 +40,11 @@ function a11yProps(index) {
 }
 
 function Main() {
+  useUserHandle();
+
   const [value, setValue] = useState(0);
   const [currentPageName, setCurrentPageName] = useState("home");
-
-  const { setClassesData } = useContext(UserContext);
+  const { user, setClassesData } = useContext(UserContext);
 
   useEffect(() => {
     const getData = async () => {

@@ -15,38 +15,17 @@ import Container from "@mui/material/Container";
 import { UserContext } from "../../contexts/UserContext";
 import { useContext } from "react";
 import { useEffect } from "react";
+import { useUserHandle } from "../../hooks/useUserHandle";
 
 export default function Login() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [userData, setUserData] = useState();
-  const { setUser } = useContext(UserContext);
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!userData) return;
-    setUser(userData);
-    if (userData.role === "admin") {
-      navigate("/dashboard");
-    } else {
-      navigate("/");
-    }
-  }, [userData]);
+  const { login } = useUserHandle();
 
   async function Handler(e) {
     e.preventDefault();
-    try {
-      const res = await axios.post("http://localhost:2000/login", {
-        email,
-        password,
-      });
-
-      //userName, role, userId
-      setUserData(res.data);
-    } catch (err) {
-      if (!err.response.data.message) alert("Invalid Email or password ");
-    }
+    login({ email, password });
   }
 
   return (

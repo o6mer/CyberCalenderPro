@@ -10,15 +10,24 @@ import Signup from "./components/userhandle/signup.jsx";
 import UserConextProvider from "./contexts/UserContext";
 import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
+import ProtectedRoutes from "./components/General/ProtectedRoutes";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoutes>
+        <App />
+      </ProtectedRoutes>
+    ),
     errorElement: <ErrorPage />,
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <ProtectedRoutes>
+        <Dashboard />,
+      </ProtectedRoutes>
+    ),
   },
   {
     path: "/login",

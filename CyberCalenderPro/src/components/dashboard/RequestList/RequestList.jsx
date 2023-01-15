@@ -23,7 +23,6 @@ const RequestList = () => {
       });
       setIsSent(true);
       setTimeout(() => setIsSent(false), 2000);
-      console.log(res.data);
       setRequestList((prev) => {
         prev = prev.filter((request) => request._id !== _id);
         return [...prev];

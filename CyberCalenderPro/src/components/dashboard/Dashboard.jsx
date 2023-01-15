@@ -12,7 +12,6 @@ const Dashboard = () => {
     const getRequests = async () => {
       try {
         const res = await axios.get("http://localhost:2000/unresolved");
-        console.log(res.data.dates);
         setRequestList(res.data.dates);
       } catch (err) {
         console.log(err);

@@ -109,14 +109,6 @@ function Row(props) {
   );
 }
 
-Row.propTypes = {
-  row: PropTypes.shape({
-    className: PropTypes.string.isRequired,
-    capacity: PropTypes.string.isRequired,
-    date: PropTypes.array.isRequired,
-  }),
-};
-
 export default function CollapsibleTable(props) {
   const classesData = props.clone;
   const day = props.date;

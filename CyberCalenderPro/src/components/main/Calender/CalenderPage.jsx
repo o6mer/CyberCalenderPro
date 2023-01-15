@@ -29,7 +29,7 @@ const CalenderPage = () => {
   const [isError, setIsError] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const { user, classesData } = useContext(UserContext);
+  const { user, classesData, buildAvilableTimesList } = useContext(UserContext);
 
   useEffect(() => {
     dateSelectedHandler(new Date());
@@ -58,26 +58,6 @@ const CalenderPage = () => {
       );
     });
     setAvilableTimeList(times);
-  }
-
-  function buildAvilableTimesList(takenTimes) {
-    let list = [];
-    for (let i = 8; i < 21; i++) {
-      if (i < 10) {
-        list.push(`0${i}:00-0${i}:30`);
-        list.push(`0${i}:30-${i + 1 === 10 ? `${i + 1}:00` : `0${i + 1}:00`}`);
-      } else {
-        list.push(`${i}:00-${i}:30`);
-        list.push(`${i}:30-${i + 1}:00`);
-      }
-    }
-
-    if (!takenTimes) return list;
-
-    list = list.filter(
-      (timeRange) => !takenTimes.find((takenTime) => timeRange === takenTime)
-    );
-    return list;
   }
 
   async function submitHandler(e) {
@@ -117,6 +97,7 @@ const CalenderPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-8  py-8 relative">
       <Calendar
+        calendarType="Hebrew"
         onChange={dateSelectedHandler}
         onActiveStartDateChange={(date) => {
           setStartDate(date);

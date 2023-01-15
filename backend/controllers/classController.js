@@ -313,11 +313,13 @@ module.exports = {
     IdAuth: (req,res)=>{
         const id = req.body.id;
         userSchema.findOne({_id: id}).then((user) => {
-            userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
+
         if(user){
             res.status(200).json({
                 exist:true,
-                user_date:userData
+                userName:user?.userName,
+                role:user?.role,
+                userId: user?._id,
             })
         } else {
             res.status(400).json({

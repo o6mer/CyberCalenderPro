@@ -30,12 +30,7 @@ function createData(date, time_range,approved, users) {
 function Row(props) {
     const {hours} = props;
     const {row} = props;
-    let classHours;
-    for(let i =0;i >= hours.length;i++){
-        if(row.className === hours[i][0]){
-            classHours = hours[i][1]
-        }
-    }
+
     const [open, setOpen] = React.useState(true);
 
 
@@ -72,19 +67,11 @@ function Row(props) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {row.date_data.map((singleDate) => (
-                                        <TableRow key={singleDate.date}>
+                                    {classHours.map((singleDate) => (
+                                        <TableRow key={singleDate}>
                                             <TableCell component="th" scope="row">
-                                                {singleDate.date}
+                                                {singleDate}
                                             </TableCell>
-                                            <TableCell>{singleDate.time_range}</TableCell>
-                                            <TableCell>{singleDate.approved.toString()}</TableCell>
-                                            {singleDate.users.map((user)=>{
-                                                console.log(singleDate.approved)
-                                                return <TableCell align="right">{user.userName}</TableCell>
-                                            })}
-
-
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -111,9 +98,18 @@ export default function   CollapsibleTable(props) {
     const classesData = props.clone;
     const day = props.date;
     const hours = props.values;
-
+    console.log(classesData)
+    console.log(hours)
     const rows =classesData
-
+    let classHours;
+    for(let i =0;i >= hours.length;i++){
+        console.log(i)
+        console.log(hours[i])
+        if(row.className === hours[i][0]){
+            console.log("true",hours[i][1])
+            classHours = hours[i][1]
+        }
+    }
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -126,7 +122,7 @@ export default function   CollapsibleTable(props) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row,index) => {
-                        return <Row key={index} hours={hours} row={row}/>
+                        return <Row key={index} hours={classHours} row={row}/>
                     })}
                 </TableBody>
             </Table>

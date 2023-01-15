@@ -2,13 +2,12 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import dateFormat, { masks } from "dateformat";
 import { Alert, Button, TextField } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { UserContext } from "../../../contexts/UserContext";
 import { Fade } from "@mui/material";
+import dateFormat, { masks } from "dateformat";
 
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);
@@ -29,7 +28,8 @@ const CalenderPage = () => {
   const [isError, setIsError] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const { user, classesData } = useContext(UserContext);
+  const { user, classesData, getAviliableTimeListByDate } =
+    useContext(UserContext);
 
   useEffect(() => {
     dateSelectedHandler(new Date());
@@ -49,35 +49,8 @@ const CalenderPage = () => {
   function dateSelectedHandler(date) {
     const formatedDate = dateFormat(date, "yyyy,mm,dd").toString();
     setSelectedDate(formatedDate);
-    const times = {};
-    classesData.forEach((c) => {
-      times[c.className] = buildAvilableTimesList(
-        c.date_data.map((d) => {
-          if (d.date === formatedDate && d.approved) return d.time_range;
-        })
-      );
-    });
+    const times = getAviliableTimeListByDate(date);
     setAvilableTimeList(times);
-  }
-
-  function buildAvilableTimesList(takenTimes) {
-    let list = [];
-    for (let i = 8; i < 21; i++) {
-      if (i < 10) {
-        list.push(`0${i}:00-0${i}:30`);
-        list.push(`0${i}:30-${i + 1 === 10 ? `${i + 1}:00` : `0${i + 1}:00`}`);
-      } else {
-        list.push(`${i}:00-${i}:30`);
-        list.push(`${i}:30-${i + 1}:00`);
-      }
-    }
-
-    if (!takenTimes) return list;
-
-    list = list.filter(
-      (timeRange) => !takenTimes.find((takenTime) => timeRange === takenTime)
-    );
-    return list;
   }
 
   async function submitHandler(e) {
@@ -117,6 +90,7 @@ const CalenderPage = () => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center gap-8  py-8 relative">
       <Calendar
+        calendarType="Hebrew"
         onChange={dateSelectedHandler}
         onActiveStartDateChange={(date) => {
           setStartDate(date);

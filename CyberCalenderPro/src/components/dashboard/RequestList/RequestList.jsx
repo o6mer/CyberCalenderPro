@@ -23,7 +23,6 @@ const RequestList = () => {
       });
       setIsSent(true);
       setTimeout(() => setIsSent(false), 2000);
-      console.log(res.data);
       setRequestList((prev) => {
         prev = prev.filter((request) => request._id !== _id);
         return [...prev];
@@ -34,7 +33,8 @@ const RequestList = () => {
   };
 
   return (
-    <section className="w-[50%]">
+    <section className="w-[50%] py-8">
+      <p className="text-xl text-center">Requests</p>
       <Table>
         <TableHead>
           <TableRow>

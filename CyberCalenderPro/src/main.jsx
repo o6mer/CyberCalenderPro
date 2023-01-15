@@ -11,10 +11,16 @@ import UserConextProvider from "./contexts/UserContext";
 import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
 import ClassView from "./components/Classroom/ClassView";
+import ProtectedRoutes from "./components/General/ProtectedRoutes";
+
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <ProtectedRoutes>
+        <App />
+      </ProtectedRoutes>
+    ),
     errorElement: <ErrorPage />,
   },
   {
@@ -24,7 +30,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <Dashboard />,
+    element: (
+      <ProtectedRoutes>
+        <Dashboard />,
+      </ProtectedRoutes>
+    ),
   },
   {
     path: "/login",

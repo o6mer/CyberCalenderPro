@@ -1,0 +1,197 @@
+import React from "react";
+import { useState } from "react";
+import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper, Grid } from "@mui/material";
+
+const classesTimeTable = [{
+    "Time": "8:00",
+    "c1": 'Free',
+    "c2": 'QA',
+    "c3": 'Free',
+    "c4": 'Physics'
+}, {
+    "Time": "8:30",
+    "c1": 'Free',
+    "c2": 'QA',
+    "c3": 'Free',
+    "c4": 'Physics'
+}, {
+    "Time": "9:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "9:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "10:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "10:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "11:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "11:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "12:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "12:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'QA',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "13:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "13:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "14:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "14:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "15:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "15:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "16:00",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "16:30",
+    "c1": 'Fullstack-oct',
+    "c2": 'Free',
+    "c3": 'Fullstack-nov',
+    "c4": 'Physics'
+}, {
+    "Time": "17:00",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "17:30",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "18:00",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "18:30",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "19:00",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "19:30",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "20:00",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}, {
+    "Time": "20:30",
+    "c1": 'Fullstack-self',
+    "c2": 'Fullstack-self',
+    "c3": 'Bezeq',
+    "c4": 'Physics'
+}]
+
+const ClassesTable = () => {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center  py-8 relative" >
+      {/* <DataGrid></Grid> */}
+      <TableContainer component={Paper} sx={{ align: 'center', maxWidth: '70vw', maxHeight: '65vh' }}>
+        <Table aria-label="simple table" stickyHeader>
+          <TableHead >
+            <TableCell align="center">Time</TableCell>
+            <TableCell align="center">C1</TableCell>
+            <TableCell align="center">C2</TableCell>
+            <TableCell align="center">C3</TableCell>
+            <TableCell align="center">C4</TableCell>
+          </TableHead>
+          <TableBody>
+            {
+              tableData.map((row, i, element) => (
+                <TableRow key={row.Time}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell align="center">`{row.Time}-{element[i + 1]?.Time ? element[i + 1].Time : "20:00"}`</TableCell>
+                  <TableCell align="center">{row.c1}</TableCell>
+                  <TableCell align="center">{row.c2}</TableCell>
+                  <TableCell align="center">{row.c3}</TableCell>
+                  <TableCell align="center">{row.c4}</TableCell>
+                </TableRow>
+              ))
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
+  )
+};
+
+export default ClassesTable;

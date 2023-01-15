@@ -309,7 +309,24 @@ module.exports = {
                 data: classData
             })
         })
-    }
+    },
+    IdAuth: (req,res)=>{
+        const id = req.body.id;
+        userSchema.findOne({_id: id}).then((user) => {
+            userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
+        if(user){
+            res.status(200).json({
+                exist:true,
+                user_date:userData
+            })
+        } else {
+            res.status(400).json({
+                exist:false,
+            })
+        }
+        })
+
+}
 
 
 

@@ -18,11 +18,14 @@ import Container from "@mui/material/Container";
 import ListItemButton from "@mui/material/ListItemButton";
 import CollapsibleTable from "./table.jsx";
 
+
 function AdvancedPage() {
-  const [ClassSelect, setClass] = React.useState();
+  const [ClassSelect, setClass] = useState();
   const [capacity, setCapacity] = useState(0);
+  const today = new Date()
   let clone = [];
   const { classesData, getAviliableTimeListByDate } = useContext(UserContext);
+  const [avilableDates,setAvilableDates ] = useState(Object.entries(getAviliableTimeListByDate(today)))
   const [classesClone, setClassesClone] = useState(classesData);
   const [checks, setChecks] = useState({ ac: true, zoom: true, pcs: true });
   function FilterAc() {
@@ -199,7 +202,7 @@ function AdvancedPage() {
         </div>
         {/*<ResponsiveDrawer>*/}
         <Container maxWidth={"sm"}>
-          <CollapsibleTable values={classesClone} />
+          <CollapsibleTable values={avilableDates} clone={classesClone} date={today}/>
         </Container>
         {/*</ResponsiveDrawer>*/}
       </Container>

@@ -28,9 +28,16 @@ function createData(date, time_range,approved, users) {
 }
 
 function Row(props) {
-
+    const {hours} = props;
+    const {row} = props;
+    let classHours;
+    for(let i =0;i >= hours.length;i++){
+        if(row.className === hours[i][0]){
+            classHours = hours[i][1]
+        }
+    }
     const [open, setOpen] = React.useState(true);
-    const {row} = props
+
 
     console.log(row)
     return (
@@ -101,7 +108,9 @@ Row.propTypes = {
 
 export default function   CollapsibleTable(props) {
 
-    const classesData = props.values;
+    const classesData = props.clone;
+    const day = props.date;
+    const hours = props.values;
 
     const rows =classesData
 
@@ -117,7 +126,7 @@ export default function   CollapsibleTable(props) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row,index) => {
-                        return <Row key={index} row={row}/>
+                        return <Row key={index} hours={hours} row={row}/>
                     })}
                 </TableBody>
             </Table>

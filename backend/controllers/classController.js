@@ -320,6 +320,7 @@ module.exports = {
                 userName:user?.userName,
                 role:user?.role,
                 userId: user?._id,
+                phoneNumber:user?.phoneNumber
             })
         } else {
             res.status(400).json({

@@ -30,11 +30,19 @@ function createData(date, time_range,approved, users) {
 function Row(props) {
     const {hours} = props;
     const {row} = props;
-
+    let classHours;
+    for(let i =0;i < hours.length;i++){
+        if(row.className === hours[i][0]){
+            console.log("true",hours[i][1])
+            classHours = hours[i][1]
+            console.log("break")
+            break
+        }
+    }
     const [open, setOpen] = React.useState(true);
 
 
-    console.log(row)
+
     return (
         <React.Fragment>
             <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -60,10 +68,8 @@ function Row(props) {
                             <Table size="small" aria-label="purchases">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Date</TableCell>
                                         <TableCell>Time Range</TableCell>
-                                        <TableCell align="right">Request</TableCell>
-                                        <TableCell align="right">user</TableCell>
+                                        <TableCell align="left">Request</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -72,6 +78,10 @@ function Row(props) {
                                             <TableCell component="th" scope="row">
                                                 {singleDate}
                                             </TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {singleDate}
+                                            </TableCell>
+
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -101,15 +111,7 @@ export default function   CollapsibleTable(props) {
     console.log(classesData)
     console.log(hours)
     const rows =classesData
-    let classHours;
-    for(let i =0;i >= hours.length;i++){
-        console.log(i)
-        console.log(hours[i])
-        if(row.className === hours[i][0]){
-            console.log("true",hours[i][1])
-            classHours = hours[i][1]
-        }
-    }
+
     return (
         <TableContainer component={Paper}>
             <Table aria-label="collapsible table">
@@ -122,7 +124,7 @@ export default function   CollapsibleTable(props) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row,index) => {
-                        return <Row key={index} hours={classHours} row={row}/>
+                        return <Row key={index} hours={hours} row={row}/>
                     })}
                 </TableBody>
             </Table>

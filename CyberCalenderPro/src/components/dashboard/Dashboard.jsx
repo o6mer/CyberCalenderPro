@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { DashboardContext } from "../../contexts/DashboardContext";
+import NavBar from "./NavBar";
 import NewClassForm from "./NewClassForm";
 import RequestList from "./RequestList/RequestList";
 
@@ -21,10 +22,13 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="w-full h-full flex flex-col items-center bg-primary ">
-      <NewClassForm />
-      <RequestList />
-    </main>
+    <>
+      <NavBar />
+      <main className=" h-full flex flex-col items-center bg-primary ">
+        <NewClassForm />
+        <RequestList />
+      </main>
+    </>
   );
 };
 

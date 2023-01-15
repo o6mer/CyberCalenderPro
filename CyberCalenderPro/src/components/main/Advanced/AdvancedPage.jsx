@@ -18,22 +18,21 @@ import Container from "@mui/material/Container";
 import ListItemButton from "@mui/material/ListItemButton";
 import CollapsibleTable from "./table.jsx";
 import DayConvert from "./handles/dayconvert.js";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
-
-
-
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 function AdvancedPage() {
   const [ClassSelect, setClass] = useState();
   const [capacity, setCapacity] = useState(0);
-  const today = new Date()
-const [datePick,setDatePick] = useState(today);
+  const today = new Date();
+  const [datePick, setDatePick] = useState(today);
   let clone = [];
-  const [reload,setReload] = useState(true)
+  const [reload, setReload] = useState(true);
   const { classesData, getAviliableTimeListByDate } = useContext(UserContext);
-  const [avilableDates,setAvilableDates ] = useState(Object.entries(getAviliableTimeListByDate(DayConvert(today))))
+  const [avilableDates, setAvilableDates] = useState(
+    Object.entries(getAviliableTimeListByDate(DayConvert(today)))
+  );
   const [classesClone, setClassesClone] = useState(classesData);
   const [checks, setChecks] = useState({ ac: true, zoom: true, pcs: true });
   function FilterAc() {
@@ -61,7 +60,6 @@ const [datePick,setDatePick] = useState(today);
     Rest();
     setCapacity(Number(capacity));
     const filterClassName = classesClone.filter((singleClass) => {
-      console.log(singleClass.capacity);
       if (
         singleClass.capacity > capacity &&
         singleClass.className === ClassSelect
@@ -78,7 +76,6 @@ const [datePick,setDatePick] = useState(today);
     if (filterClassName.length !== 0) {
       // check if filter working
       filterClassName.map((singleClass) => {
-        console.log(singleClass.checklist);
         if (
           checks.ac === singleClass.checklist.ac &&
           checks.zoom === singleClass.checklist.zoom &&
@@ -104,13 +101,14 @@ const [datePick,setDatePick] = useState(today);
   function Rest() {
     setClassesClone(classesData);
   }
-function ChangeDatePick(e){
-  setDatePick(e?.$d)
-  setReload(false)
-  setReload(true)
-  setAvilableDates(Object.entries(getAviliableTimeListByDate(DayConvert(e.$d))))
-}
-
+  function ChangeDatePick(e) {
+    setDatePick(e?.$d);
+    setReload(false);
+    setReload(true);
+    setAvilableDates(
+      Object.entries(getAviliableTimeListByDate(DayConvert(e.$d)))
+    );
+  }
 
   return (
     <div id={"that"} className="overflow-x-hidden">
@@ -119,12 +117,12 @@ function ChangeDatePick(e){
           <FormControl>
             <InputLabel id="demo-simple-select-label">Class</InputLabel>
             <Select
-              sx={{width: "100%", marginTop: "5px"}}
+              sx={{ width: "100%", marginTop: "5px" }}
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={selectClasses}
               label="Class"
-              onChange={e=> setClass(e.target.value)}
+              onChange={(e) => setClass(e.target.value)}
             >
               {classesClone.map((singleClass, index) => {
                 return (
@@ -135,15 +133,18 @@ function ChangeDatePick(e){
               })}
             </Select>
             <div className={"datepicker"}>
-            <LocalizationProvider  sx={{width: "100%", marginTop: "15px"}} dateAdapter={AdapterDayjs}>
-              <DesktopDatePicker
+              <LocalizationProvider
+                sx={{ width: "100%", marginTop: "15px" }}
+                dateAdapter={AdapterDayjs}
+              >
+                <DesktopDatePicker
                   label="Date desktop"
-                    inputFormat="MM/DD/YYYY"
+                  inputFormat="MM/DD/YYYY"
                   value={datePick}
                   onChange={ChangeDatePick}
                   renderInput={(params) => <TextField {...params} />}
-              />
-            </LocalizationProvider>
+                />
+              </LocalizationProvider>
             </div>
             <TextField
               id="filled-number"
@@ -157,8 +158,6 @@ function ChangeDatePick(e){
               }}
             />
 
-
-
             <List
               dense
               sx={{
@@ -169,12 +168,7 @@ function ChangeDatePick(e){
               }}
             >
               <ListItem
-                secondaryAction={
-                  <Checkbox
-                    onChange={() => FilterPc}
-
-                  />
-                }
+                secondaryAction={<Checkbox onChange={() => FilterPc} />}
                 label="Pcs"
               >
                 <ListItemButton>
@@ -182,12 +176,7 @@ function ChangeDatePick(e){
                 </ListItemButton>
               </ListItem>
               <ListItem
-                secondaryAction={
-                  <Checkbox
-                    onChange={() => FilterZoom}
-
-                  />
-                }
+                secondaryAction={<Checkbox onChange={() => FilterZoom} />}
                 label="Zoom"
               >
                 <ListItemButton>
@@ -208,24 +197,31 @@ function ChangeDatePick(e){
                 </ListItemButton>
               </ListItem>
             </List>
-            <div >
+            <div>
               <Button variant="outlined" onClick={Rest} sx={{ width: "100%" }}>
                 Rest
               </Button>
               <Button
-                  variant="contained"
-                  onClick={Search}
-                  sx={{ width: "100%" }}
+                variant="contained"
+                onClick={Search}
+                sx={{ width: "100%" }}
               >
                 Search
               </Button>
             </div>
           </FormControl>
         </div>
-        {reload?
-        <Container maxWidth={"sm"}>
-          <CollapsibleTable values={avilableDates} clone={classesClone} date={datePick}/>
-        </Container>:<p>Reload!</p>}
+        {reload ? (
+          <Container maxWidth={"sm"}>
+            <CollapsibleTable
+              values={avilableDates}
+              clone={classesClone}
+              date={datePick}
+            />
+          </Container>
+        ) : (
+          <p>Reload!</p>
+        )}
       </Container>
     </div>
   );

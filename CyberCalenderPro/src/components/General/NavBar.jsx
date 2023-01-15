@@ -16,7 +16,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { SidebarData } from "./SideBarData";
-import TopNavBar from "./TopNavBar";
+import { UserContext } from "../../contexts/UserContext";
 
 const drawerWidth = 220;
 
@@ -85,12 +85,10 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-// const TopDrawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
-
 export default function NavBar({ children }) {
   const theme = useTheme();
-  const links = SidebarData();
-  //  const {user} = React.useContext(UserContext);
+  const { user } = React.useContext(UserContext);
+  const links = SidebarData(user["userName"]);
   const [open, setOpen] = React.useState(0);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -101,7 +99,6 @@ export default function NavBar({ children }) {
 
   const [dropDown, setDropDown] = React.useState(false);
   const toggleDrawer = () => {
-    console.log(dropDown);
     setDropDown(!dropDown);
   };
 
@@ -138,14 +135,14 @@ export default function NavBar({ children }) {
           </IconButton>
 
           <Typography variant="h6" noWrap component="div">
-            Headline
+            {user["userName"] ? `Hi ${user["userName"]}` : "Hello!"}
           </Typography>
         </Toolbar>
       </AppBar>
       {/*TopBar*/}
 
-      {/*Bars*/}
-      {/*vvBars*-SideBarvv*/}
+      {/*Navs*/}
+      {/*vvNavs*-SideNavvv*/}
       <Drawer
         variant="permanent"
         open={open}
@@ -161,39 +158,78 @@ export default function NavBar({ children }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {links.map((item, index) => (
-            <NavLink to={item.path} key={index}>
-              <ListItem disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
+        <List sx={{ height: "100vw" }}>
+          {links
+            .filter((item) => item.title !== "Logout")
+            .map((item, index) => (
+              <NavLink to={item.path} key={item.path}>
+                <ListItem key={`side${index}`} disablePadding>
+                  <ListItemButton
+                    selected={
+                      window.location.href ===
+                      window.location.origin + item.path
+                    }
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.title}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </NavLink>
-          ))}
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {item.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.title}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              </NavLink>
+            ))}
+          <ListItem
+            disablePadding
+            sx={{
+              display:
+                links[links.length - 1].title === "Logout" ? "block" : "none",
+              position: "absolute",
+              bottom: "0",
+            }}
+          >
+            {" "}
+            {/*ADD ONCLICK FUNCTION TO SIGNOUT */}
+            <ListItemButton
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {links[links.length - 1].icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={links[links.length - 1].title}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
-      {/*^^Bars-SideBar^^*/}
+      {/*^^Navs-SideNav^^*/}
 
-      {/*vvBars*-UpBarvv*/}
+      {/*vvNavs*-UpNavvv*/}
 
       <React.Fragment key="top-dog">
         <MuiDrawer
@@ -208,26 +244,48 @@ export default function NavBar({ children }) {
             onClick={toggleDrawer}
           >
             <List>
-              {links.map((item, index) => (
-                <ListItem key={index} disablePadding>
-                  <ListItemButton>
-                    <ListItemIcon>{item.icon}</ListItemIcon>
+              {links
+                .filter((item) => item.title !== "Logout")
+                .map((item, index) => (
+                  <NavLink to={item.path} key={item.path}>
+                    <ListItem key={`up${index}`} disablePadding>
+                      <ListItemButton>
+                        <ListItemIcon>{item.icon}</ListItemIcon>
 
-                    <ListItemText primary={item.title} />
-                  </ListItemButton>
-                </ListItem>
-              ))}
+                        <ListItemText primary={item.title} />
+                      </ListItemButton>
+                    </ListItem>
+                  </NavLink>
+                ))}
+              <ListItem
+                key="up-last"
+                disablePadding
+                sx={{
+                  display:
+                    links[links.length - 1].title === "Logout"
+                      ? "block"
+                      : "none",
+                }}
+              >
+                {" "}
+                {/*ADD ONCLICK FUNCTION TO SIGNOUT */}
+                <ListItemButton>
+                  <ListItemIcon>{links[links.length - 1].icon}</ListItemIcon>
+
+                  <ListItemText primary={links[links.length - 1].title} />
+                </ListItemButton>
+              </ListItem>
             </List>
           </Box>
         </MuiDrawer>
       </React.Fragment>
-      {/*^^Bars*-UpBar^^*/}
-      {/*Bars*/}
+      {/*^^Navs*-UpNav^^*/}
+      {/*Navs*/}
 
       {/*MainPage*/}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        {children}
+        <DrawerHeader sx={{ height: "0%" }} />
+        <>{children}</>
       </Box>
       {/*MainPage*/}
     </Box>

@@ -1,0 +1,12 @@
+.sideNav{
+    height: 100vh;
+    position: fixed;
+    display: flex;
+    top: 0;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: stretch;
+    right:0;
+}

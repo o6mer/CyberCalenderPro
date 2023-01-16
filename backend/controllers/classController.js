@@ -1,9 +1,8 @@
 const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
 const { v4: uuidv4 } = require('uuid');
-const sgMail = require("@sendgrid/mail");
 require('dotenv').config()
-var nodemailer = require('nodemailer');
+
 
 
 

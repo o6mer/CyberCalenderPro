@@ -48,53 +48,54 @@ classesTimeTable.map(
 //{{0:'08:00-08:30'}, {1:'08:30-09:00'}, {2:'09:00-09:30'}, .... , {25: 20:30-21:00}}
 
 const slotColumnCommonFields = {
-    sortable: false,
-    filterable: false,
-    pinnable: false,
-    minWidth: 140,
-    cellClassName: (params) => params.value,
-    colSpan: ({ row, field, value }) => {
-        const index = Number(field);
-        let colSpan = 1;
-        for (let i = index + 1; i < row.slots.length; i += 1) {
-            const nextValue = row.slots[i];
-            if (nextValue === value && value !== 'Free') {
-                colSpan += 1;
-            } else {
-                break;
-            }
-        }
-        return colSpan;
-    },
+  sortable: false,
+  filterable: false,
+  pinnable: false,
+  minWidth: 140,
+  cellClassName: (params) => params.value,
+  colSpan: ({ row, field, value }) => {
+    const index = Number(field);
+    let colSpan = 1;
+    for (let i = index + 1; i < row.slots.length; i += 1) {
+      const nextValue = row.slots[i];
+      if (nextValue === value && value !== "Free") {
+        colSpan += 1;
+      } else {
+        break;
+      }
+    }
+    return colSpan;
+  },
 };
 
 const rootStyles = {
-    width: '100%',
-    backgroundColor: 'rgba(157, 255, 118, 0.8)',
-    '& .Netpes': {
-        backgroundColor: "rgba(10, 100, 150, 0.49)"
-    },
-    '& .Fullstack-oct': {
-        backgroundColor: 'rgba(157, 255, 118, 0.49)',
-    },
-    '& .QA': {
-        backgroundColor: 'rgba(255, 255, 10, 0.49)',
-    },
-    '& .Fullstack-nov': {
-        backgroundColor: 'rgba(150, 150, 150, 0.49)',
-    },
-    '& .Free': {
-        backgroundColor: 'rgba(255, 150, 150, 0.49)',
-    },
-    '& .Physics': {
-        backgroundColor: 'rgba(10, 150, 255, 0.49)',
-    },
-    '& .Fullstack-self': {
-        backgroundColor: 'rgba(224, 183, 60, 0.55)',
-    },
-    '& .Bezeq': {
-        backgroundColor: 'rgba(200, 150, 255, 0.49)',
-    },
+  width: "100%",
+  backgroundColor: "rgba(255, 255, 255, 0.8)",
+
+  "& .Netpes": {
+    backgroundColor: "rgba(10, 100, 150, 0.49)",
+  },
+  "& .Fullstack-oct": {
+    backgroundColor: "rgba(157, 255, 118, 0.49)",
+  },
+  "& .QA": {
+    backgroundColor: "rgba(255, 255, 10, 0.49)",
+  },
+  "& .Fullstack-nov": {
+    backgroundColor: "rgba(150, 150, 150, 0.49)",
+  },
+  "& .Free": {
+    backgroundColor: "rgba(255, 150, 150, 0.49)",
+  },
+  "& .Physics": {
+    backgroundColor: "rgba(10, 150, 255, 0.49)",
+  },
+  "& .Fullstack-self": {
+    backgroundColor: "rgba(224, 183, 60, 0.55)",
+  },
+  "& .Bezeq": {
+    backgroundColor: "rgba(200, 150, 255, 0.49)",
+  },
 };
 const modalStyle = {
   position: "absolute",
@@ -140,14 +141,14 @@ function getData(classesData) {
     };
     for (let j = 0; j < 26; j++) classroom.slots.push("Free");
 
-        for (const studyCase of classesData[i].date_data) {
-            const place = isToday(studyCase)
-            if (place) {
-                classroom.slots[place - 1] = studyCase.users[0].userName
-            }
-        }
-        classRows.push(classroom)
+    for (const studyCase of classesData[i].date_data) {
+      const place = isToday(studyCase);
+      if (place) {
+        classroom.slots[place - 1] = studyCase.users[0].userName;
+      }
     }
+    classRows.push(classroom);
+  }
 
   const classColumns = [
     {
@@ -202,43 +203,110 @@ export default function ClassesTable() {
     } catch (err) {
       console.log(err);
     }
-    const handleClose = () => setOpen(false);
-    return (
-        <Box sx={rootStyles}>
-            <DataGrid
-                columns={rowscols[1]}
-                rows={rowscols[0]}
-                initialState={{
-                    pinnedColumns: {
-                        left: ['class'],
-                    },
-                }}
-                autoHeight
-                disableExtendRowFullWidth
-                disableSelectionOnClick
-                hideFooter
-                showCellRightBorder
-                showColumnRightBorder
-                disableColumnReorder
-                onCellClick={(eve) => handleOpen(eve)}
+  };
 
+  const handleClose = () => {
+    setOpen(false);
+    setGroupSize();
+  };
+
+  return (
+    <Box sx={rootStyles}>
+      <DataGrid
+        columns={rowscols[1]}
+        rows={rowscols[0]}
+        initialState={{
+          pinnedColumns: {
+            left: ["class"],
+          },
+        }}
+        autoHeight
+        disableExtendRowFullWidth
+        disableSelectionOnClick
+        hideFooter
+        showCellRightBorder
+        showColumnRightBorder
+        disableColumnReorder
+        onCellClick={(eve) => handleOpen(eve)}
+        sx={{ cursor: "pointer" }}
+      />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <>
+        <Box sx={modalStyle}>
+          <div className="w-fit flex flex-col gap-4 ">
+            <Typography id="modal-modal-title" variant="h6">
+              {`Do you wanna learn in ${cl?.class} at ${cl?.time}?`}
+            </Typography>
+
+            <TextField
+              sx={{ width: "fit-content" }}
+              size="small"
+              label="Group Size"
+              variant="outlined"
+              type="number"
+              value={groupSize}
+              onChange={(e) => {
+                setGroupSize(e.target.value);
+              }}
             />
-            <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={modalStyle}>
-                    <Typography id="modal-modal-title" variant="h6" >Do you wanna learn in {cl?.class} at {cl?.time} ?</Typography>
-                    
-                    <Box sx={{ display: "flex", justifyContent: 'space-evenly' }}>
-                        <Button sx={modalBtnStyle} variant="contained" width="medium">Yes!</Button>
-                        <Button sx={modalBtnStyle} onClick={handleClose} variant="contained" size="medium">no</Button>
-                    </Box>
-                </Box>
-            </Modal>
+            <div className="flex justify-between">
+              <Button
+                variant="outlined"
+                className=""
+                type="button"
+                onClick={handleClose}
+                endIcon={<ClearIcon fontSize="large" />}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                className=""
+                type="submit"
+                endIcon={<CheckIcon fontSize="large" />}
+                onClick={handleEventSelected}
+              >
+                Continue
+              </Button>
+            </div>
+          </div>
         </Box>
+        <Fade in={isError}>
+          <Alert
+            severity="error"
+            sx={{
+              position: "absolute",
+              bottom: "5%",
+              right: "50%",
+              translate: "50% 0",
+            }}
+          >
+            Please fill al the fields
+          </Alert>
+        </Fade>
+        </>
+      </Modal>
+
+      <Fade in={isSent}>
+        <Alert
+          severity="success"
+          sx={{
+            position: "absolute",
+            bottom: "5%",
+            right: "50%",
+            translate: "50% 0",
+          }}
+        >
+          Meeting Saved!
+        </Alert>
+      </Fade>
+    </Box>
+  );
     );
   }
 }

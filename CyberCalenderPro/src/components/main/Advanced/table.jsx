@@ -89,7 +89,6 @@ function Row(props) {
                               singleDate,
                               row.capacity,
                               row.className,
-                              user.phone,
                               user
                             );
                             Del(singleDate);

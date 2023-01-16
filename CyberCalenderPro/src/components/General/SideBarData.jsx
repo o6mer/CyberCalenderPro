@@ -11,7 +11,7 @@ export const SidebarData = (user) => {
     },
     {
       title: "Schedule",
-      path: "/",
+      path: "/main",
       icon: <MuiIcons.EventNote />,
     },
     {

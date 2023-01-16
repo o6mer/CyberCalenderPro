@@ -132,8 +132,9 @@ module.exports = {
         classSchema
           .findOne({ className: className })
           //if question exist...
+
+          ?.then((theClass) => {
             let counter = 0
-          .then((theClass) => {
             theClass?.date?.map((singleDate) => {
               if (singleDate.date === date){
                 counter = counter + 1
@@ -160,12 +161,13 @@ module.exports = {
                   res.status(400).json({
                     message: "you have reached the meeting limit for this day",
                   });
+                } else {
+                  theClass.date.push(data);
+                  theClass.save();
+                  res.status(200).json({
+                    data: data,
+                  });
                 }
-                theClass.date.push(data);
-                theClass.save();
-                res.status(200).json({
-                  data: data,
-                });
               } else {
                 res.status(200).json({
                   message: "class not exist",

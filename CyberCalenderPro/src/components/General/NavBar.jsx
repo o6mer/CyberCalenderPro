@@ -88,8 +88,6 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-
-
 export default function NavBar({ children }) {
   const theme = useTheme();
   const { user } = React.useContext(UserContext);
@@ -165,7 +163,7 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-         <MyModal/>
+          <MyModal />
           {links
             .filter((item) => item.title !== "Logout")
             .map((item, index) => (

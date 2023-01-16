@@ -15,7 +15,7 @@ export const useUserHandle = () => {
     if (user.role === "admin") {
       navigate("/dashboard");
     } else if (user.role === "user") {
-      navigate("/");
+      navigate("/main");
     }
   }, [user]);
 

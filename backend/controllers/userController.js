@@ -12,8 +12,8 @@ module.exports = {
                     userName: user?.userName,
                     role: user?.role,
                     userId: user?._id,
-                    phone: user?.phoneNumber,
-                    email: user?.Email
+                    phoneNumber: user?.phoneNumber,
+                    email:user?.Email
 
                 })
             } else {
@@ -47,5 +47,25 @@ module.exports = {
                 );
             }
         })
-    }
+    },
+    ChangeSpecs:(req,res)=>{
+        const {id,userName,Password,Email,phoneNumber} = req.body
+        try {
+            userSchema.findOne({_id: id}).then((user) => {
+
+                if (user) {
+                    user.userName = userName;
+                    user.Email = Email;
+                    user.phoneNumber = phoneNumber;
+                    if (Password) {
+                        user.Password = Password
+                    }
+                    user.save().then(() => res.status(200).json({message: "worked"}))
+                }
+
+            })
+        } catch (err){
+            console.log(err)
+        }
+}
 }

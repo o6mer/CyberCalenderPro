@@ -24,6 +24,8 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import AcUnitIcon from "@mui/icons-material/AcUnit.js";
 import VideocamIcon from "@mui/icons-material/Videocam.js";
 import ComputerIcon from "@mui/icons-material/Computer.js";
+import SearchIcon from "@mui/icons-material/Search";
+import Drawer from "@mui/material/Drawer";
 
 function AdvancedPage() {
   const today = new Date();
@@ -34,7 +36,7 @@ function AdvancedPage() {
     Object.entries(getAviliableTimeListByDate(DayConvert(today)))
   );
   const [classesClone, setClassesClone] = useState(classesData);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -49,14 +51,23 @@ function AdvancedPage() {
   };
 
   return (
-    <div id={"that"} className="">
+    <div id={"that"} className="py-4">
       <Container maxWidth={"md"}>
         <div className="mobile-sideNav">
-          <SwipeableDrawer
-            anchor={"top"}
+          <Button
+            sx={{ width: "100%" }}
+            variant="contained"
+            className=""
+            type="submit"
+            endIcon={<SearchIcon fontSize="large" />}
+            onClick={toggleDrawer(true)}
+          >
+            Find class
+          </Button>
+          <Drawer
+            anchor={"bottom"}
             open={isDrawerOpen}
             onClose={toggleDrawer(false)}
-            onOpen={toggleDrawer(true)}
           >
             <FilterOpetions
               classesClone={classesClone}
@@ -66,9 +77,10 @@ function AdvancedPage() {
               setReload={setReload}
               setAvilableDates={setAvilableDates}
             />
-          </SwipeableDrawer>
+          </Drawer>
         </div>
         <div className={"sideNav"}>
+          <Button>Filter</Button>
           <FilterOpetions
             classesClone={classesClone}
             setClassesClone={setClassesClone}
@@ -102,8 +114,8 @@ const FilterOpetions = ({
   setReload,
   setAvilableDates,
 }) => {
-  const [ClassSelect, setClass] = useState();
-  const [capacity, setCapacity] = useState(0);
+  const [ClassSelect, setClass] = useState("");
+  const [capacity, setCapacity] = useState("");
   const [checks, setChecks] = useState({ ac: true, zoom: true, pcs: true });
   let clone = [];
 
@@ -182,10 +194,10 @@ const FilterOpetions = ({
     );
   }
   return (
-    <FormControl>
+    <FormControl sx={{ padding: "8px 4px" }}>
       <InputLabel id="demo-simple-select-label">Class</InputLabel>
       <Select
-        sx={{ width: "100%", marginTop: "5px" }}
+        sx={{ width: "100%" }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={ClassSelect}
@@ -200,17 +212,21 @@ const FilterOpetions = ({
           );
         })}
       </Select>
-      <div className={"datepicker"}>
-        <LocalizationProvider
-          sx={{ width: "100%", marginTop: "15px" }}
-          dateAdapter={AdapterDayjs}
-        >
+      <div className={"w-full"}>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DesktopDatePicker
+            sx={{
+              "&.MuiDesktopDatePicker": {
+                width: "100%",
+              },
+            }}
             label="Date"
             inputFormat="MM/DD/YYYY"
             value={datePick}
             onChange={ChangeDatePick}
-            renderInput={(params) => <TextField {...params} />}
+            renderInput={(params) => (
+              <TextField {...params} sx={{ width: "100%" }} />
+            )}
           />
         </LocalizationProvider>
       </div>
@@ -236,7 +252,13 @@ const FilterOpetions = ({
         }}
       >
         <ListItem
-          secondaryAction={<Checkbox onChange={() => FilterPc} />}
+          secondaryAction={
+            <Checkbox
+              defaultChecked
+              onChange={() => FilterPc}
+              checked={checks?.pcs?.check}
+            />
+          }
           label="Pcs"
         >
           <ListItemButton>
@@ -245,7 +267,13 @@ const FilterOpetions = ({
           </ListItemButton>
         </ListItem>
         <ListItem
-          secondaryAction={<Checkbox onChange={() => FilterZoom} />}
+          secondaryAction={
+            <Checkbox
+              defaultChecked
+              onChange={() => FilterZoom}
+              checked={checks?.zoom?.check}
+            />
+          }
           label="Zoom"
         >
           <ListItemButton>
@@ -256,8 +284,9 @@ const FilterOpetions = ({
         <ListItem
           secondaryAction={
             <Checkbox
+              defaultChecked
               onChange={() => FilterAc}
-              // checked={checks[0].ac?.check}
+              checked={checks?.ac?.check}
             />
           }
           label="AC"

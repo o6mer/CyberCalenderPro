@@ -164,7 +164,7 @@ export default function NavBar({ children }) {
           {links
             .filter((item) => item.title !== "Logout")
             .map((item, index) => (
-              <NavLink to={item.path} key={item.path}>
+              <NavLink key={item.path}>
                 <ListItem key={`side${index}`} disablePadding>
                   <ListItemButton
                     selected={

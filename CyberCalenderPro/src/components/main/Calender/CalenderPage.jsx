@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { UserContext } from "../../../contexts/UserContext";
 import { Fade } from "@mui/material";
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
 
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);

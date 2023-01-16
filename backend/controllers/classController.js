@@ -1,8 +1,22 @@
 const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
 const { v4: uuidv4 } = require("uuid");
-require("dotenv").config();
 
+// function toDate(date) {
+//     const currentTime = date;
+//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+//     const month = currentTime.getMonth() + 1
+//     const day = currentTime.getDate()
+//     const year = currentTime.getFullYear()
+//     return (day + "/" + month + "/" + year);
+// }
+// function getDay(date){
+//     const currentTime = date;
+//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
+//     const month = currentTime.getMonth() + 1
+//     const day = currentTime.getDate()
+//     return day
+// }
 Date.prototype.addDays = function (days) {
   var date = new Date(this.valueOf());
   date.setDate(date.getDate() + days);
@@ -106,9 +120,8 @@ module.exports = {
         userData = {
           userName: user?.userName,
           phoneNumber: user?.phoneNumber,
-          email: user?.Email,
+          email: user?.email,
         };
-        console.log(userData);
         const data = {
           date: date,
           time_range: time_range,
@@ -357,7 +370,6 @@ module.exports = {
             role: user?.role,
             userId: user?._id,
             phoneNumber: user?.phoneNumber,
-            email: user?.Email,
           });
         } else {
           res.status(400).json({

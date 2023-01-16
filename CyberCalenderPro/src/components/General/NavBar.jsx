@@ -87,8 +87,6 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-
-
 export default function NavBar({ children }) {
   const theme = useTheme();
   const { user } = React.useContext(UserContext);
@@ -166,7 +164,6 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-
         <ListItem key='sideEdit' disablePadding>
                   <MyModal state={loginModal} setState={setLoginModal}/>
                   <ListItemButton

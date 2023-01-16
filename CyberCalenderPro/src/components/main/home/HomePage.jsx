@@ -3,7 +3,9 @@ import ClassesTable from "./ClassesTable";
 
 const HomePage = () => {
   return (
+    <>
       <ClassesTable />
+    </>
   );
 };
 

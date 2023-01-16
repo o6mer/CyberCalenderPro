@@ -12,11 +12,18 @@ import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
 import ProtectedRoutes from "./components/General/ProtectedRoutes";
 import SingleClass from "./components/classview/singleClass";
+import LandingPage from "./components/landing/LandingPage";
 import ClassView from "./components/classview/classselect.jsx";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <LandingPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/main",
     element: (
       <ProtectedRoutes>
         <App />

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import {NavLink, useNavigate} from "react-router-dom";
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -95,6 +95,7 @@ export default function NavBar({ children }) {
   const links = SidebarData(user["userName"]);
   const [open, setOpen] = React.useState(0);
   const { logout } = useUserHandle();
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -106,6 +107,11 @@ export default function NavBar({ children }) {
   const toggleDrawer = () => {
     setDropDown(!dropDown);
   };
+  function Nav(path){
+    console.log(path)
+
+    navigate(path);
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -164,16 +170,23 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-         <MyModal/>
+                <MyModal
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                />
           {links
             .filter((item) => item.title !== "Logout")
             .map((item, index) => (
-              <NavLink key={item.path}>
+              <NavLink key={item.path} to={item.path}>
                 <ListItem key={`side${index}`} disablePadding>
                   <ListItemButton
-                    selected={
-                      window.location.href ===
-                      window.location.origin + item.path
+
+                    onClick={()=> {
+                      navigate("/"+item.path)
+                    }
                     }
                     sx={{
                       minHeight: 48,
@@ -182,6 +195,7 @@ export default function NavBar({ children }) {
                     }}
                   >
                     <ListItemIcon
+
                       sx={{
                         minWidth: 0,
                         mr: open ? 3 : "auto",

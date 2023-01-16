@@ -307,7 +307,5 @@ export default function ClassesTable() {
       </Fade>
     </Box>
   );
-    );
-  }
 }
 

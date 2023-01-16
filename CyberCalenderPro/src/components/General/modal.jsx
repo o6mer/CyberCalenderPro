@@ -11,6 +11,7 @@ import {UserContext} from "../../contexts/UserContext.jsx";
 import {FormControl, Input, InputAdornment, InputLabel, TextField} from "@mui/material";
 import axios from "axios";
 import {AccountCircle} from "@mui/icons-material";
+import * as MuiIcons from "@mui/icons-material";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -42,17 +43,16 @@ export default function MyModal() {
     const [email, setEmail] = useState(user.email);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    console.log(user)
+
     async function UpdateSpecs(){
         axios.post("http://localhost:2000/changespecs",
             {id:user.userId,userName:userName,Password:password,Email:email,phoneNumber:phoneNumber}).then((res)=>{
-
-            console.log(res.data.message)
+            console.log("response",res.data.message)
         })
     }
     return (
         <div>
-            <Button onClick={handleOpen}><AccountBoxIcon/></Button>
+            <Button onClick={handleOpen}><MuiIcons.Person /></Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"

@@ -18,12 +18,6 @@ export const SidebarData = (user) => {
   // adding User
   if (user) {
     SidebarDataLinks.push({
-      title: "Profile",
-      path: "/Profile/" + user,
-      icon: <MuiIcons.Person />,
-    });
-
-    SidebarDataLinks.push({
       title: "Logout",
       path: "/",
       icon: <MuiIcons.Logout />,

@@ -8,8 +8,9 @@ import Typography from '@mui/material/Typography';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import {useContext, useEffect, useState} from "react";
 import {UserContext} from "../../contexts/UserContext.jsx";
-import {TextField} from "@mui/material";
+import {FormControl, Input, InputAdornment, InputLabel, TextField} from "@mui/material";
 import axios from "axios";
+import {AccountCircle} from "@mui/icons-material";
 const style = {
     position: 'absolute',
     top: '50%',
@@ -20,7 +21,17 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
+    display: "flex",
+    flexWrap: "wrap",
+    flexDirection: "column",
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
 };
+const singleStyle = {
+    margin:"20px"
+}
+
 
 export default function MyModal() {
     const {user} = useContext(UserContext)
@@ -55,11 +66,64 @@ export default function MyModal() {
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Profile Specs:
                         </Typography>
-                            <TextField id="filled-basic" label={"user Name:"} value={userName} onChange={e=>setUserName(e.target.value)} variant="filled" />
-                        <TextField id="filled-basic" label={"Email:"} value={email} variant="filled"  onChange={e=>setEmail(e.target.value)} />
-                        <TextField id="filled-basic" label={"Phone Number:"} value={phoneNumber} variant="filled"  onChange={e=>setPhoneNumber(e.target.value)} />
-                        <TextField id="filled-basic" type={"password"} label={"Password:"} value={password} variant="filled"  onChange={e=>setPassword(e.target.value)} />
-                        <Button onClick={UpdateSpecs}>Submit</Button>
+                        <FormControl sx={{singleStyle}} variant="standard">
+                            <InputLabel htmlFor="input-with-icon-adornment">
+                                User Name:
+                            </InputLabel>
+                            <Input value={userName} onChange={e=>setUserName(e.target.value)}
+                                   id="input-with-icon-adornment"
+                                   startAdornment={
+                                       <InputAdornment position="start">
+                                           <AccountCircle />
+                                       </InputAdornment>
+                                   }
+                            />
+                        </FormControl>
+                        <FormControl sx={{singleStyle}}>
+                            <InputLabel htmlFor="input-with-icon-adornment">
+                                Email:
+                            </InputLabel>
+                            <Input
+                                value={email} variant="filled"  onChange={e=>setEmail(e.target.value)}
+                                   id="input-with-icon-adornment"
+                                   startAdornment={
+                                       <InputAdornment position="start">
+                                           <AccountCircle />
+                                       </InputAdornment>
+                                   }
+                            />
+                        </FormControl>
+                        <FormControl sx={{singleStyle}}>
+                            <InputLabel htmlFor="input-with-icon-adornment">
+                                Phone Number:
+                            </InputLabel>
+                            <Input
+                                value={phoneNumber}  onChange={e=>setPhoneNumber(e.target.value)}
+                                id="input-with-icon-adornment"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
+                        <FormControl sx={{singleStyle}}>
+                            <InputLabel htmlFor="input-with-icon-adornment">
+                            Password:
+                        </InputLabel>
+                            <Input sx={{singleStyle}}
+                                value={password} variant="filled"  onChange={e=>setPassword(e.target.value)}
+                                id="input-with-icon-adornment"
+                                startAdornment={
+                                    <InputAdornment position="start">
+                                        <AccountCircle />
+                                    </InputAdornment>
+                                }
+                            />
+
+
+                        </FormControl>
+                            <Button onClick={UpdateSpecs}>Submit</Button>
                     </Box>
                 </Fade>
 

@@ -1,4 +1,4 @@
-import {NavLink, useNavigate} from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -94,6 +94,7 @@ export default function NavBar({ children }) {
   const { user } = React.useContext(UserContext);
   const links = SidebarData(user["userName"]);
   const [open, setOpen] = React.useState(0);
+  const [loginModal,setLoginModal] = React.useState(0);
   const { logout } = useUserHandle();
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
@@ -107,11 +108,6 @@ export default function NavBar({ children }) {
   const toggleDrawer = () => {
     setDropDown(!dropDown);
   };
-  function Nav(path){
-    console.log(path)
-
-    navigate(path);
-  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -170,22 +166,41 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-                <MyModal
+
+        <ListItem key='sideEdit' disablePadding>
+                  <MyModal state={loginModal} setState={setLoginModal}/>
+                  <ListItemButton
+                    onClick={() => setLoginModal(1)}
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
-                />
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {links[0].icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={links[0].title}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
           {links
-            .filter((item) => item.title !== "Logout")
+            .filter((item) => item.title !== "Edit" && item.title!=="Logout")
             .map((item, index) => (
               <NavLink key={item.path} to={item.path}>
                 <ListItem key={`side${index}`} disablePadding>
                   <ListItemButton
 
-                    onClick={()=> {
-                      navigate("/"+item.path)
+                    onClick={() => {
+                      navigate("/" + item.path)
                     }
                     }
                     sx={{
@@ -223,7 +238,6 @@ export default function NavBar({ children }) {
             onClick={() => logout()}
           >
             {" "}
-            {/*ADD ONCLICK FUNCTION TO SIGNOUT */}
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -265,8 +279,18 @@ export default function NavBar({ children }) {
             onClick={toggleDrawer}
           >
             <List>
+            <ListItem key='sideEdit' disablePadding>
+                  <MyModal state={loginModal} setState={setLoginModal}/>
+                  <ListItem key='upEdit' disablePadding>
+                      <ListItemButton onClick={()=> setLoginModal(1)}>
+                        <ListItemIcon>{links[0].icon}</ListItemIcon>
+
+                        <ListItemText primary={links[0].title} />
+                      </ListItemButton>
+                    </ListItem>
+                </ListItem>
               {links
-                .filter((item) => item.title !== "Logout")
+                .filter((item) => item.title !== "Edit" && item.title!=="Logout")
                 .map((item, index) => (
                   <NavLink to={item.path} key={item.path}>
                     <ListItem key={`up${index}`} disablePadding>
@@ -290,7 +314,7 @@ export default function NavBar({ children }) {
               >
                 {" "}
                 {/*ADD ONCLICK FUNCTION TO SIGNOUT */}
-                <ListItemButton>
+                <ListItemButton onClick={() => logout()}>
                   <ListItemIcon>{links[links.length - 1].icon}</ListItemIcon>
 
                   <ListItemText primary={links[links.length - 1].title} />

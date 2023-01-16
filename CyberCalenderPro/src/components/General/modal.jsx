@@ -12,6 +12,7 @@ import {FormControl, Input, InputAdornment, InputLabel, TextField} from "@mui/ma
 import axios from "axios";
 import {AccountCircle} from "@mui/icons-material";
 import * as MuiIcons from "@mui/icons-material";
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -29,20 +30,19 @@ const style = {
     justifyContent: "center",
     alignItems: "center",
 };
+
 const singleStyle = {
     margin:"20px"
 }
 
 
-export default function MyModal() {
-    const {user} = useContext(UserContext)
-    const [open, setOpen] = React.useState(false);
+export default function MyModal(prop) {
+    const {user} = useContext(UserContext);
     const [userName, setUserName] = useState(user.userName);
     const [password, setPassword] = useState("");
     const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
     const [email, setEmail] = useState(user.email);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => prop.setState(false);
 
     async function UpdateSpecs(){
         axios.post("http://localhost:2000/changespecs",
@@ -52,16 +52,15 @@ export default function MyModal() {
     }
     return (
         <div>
-            <Button onClick={handleOpen}><MuiIcons.Person /></Button>
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
-                open={open}
+                open={prop.state}
                 onClose={handleClose}
                 closeAfterTransition
 
             >
-                <Fade in={open}>
+                <Fade in={prop.state}>
                     <Box sx={style}>
                         <Typography id="transition-modal-title" variant="h6" component="h2">
                             Profile Specs:

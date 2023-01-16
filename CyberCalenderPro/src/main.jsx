@@ -11,7 +11,6 @@ import UserConextProvider from "./contexts/UserContext";
 import DashboardContextProvider from "./contexts/DashboardContext";
 import ErrorPage from "./components/General/error-page";
 import ProtectedRoutes from "./components/General/ProtectedRoutes";
-import ClassView from "./components/classview/classselect.jsx";
 import SingleClass from "./components/classview/singleClass.jsx";
 
 const router = createBrowserRouter([

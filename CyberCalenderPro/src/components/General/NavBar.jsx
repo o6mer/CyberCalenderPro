@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,7 +18,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { SidebarData } from "./SideBarData";
 import { UserContext } from "../../contexts/UserContext";
 import { useUserHandle } from "../../hooks/useUserHandle";
-import Modal from "@mui/material/Modal";
 import MyModal from "./modal.jsx";
 
 const drawerWidth = 220;

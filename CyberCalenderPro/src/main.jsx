@@ -13,7 +13,7 @@ import ErrorPage from "./components/General/error-page";
 import ProtectedRoutes from "./components/General/ProtectedRoutes";
 import ClassView from "./components/classview/classselect.jsx";
 import SingleClass from "./components/classview/singleClass.jsx";
-import MailTo from "./components/mailto/mailto.jsx";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,10 +27,11 @@ const router = createBrowserRouter([
   {
     path: "/classview",
     element: (
-        <ProtectedRoutes>
-          <ClassView />
-        </ProtectedRoutes>
+      <ProtectedRoutes>
+        <ClassView />
+      </ProtectedRoutes>
     ),
+
     errorElement: <ErrorPage />,
   },
   {
@@ -51,9 +52,9 @@ const router = createBrowserRouter([
   },
   {
     path: "/SingleClass/:name",
+
     element: <SingleClass/>
   },
-
 
 ]);
 

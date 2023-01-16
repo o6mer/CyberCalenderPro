@@ -48,6 +48,7 @@ export const useUserHandle = () => {
   };
 
   const logout = () => {
+    console.log("logout");
     setUser();
     localStorage.removeItem("user");
     navigate("/login");

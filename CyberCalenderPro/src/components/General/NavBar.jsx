@@ -17,6 +17,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { SidebarData } from "./SideBarData";
 import { UserContext } from "../../contexts/UserContext";
+import { useUserHandle } from "../../hooks/useUserHandle";
 
 const drawerWidth = 220;
 
@@ -90,6 +91,7 @@ export default function NavBar({ children }) {
   const { user } = React.useContext(UserContext);
   const links = SidebarData(user["userName"]);
   const [open, setOpen] = React.useState(0);
+  const { logout } = useUserHandle();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -200,6 +202,7 @@ export default function NavBar({ children }) {
               position: "absolute",
               bottom: "0",
             }}
+            onClick={() => logout()}
           >
             {" "}
             {/*ADD ONCLICK FUNCTION TO SIGNOUT */}

@@ -18,7 +18,9 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 500,
+    width: '80vw',
+    maxWidth: '460px',
+    height: '70%',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
@@ -27,12 +29,14 @@ const style = {
     flexWrap: "wrap",
     flexDirection: "column",
     alignContent: "center",
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "space-between",
+    gap: "10px"
+    
+    
 };
 
 const singleStyle = {
-    margin:"20px"
+
 }
 
 
@@ -111,7 +115,7 @@ export default function MyModal(prop) {
                             Password:
                         </InputLabel>
                             <Input sx={{singleStyle}}
-                                value={password} variant="filled"  onChange={e=>setPassword(e.target.value)}
+                                value={password} variant="password"  onChange={e=>setPassword(e.target.value)}
                                 id="input-with-icon-adornment"
                                 startAdornment={
                                     <InputAdornment position="start">

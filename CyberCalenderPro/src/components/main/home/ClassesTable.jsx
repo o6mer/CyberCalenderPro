@@ -3,9 +3,7 @@ import { UserContext } from "../../../contexts/UserContext";
 import { Alert, Box, Button, Fade, TextField, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import Modal from "@mui/material/Modal";
-import axios from "axios";
-import dateFormat, { masks } from "dateformat";
-import DeleteIcon from "@mui/icons-material/Delete";
+import dateFormat from "dateformat";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import AddMeeting from "../../../hooks/createMeeting";
@@ -52,7 +50,7 @@ const slotColumnCommonFields = {
   filterable: false,
   pinnable: false,
   minWidth: 140,
-  cellClassName: (params) => params.value,
+   cellClassName: (params) => `Inner-cell ${params.value}`,
   colSpan: ({ row, field, value }) => {
     const index = Number(field);
     let colSpan = 1;
@@ -69,33 +67,14 @@ const slotColumnCommonFields = {
 };
 
 const rootStyles = {
-  width: "100%",
-  backgroundColor: "rgba(255, 255, 255, 0.8)",
-
-  "& .Netpes": {
-    backgroundColor: "rgba(10, 100, 150, 0.49)",
-  },
-  "& .Fullstack-oct": {
-    backgroundColor: "rgba(157, 255, 118, 0.49)",
-  },
-  "& .QA": {
-    backgroundColor: "rgba(255, 255, 10, 0.49)",
-  },
-  "& .Fullstack-nov": {
-    backgroundColor: "rgba(150, 150, 150, 0.49)",
-  },
-  "& .Free": {
-    backgroundColor: "rgba(255, 150, 150, 0.49)",
-  },
-  "& .Physics": {
-    backgroundColor: "rgba(10, 150, 255, 0.49)",
-  },
-  "& .Fullstack-self": {
-    backgroundColor: "rgba(224, 183, 60, 0.55)",
-  },
-  "& .Bezeq": {
-    backgroundColor: "rgba(200, 150, 255, 0.49)",
-  },
+    width: '100%',
+    backgroundColor: "rgba(10, 100, 150, 0.30)",
+    '& .Inner-cell': {
+        backgroundColor: 'rgba(157, 255, 118, 0.49)',
+    },
+    '& .Free': {
+        backgroundColor: 'rgba(200, 150, 255, 0.49)',
+    },
 };
 const modalStyle = {
   position: "absolute",
@@ -307,7 +286,5 @@ export default function ClassesTable() {
       </Fade>
     </Box>
   );
-    );
-  }
 }
 

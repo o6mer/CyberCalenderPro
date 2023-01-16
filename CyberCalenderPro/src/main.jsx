@@ -52,8 +52,10 @@ const router = createBrowserRouter([
   },
   {
     path: "/SingleClass/:name",
-    element: <SingleClass />,
+
+    element: <SingleClass/>
   },
+
 ]);
 
 const theme = createTheme({

@@ -34,7 +34,7 @@ function AdvancedPage() {
     Object.entries(getAviliableTimeListByDate(DayConvert(today)))
   );
   const [classesClone, setClassesClone] = useState(classesData);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(true);
 
   const toggleDrawer = (open) => (event) => {
     if (

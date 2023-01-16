@@ -1,6 +1,7 @@
 const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
 const { v4: uuidv4 } = require('uuid');
+const sgMail = require("@sendgrid/mail");
 
 
 // function toDate(date) {
@@ -135,6 +136,25 @@ module.exports = {createClass: (req, res) => {
                             if (theClass) {
                                 theClass.date.push(data);
                                 theClass.save();
+                                const mailto = user.email
+                                const text = "test"
+                                sgMail.setApiKey("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")
+                                const msg = {
+                                    to: mailto, // Change to your recipient
+                                    from: 'admin@netpes.net', // Change to your verified sender
+                                    subject: 'Your Meeting is Set',
+                                    text: text,
+                                    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+                                }
+                                sgMail
+                                    .send(msg)
+                                    .then(() => {
+                                        console.log('Email sent')
+                                    })
+                                    .catch((error) => {
+                                        console.error(error)
+                                    })
+
                                 res.status(200).json({
                                     data: data
                                 })
@@ -152,6 +172,7 @@ module.exports = {createClass: (req, res) => {
                 message: err
             })
         }
+
     }, GetClassData: (req,res) => {
         const {className} = req.body
         classSchema

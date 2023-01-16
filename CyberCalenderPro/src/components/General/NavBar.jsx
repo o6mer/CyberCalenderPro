@@ -18,6 +18,8 @@ import ListItemText from "@mui/material/ListItemText";
 import { SidebarData } from "./SideBarData";
 import { UserContext } from "../../contexts/UserContext";
 import { useUserHandle } from "../../hooks/useUserHandle";
+import Modal from "@mui/material/Modal";
+import MyModal from "./modal.jsx";
 
 const drawerWidth = 220;
 
@@ -85,6 +87,8 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
+
+
 
 export default function NavBar({ children }) {
   const theme = useTheme();
@@ -161,10 +165,11 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
+         <MyModal/>
           {links
             .filter((item) => item.title !== "Logout")
             .map((item, index) => (
-              <NavLink to={item.path} key={item.path}>
+              <NavLink key={item.path}>
                 <ListItem key={`side${index}`} disablePadding>
                   <ListItemButton
                     selected={

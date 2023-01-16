@@ -17,7 +17,7 @@ export const SidebarData = (user) => {
 
   // adding User
   if (user) {
-    SidebarDataLinks.unshift({
+    SidebarDataLinks.push({
       title: "Profile",
       path: "/Profile/" + user,
       icon: <MuiIcons.Person />,

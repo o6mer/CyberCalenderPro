@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CheckIcon from "@mui/icons-material/Check";
 import { UserContext } from "../../../contexts/UserContext";
 import { Fade } from "@mui/material";
-import dateFormat, { masks } from "dateformat";
+import dateFormat from "dateformat";
 
 const CalenderPage = () => {
   const [avilableTimeList, setAvilableTimeList] = useState([]);
@@ -61,12 +61,13 @@ const CalenderPage = () => {
       return setTimeout(() => setIsError(false), 2000);
     }
     try {
+      console.log(user);
       const res = await axios.post("http://localhost:2000/addMeeting", {
         date: selectedDate,
         className: selectedClass,
         time_range: selectedTime,
         groupSize,
-        phoneNumber: user.phone,
+        phoneNumber: user.phoneNumber,
       });
       setAvilableTimeList((prev) => {
         prev[selectedClass] = prev[selectedClass].filter(

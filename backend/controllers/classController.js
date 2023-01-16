@@ -381,6 +381,7 @@ module.exports = {
             role: user?.role,
             userId: user?._id,
             phoneNumber: user?.phoneNumber,
+            email:user.Email
           });
         } else {
           res.status(400).json({

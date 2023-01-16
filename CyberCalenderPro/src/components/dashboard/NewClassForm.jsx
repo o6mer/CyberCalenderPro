@@ -53,13 +53,13 @@ const Dashboard = () => {
     });
   };
   return (
-    <section className="w-[50%] flex flex-col items-center">
+    <section className="w-full flex flex-col items-center">
       <form
         action=""
         onSubmit={submitHandler}
         className="flex flex-col w-full justify-center gap-4"
       >
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-around mt-9">
           <TextField
             error={classNameIsError}
             helperText={classNameIsError && "Field is required"}
@@ -119,7 +119,7 @@ const Dashboard = () => {
             label="PC's"
           />
         </div>
-        <div className="flex justify-between">
+        <div className="flex justify-around">
           <Button
             variant="outlined"
             className=""

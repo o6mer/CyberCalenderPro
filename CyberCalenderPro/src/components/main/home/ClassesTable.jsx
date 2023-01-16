@@ -42,8 +42,8 @@ const slotColumnCommonFields = {
     sortable: false,
     filterable: false,
     pinnable: false,
-    minWidth: 140,
-    cellClassName: (params) => params.value,
+    minWidth: 120,
+    cellClassName: (params) => `Inner-cell ${params.value}`,
     colSpan: ({ row, field, value }) => {
         const index = Number(field);
         let colSpan = 1;
@@ -61,29 +61,11 @@ const slotColumnCommonFields = {
 
 const rootStyles = {
     width: '100%',
-    backgroundColor: 'rgba(157, 255, 118, 0.8)',
-    '& .Netpes': {
-        backgroundColor: "rgba(10, 100, 150, 0.49)"
-    },
-    '& .Fullstack-oct': {
+    backgroundColor: "rgba(10, 100, 150, 0.30)",
+    '& .Inner-cell': {
         backgroundColor: 'rgba(157, 255, 118, 0.49)',
     },
-    '& .QA': {
-        backgroundColor: 'rgba(255, 255, 10, 0.49)',
-    },
-    '& .Fullstack-nov': {
-        backgroundColor: 'rgba(150, 150, 150, 0.49)',
-    },
     '& .Free': {
-        backgroundColor: 'rgba(255, 150, 150, 0.49)',
-    },
-    '& .Physics': {
-        backgroundColor: 'rgba(10, 150, 255, 0.49)',
-    },
-    '& .Fullstack-self': {
-        backgroundColor: 'rgba(224, 183, 60, 0.55)',
-    },
-    '& .Bezeq': {
         backgroundColor: 'rgba(200, 150, 255, 0.49)',
     },
 };
@@ -133,7 +115,7 @@ function getData(classesData) {
 
         for (const studyCase of classesData[i].date_data) {
             const place = isToday(studyCase)
-            if (place) {
+            if (place &&studyCase.approved===true) {
                 classroom.slots[place - 1] = studyCase.users[0].userName
             }
         }
@@ -188,7 +170,7 @@ export default function ClassesTable() {
                 disableSelectionOnClick
                 hideFooter
                 showCellRightBorder
-                showColumnRightBorder
+                // showColumnRightBorder
                 disableColumnReorder
                 onCellClick={(eve) => handleOpen(eve)}
 

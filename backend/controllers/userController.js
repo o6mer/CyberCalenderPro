@@ -12,7 +12,8 @@ module.exports = {
                     userName: user?.userName,
                     role: user?.role,
                     userId: user?._id,
-                    phone: user?.phoneNumber
+                    phone: user?.phoneNumber,
+                    email: user?.Email
 
                 })
             } else {

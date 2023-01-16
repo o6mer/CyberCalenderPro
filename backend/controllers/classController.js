@@ -2,23 +2,11 @@ const classSchema = require("../schema/classSchema");
 const userSchema = require("../schema/userSchema");
 const { v4: uuidv4 } = require('uuid');
 const sgMail = require("@sendgrid/mail");
+require('dotenv').config()
+var nodemailer = require('nodemailer');
 
 
-// function toDate(date) {
-//     const currentTime = date;
-//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
-//     const month = currentTime.getMonth() + 1
-//     const day = currentTime.getDate()
-//     const year = currentTime.getFullYear()
-//     return (day + "/" + month + "/" + year);
-// }
-// function getDay(date){
-//     const currentTime = date;
-//     currentTime.setDate(currentTime.getDate() - currentTime.getDay());
-//     const month = currentTime.getMonth() + 1
-//     const day = currentTime.getDate()
-//     return day
-// }
+
 Date.prototype.addDays = function(days) {
     var date = new Date(this.valueOf());
     date.setDate(date.getDate() + days);
@@ -136,25 +124,6 @@ module.exports = {createClass: (req, res) => {
                             if (theClass) {
                                 theClass.date.push(data);
                                 theClass.save();
-                                const mailto = user.email
-                                const text = "test"
-                                sgMail.setApiKey("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")
-                                const msg = {
-                                    to: mailto, // Change to your recipient
-                                    from: 'admin@netpes.net', // Change to your verified sender
-                                    subject: 'Your Meeting is Set',
-                                    text: text,
-                                    html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-                                }
-                                sgMail
-                                    .send(msg)
-                                    .then(() => {
-                                        console.log('Email sent')
-                                    })
-                                    .catch((error) => {
-                                        console.error(error)
-                                    })
-
                                 res.status(200).json({
                                     data: data
                                 })
@@ -345,7 +314,8 @@ module.exports = {createClass: (req, res) => {
                         userName: user?.userName,
                         role: user?.role,
                         userId: user?._id,
-                        phoneNumber: user?.phoneNumber
+                        phoneNumber: user?.phoneNumber,
+                        email: user?.Email
                     })
                 } else {
                     res.status(400).json({

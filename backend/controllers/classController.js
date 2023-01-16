@@ -97,6 +97,7 @@ module.exports = {createClass: (req, res) => {
         let userData;
         let dateExist = false;
         const id = uuidv4();
+
         try {
             userSchema.findOne({phoneNumber: phoneNumber}).then((user) => {
                 userData = {userName: user?.userName, phoneNumber: user?.phoneNumber, email: user?.email}
@@ -105,10 +106,14 @@ module.exports = {createClass: (req, res) => {
                     .findOne({className: className})
                     //if question exist...
                     .then((theClass) => {
+                        let counter = 0
                         theClass?.date?.map((singleDate) => {
+                            if(singleDate.date === date){
+                                counter = counter + 1;
+                            }
                             if (singleDate.date === date && singleDate.time_range === time_range) {
                                 dateExist = true
-                                if (singleDate.approved !== "unresolved") {
+                                if (singleDate.approved !== "unresolved" && counter <= 3) { //if there is no other unresolved requests so add the user
                                     theClass.date.push(data);
                                     theClass.save();
                                 } else {
@@ -118,16 +123,19 @@ module.exports = {createClass: (req, res) => {
                                 }
                             }
                         })
-
                         if (dateExist === false && theClass?.capacity >= groupSize) {
-                            if (theClass) {
+                            if (counter <=3) {
+                                res.status(400).json({
+                                    message: "you already cross the daily meeting limit"
+                                })
+                            } else if (theClass) {
                                 theClass.date.push(data);
                                 theClass.save();
                                 res.status(200).json({
                                     data: data
                                 })
                             } else {
-                                res.status(200).json({
+                                res.status(400).json({
                                     message: "class not exist"
                                 })
                             }

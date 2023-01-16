@@ -23,6 +23,6 @@ export default async function AddMeeting(theDate,Thetime_range,ThegroupSize, cla
         phoneNumber: userPhone,
     })
     alert("thanx");
-    window.location.reload();
+
 
 }

@@ -44,6 +44,7 @@ function Row(props) {
 
   function Del(index) {
     classHours = classHours.splice(index, 1);
+    window.location.reload();
   }
 
   return (

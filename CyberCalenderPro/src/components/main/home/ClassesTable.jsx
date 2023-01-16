@@ -162,11 +162,13 @@ function getData(classesData) {
 
 export default function ClassesTable() {
     const { classesData } = React.useContext(UserContext);
+    console.log(classesData);
     const rowscols = getData(classesData)
     const [open, setOpen] = React.useState(false);
     const [cl, setCl] = React.useState()
     const handleOpen = (eve) => {
-        if (eve.value === 'Free') setOpen(true);
+        if (eve.value !== 'Free') return;
+        setOpen(true);
         setCl({
             time: rowscols[1][Number(eve.field) + 1].headerName,
             class: rowscols[0][Number(eve.id) - 1]?.class,

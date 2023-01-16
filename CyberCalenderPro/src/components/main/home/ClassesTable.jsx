@@ -240,4 +240,6 @@ export default function ClassesTable() {
             </Modal>
         </Box>
     );
+  }
 }
+

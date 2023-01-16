@@ -196,7 +196,7 @@ export default function NavBar({ children }) {
                 <ListItem key={`side${index}`} disablePadding>
                   <ListItemButton
                     onClick={() => {navigate("/" + item.path)}}
-                    selected={window.location.href ===window.location.origin+item.path}
+                    selected={window.location.href === window.location.origin+item.path}
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",

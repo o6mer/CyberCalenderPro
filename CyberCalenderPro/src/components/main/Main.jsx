@@ -44,7 +44,7 @@ function Main() {
 
   const [value, setValue] = useState(0);
   const [currentPageName, setCurrentPageName] = useState("home");
-  const { user, setClassesData } = useContext(UserContext);
+  const { setClassesData } = useContext(UserContext);
 
   useEffect(() => {
     const getData = async () => {
@@ -69,28 +69,22 @@ function Main() {
 
   return (
     <main className="h-full">
-      <div className="w-full">
-        <div className="w-full flex justify-center">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="Main Page Tabs"
-          >
-            <Tab label="Home" name="Home" {...a11yProps(0)} />
-            <Tab label="Calender" name="Calender" {...a11yProps(1)} />
-            <Tab label="Advanced" name="Advanced" {...a11yProps(2)} />
-          </Tabs>
-        </div>
-        <TabPanel value={value} index={0}>
-          <HomePage />
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <CalenderPage />
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <AdvancedPage />
-        </TabPanel>
+      <div className="w-full flex justify-center">
+        <Tabs value={value} onChange={handleChange} aria-label="Main Page Tabs">
+          <Tab label="Home" name="Home" {...a11yProps(0)} />
+          <Tab label="Calender" name="Calender" {...a11yProps(1)} />
+          <Tab label="Advanced" name="Advanced" {...a11yProps(2)} />
+        </Tabs>
       </div>
+      <TabPanel value={value} index={0}>
+        <HomePage />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+        <CalenderPage />
+      </TabPanel>
+      <TabPanel value={value} index={2}>
+        <AdvancedPage />
+      </TabPanel>
     </main>
   );
 }

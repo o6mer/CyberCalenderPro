@@ -28,8 +28,9 @@ const CalenderPage = () => {
   const [isError, setIsError] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
-  const { user, classesData, getAviliableTimeListByDate } =
-    useContext(UserContext);
+  const { user, classesData, getAviliableTimeListByDate } = useContext(
+    UserContext
+  );
 
   useEffect(() => {
     dateSelectedHandler(new Date());
@@ -88,7 +89,7 @@ const CalenderPage = () => {
   }
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center gap-8  py-8 relative">
+    <div className="h-full flex grow flex-col items-center justify-center gap-8 py-8 relative">
       <Calendar
         calendarType="Hebrew"
         onChange={dateSelectedHandler}
@@ -106,7 +107,7 @@ const CalenderPage = () => {
         onSubmit={submitHandler}
         className="flex flex-col justify-center w-max gap-2"
       >
-        <div className="flex items-center justify-center gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-6">
           <label htmlFor="select-class">
             Class Room:{" "}
             <select

@@ -45,10 +45,7 @@ const slotColumnCommonFields = {
     filterable: false,
     pinnable: false,
     minWidth: 100,
-
     cellClassName: (params) => `Inner-cell ${params.value}`
-    
-
 };
 
 function rootStyles() {
@@ -65,16 +62,36 @@ function rootStyles() {
 }
 };
 
+function isToday(studyCase) {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1;
+    const fYear = today.getFullYear();
+    const studyCaseDate = studyCase.date.split(',')
+    let isToday = false
+    
+    if (studyCaseDate[0] == fYear && studyCaseDate[1] == month && studyCaseDate[2] == day) isToday = true
+    return isToday
+
+}
 
 function getData(classesData) {
     let newclassRows = []
     for (let i = 0; i < 26; i++) {
-        newclassRows.push({
+        const timeHalfHour =({
             id: i + 1,
             time: slotTimesLookup[i],
-            slots: ['Free', 'Free', 'Free', 'Free']
+            slots: []
         })
-
+        for (let clssrm = 0; clssrm < classesData.length; clssrm++)timeHalfHour.slots.push('Free')
+        for (let clssrm = 0; clssrm < classesData.length; clssrm++){
+            for (const studyCase of classesData[clssrm].date_data){
+                if (studyCase.time_range===slotTimesLookup[i] && isToday(studyCase) && studyCase.approved===true) {
+                    timeHalfHour.slots[clssrm] = studyCase.users[0].userName
+                }
+            }
+        }
+        newclassRows.push(timeHalfHour)
     }
     let newclassColums = [
         {
@@ -95,6 +112,7 @@ function getData(classesData) {
 
 export default function ClassesTableByTime() {
     const { classesData } = React.useContext(UserContext);
+    console.log(classesData);
     const dataCR = getData(classesData)
     return (
         <div className='flex justify-center w-full py-10'>

@@ -34,7 +34,7 @@ const RequestList = () => {
 
   return (
     <section className="w-full py-8">
-      <p className="text-xl text-center">Requests</p>
+
       <Table>
         <TableHead>
           <TableRow>

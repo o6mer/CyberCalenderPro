@@ -61,7 +61,7 @@ const slotColumnCommonFields = {
 
 const rootStyles = {
     width: '100%',
-    backgroundColor: 'rgba(157, 255, 118, 0.8)',
+    backgroundColor: "rgba(10, 100, 150, 0.30)",
     '& .Netpes': {
         backgroundColor: "rgba(10, 100, 150, 0.49)"
     },

@@ -15,8 +15,8 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useContext } from "react";
 import { UserContext } from "../../../contexts/UserContext.jsx";
-import AddMeeting from "./handles/createMeeting.jsx";
-import DayConvert from "./handles/dayconvert.js";
+import AddMeeting from "../../../hooks/createMeeting.jsx";
+import DayConvert from "../../../hooks/dayconvert.js";
 
 function createData(date, time_range, approved, users) {
   return {
@@ -44,6 +44,7 @@ function Row(props) {
 
   function Del(index) {
     classHours = classHours.splice(index, 1);
+    window.location.reload();
   }
 
   return (
@@ -89,8 +90,7 @@ function Row(props) {
                               singleDate,
                               row.capacity,
                               row.className,
-                              user.phone,
-                                user
+                              user
                             );
                             Del(singleDate);
                           }}

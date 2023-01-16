@@ -132,14 +132,18 @@ module.exports = {
         classSchema
           .findOne({ className: className })
           //if question exist...
+            let counter = 0
           .then((theClass) => {
             theClass?.date?.map((singleDate) => {
+              if (singleDate.date === date){
+                counter = counter + 1
+              }
               if (
                 singleDate.date === date &&
                 singleDate.time_range === time_range
               ) {
                 dateExist = true;
-                if (singleDate.approved !== "unresolved") {
+                if (singleDate.approved !== "unresolved" && counter <= 3) {
                   theClass.date.push(data);
                   theClass.save();
                 } else {
@@ -152,6 +156,11 @@ module.exports = {
 
             if (dateExist === false && theClass?.capacity >= groupSize) {
               if (theClass) {
+                if(counter > 3){
+                  res.status(400).json({
+                    message: "you have reached the meeting limit for this day",
+                  });
+                }
                 theClass.date.push(data);
                 theClass.save();
                 res.status(200).json({

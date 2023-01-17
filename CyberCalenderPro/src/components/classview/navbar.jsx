@@ -1,7 +1,7 @@
+import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
-import AdbIcon from "@mui/icons-material/Adb.js";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
@@ -9,11 +9,10 @@ import MenuIcon from "@mui/icons-material/Menu.js";
 import Menu from "@mui/material/Menu";
 import { NavLink } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
-import Tooltip from "@mui/material/Tooltip";
-import Avatar from "@mui/material/Avatar";
-import * as React from "react";
-const pages = ["Main", "Logout"];
-const links = ["/main", "/login"];
+import logo from "../../../public/class.svg";
+
+const pages = [];
+const links = [];
 
 export default function NavBar(props) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -40,17 +39,16 @@ export default function NavBar(props) {
       <AppBar position="static">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
+            <img className="w-8" src={logo} alt="" />
             <Typography
               variant="h6"
               noWrap
               component="a"
-              href="/"
+              href="/main"
               sx={{
                 mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontFamily: "monospace",
                 fontWeight: 700,
-                letterSpacing: ".3rem",
                 color: "inherit",
                 textDecoration: "none",
               }}

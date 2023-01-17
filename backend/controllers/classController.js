@@ -237,9 +237,10 @@ module.exports = {
       //if question exist...
       .then((theClass) => {
         alldates = theClass.date.filter((singleDate) => {
-          return (singleDate.date = date);
+          return (singleDate.date === date);
         });
         res.status(200).json({
+          classdata:theClass,
           dates: alldates,
         });
       });

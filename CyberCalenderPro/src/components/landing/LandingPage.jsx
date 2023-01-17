@@ -63,7 +63,7 @@ const LandingPage = () => {
             </div>
             <h3 className="font-bold text-xl">User Creation and Login</h3>
             <p className="text-lg">
-              Easy to use registratio. Quick login and a secure connection.
+              Easy to use registration. Quick login and a secure connection.
             </p>
           </div>
           <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02] md:w-[33%]">
@@ -72,8 +72,8 @@ const LandingPage = () => {
             </div>
             <h3 className="font-bold text-xl">Online Scheduling</h3>
             <p className="text-lg">
-              Schedule you favorite class in an easy to use UI. Filter by dates,
-              class utilities and aviliabilty.
+              Schedule you favorite classes in an easy to use UI. Filter by
+              dates, class utilities and aviliabilty.
             </p>
           </div>
           <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02] md:w-[33%]">

@@ -39,8 +39,7 @@ const classesTimeTable = [
 const slotTimesLookup = {};
 classesTimeTable.map(
   (specificTimeData, i, classesTimeTable) =>
-    (slotTimesLookup[i] = `${specificTimeData.Time}-${
-      classesTimeTable[i + 1]?.Time ? classesTimeTable[i + 1].Time : "21:00"
+  (slotTimesLookup[i] = `${specificTimeData.Time}-${classesTimeTable[i + 1]?.Time ? classesTimeTable[i + 1].Time : "21:00"
     }`)
 );
 //{{0:'08:00-08:30'}, {1:'08:30-09:00'}, {2:'09:00-09:30'}, .... , {25: 20:30-21:00}}
@@ -50,7 +49,7 @@ const slotColumnCommonFields = {
   filterable: false,
   pinnable: false,
   minWidth: 140,
-   cellClassName: (params) => `Inner-cell ${params.value}`,
+  cellClassName: (params) => `Inner-cell ${params.value}`,
   colSpan: ({ row, field, value }) => {
     const index = Number(field);
     let colSpan = 1;
@@ -65,16 +64,32 @@ const slotColumnCommonFields = {
     return colSpan;
   },
 };
-
-const rootStyles = {
+function notInArr(arr, val) {
+  for (let j = 0; j < arr.length; j++)if (arr[j] === val) return 0;
+  return 1;
+}
+function rootStyles(classroomsSchedule) {
+  const colors = [{backgroundColor:'rgba(200, 150, 255, 0.49)'}, {backgroundColor:'rgba(16, 150, 255, 0.49)'}, {backgroundColor:'rgba(200, 150, 0, 0.49)'}, {backgroundColor:'rgba(200, 10, 255, 0.39)'}, {backgroundColor:'rgba(10, 110, 10, 0.39)'}, '']
+  const styles = {
     width: '100%',
-    backgroundColor: "rgba(10, 100, 150, 0.30)",
-    '& .Inner-cell': {
-        backgroundColor: 'rgba(157, 255, 118, 0.49)',
-    },
+    backgroundColor: "#C9D6DF",
+    
     '& .Free': {
-        backgroundColor: 'rgba(200, 150, 255, 0.49)',
+      backgroundColor: 'white',
     },
+  }
+  const names = []
+  classroomsSchedule.map(room => {
+    for (let i = 0; i < 26; i++) {
+      if (room.slots[i] !== 'Free' && notInArr(names, room.slots[i]))
+        names.push(room.slots[i])
+    }
+  })
+  for (let index = 0; index < names.length; index++) {
+    styles[`& .${names[index].split(' ')[0]}`] = colors[index]
+
+  }
+  return styles
 };
 const modalStyle = {
   position: "absolute",
@@ -188,9 +203,9 @@ export default function ClassesTable() {
     setOpen(false);
     setGroupSize();
   };
-
+  console.log(rowscols);
   return (
-    <Box sx={rootStyles}>
+    <Box sx={rootStyles(rowscols[0])}>
       <DataGrid
         columns={rowscols[1]}
         rows={rowscols[0]}
@@ -216,58 +231,58 @@ export default function ClassesTable() {
         aria-describedby="modal-modal-description"
       >
         <>
-        <Box sx={modalStyle}>
-          <div className="w-fit flex flex-col gap-4 ">
-            <Typography id="modal-modal-title" variant="h6">
-              {`Do you wanna learn in ${cl?.class} at ${cl?.time}?`}
-            </Typography>
+          <Box sx={modalStyle}>
+            <div className="w-fit flex flex-col gap-4 ">
+              <Typography id="modal-modal-title" variant="h6">
+                {`Do you wanna learn in ${cl?.class} at ${cl?.time}?`}
+              </Typography>
 
-            <TextField
-              sx={{ width: "fit-content" }}
-              size="small"
-              label="Group Size"
-              variant="outlined"
-              type="number"
-              value={groupSize}
-              onChange={(e) => {
-                setGroupSize(e.target.value);
-              }}
-            />
-            <div className="flex justify-between">
-              <Button
+              <TextField
+                sx={{ width: "fit-content" }}
+                size="small"
+                label="Group Size"
                 variant="outlined"
-                className=""
-                type="button"
-                onClick={handleClose}
-                endIcon={<ClearIcon fontSize="large" />}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                className=""
-                type="submit"
-                endIcon={<CheckIcon fontSize="large" />}
-                onClick={handleEventSelected}
-              >
-                Continue
-              </Button>
+                type="number"
+                value={groupSize}
+                onChange={(e) => {
+                  setGroupSize(e.target.value);
+                }}
+              />
+              <div className="flex justify-between">
+                <Button
+                  variant="outlined"
+                  className=""
+                  type="button"
+                  onClick={handleClose}
+                  endIcon={<ClearIcon fontSize="large" />}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  className=""
+                  type="submit"
+                  endIcon={<CheckIcon fontSize="large" />}
+                  onClick={handleEventSelected}
+                >
+                  Continue
+                </Button>
+              </div>
             </div>
-          </div>
-        </Box>
-        <Fade in={isError}>
-          <Alert
-            severity="error"
-            sx={{
-              position: "absolute",
-              bottom: "5%",
-              right: "50%",
-              translate: "50% 0",
-            }}
-          >
-            Please fill al the fields
-          </Alert>
-        </Fade>
+          </Box>
+          <Fade in={isError}>
+            <Alert
+              severity="error"
+              sx={{
+                position: "absolute",
+                bottom: "5%",
+                right: "50%",
+                translate: "50% 0",
+              }}
+            >
+              Please fill al the fields
+            </Alert>
+          </Fade>
         </>
       </Modal>
 

@@ -5,9 +5,9 @@ import { Modal } from "@mui/material";
 export const SidebarData = (user) => {
   const SidebarDataLinks = [
     {
-      title: "Edit",
+      title: "Profile",
       path: <Modal />,
-      icon: <MuiIcons.Edit />,
+      icon: <MuiIcons.Person />,
     },
     {
       title: "Schedule",

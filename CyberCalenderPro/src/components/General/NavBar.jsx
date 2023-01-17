@@ -164,33 +164,8 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-          <ListItem key="sideEdit" disablePadding>
-            <MyModal state={loginModal} setState={setLoginModal} />
-            <ListItemButton
-              onClick={() => setLoginModal(1)}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                {links[0].icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={links[0].title}
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          </ListItem>
           {links
-            .filter((item) => item.title !== "Edit" && item.title !== "Logout")
+            .filter((item) => item.title !== "Profile" && item.title !== "Logout")
             .map((item, index) => (
               <NavLink key={item.path} to={item.path}>
                 <ListItem key={`side${index}`} disablePadding>
@@ -225,6 +200,31 @@ export default function NavBar({ children }) {
                 </ListItem>
               </NavLink>
             ))}
+            <ListItem key="sideEdit" disablePadding>
+            <MyModal state={loginModal} setState={setLoginModal} />
+            <ListItemButton
+              onClick={() => setLoginModal(1)}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {links[0].icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={links[0].title}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
           <ListItem
             disablePadding
             sx={{

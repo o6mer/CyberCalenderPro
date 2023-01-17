@@ -48,20 +48,36 @@ const slotColumnCommonFields = {
   minWidth: 100,
   cellClassName: (params) => `Inner-cell ${params.value}`,
 };
-
-function rootStyles() {
-  const { classesData } = React.useContext(UserContext);
-  return {
-    width: `${classesData.length * 100 + 102}px`,
-    backgroundColor: "rgba(10, 100, 150, 0.39)",
-    "& .Inner-cell": {
-      backgroundColor: "rgba(157, 255, 118, 0.49)",
-    },
-    "& .Free": {
-      backgroundColor: "rgba(200, 150, 255, 0.49)",
-    },
-  };
+function notInArr(arr, val) {
+  for (let j = 0; j < arr.length; j++)if (arr[j] === val) return 0;
+  return 1;
 }
+
+function rootStyles(classroomsSchedule) {
+  const { classesData } = React.useContext(UserContext);
+  const colors = [{backgroundColor:'rgba(200, 150, 255, 0.49)'}, {backgroundColor:'rgba(16, 150, 255, 0.49)'}, {backgroundColor:'rgba(200, 150, 0, 0.49)'}, {backgroundColor:'rgba(200, 10, 255, 0.39)'}, {backgroundColor:'rgba(10, 110, 10, 0.39)'}, {backgroundColor:'rgba(120, 10, 10, 0.39)'}]
+  const styles = {
+    width: `${classesData.length * 100 + 102}px`,
+    backgroundColor: "#C9D6DF",
+    
+    '& .Free': {
+      backgroundColor: 'white',
+    },
+  }
+  const names = []
+  classroomsSchedule.map(room => {
+    for (let i = 0; i < 4; i++) {
+      if (room.slots[i] !== 'Free' && notInArr(names, room.slots[i]))
+        names.push(room.slots[i])
+    }
+  })
+  for (let index = 0; index < names.length; index++) {
+    styles[`& .${names[index]?.split(' ')[0]}`] = colors[index]
+
+  }
+  return styles
+};
+
 
 function isToday(studyCase) {
   const today = new Date();
@@ -123,9 +139,10 @@ function getData(classesData) {
 export default function ClassesTableByTime() {
   const { classesData } = React.useContext(UserContext);
   const dataCR = getData(classesData);
+  
   return (
     <div className="flex justify-center w-full py-10">
-      <Box sx={rootStyles}>
+      <Box sx={rootStyles(dataCR[1])}>
         <DataGrid
           columns={dataCR[0]}
           rows={dataCR[1]}

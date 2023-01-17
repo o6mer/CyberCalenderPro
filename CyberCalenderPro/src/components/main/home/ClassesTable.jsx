@@ -69,7 +69,7 @@ function notInArr(arr, val) {
   return 1;
 }
 function rootStyles(classroomsSchedule) {
-  const colors = [{backgroundColor:'rgba(200, 150, 255, 0.49)'}, {backgroundColor:'rgba(16, 150, 255, 0.49)'}, {backgroundColor:'rgba(200, 150, 0, 0.49)'}, {backgroundColor:'rgba(200, 10, 255, 0.39)'}, {backgroundColor:'rgba(10, 110, 10, 0.39)'}, '']
+  const colors = [{backgroundColor:'rgba(200, 150, 255, 0.49)'}, {backgroundColor:'rgba(16, 150, 255, 0.49)'}, {backgroundColor:'rgba(200, 150, 0, 0.49)'}, {backgroundColor:'rgba(200, 10, 255, 0.39)'}, {backgroundColor:'rgba(10, 110, 10, 0.39)'}, {backgroundColor:'rgba(120, 10, 10, 0.39)'}]
   const styles = {
     width: '100%',
     backgroundColor: "#C9D6DF",
@@ -119,7 +119,8 @@ function isToday(studyCase) {
   if (
     studyCaseDate[0] == fYear &&
     studyCaseDate[1] == month &&
-    studyCaseDate[2] == day
+    studyCaseDate[2] == day &&
+    studyCase.approved === true
   )
     studyCaseTimeIndex = index + 1;
 
@@ -203,7 +204,6 @@ export default function ClassesTable() {
     setOpen(false);
     setGroupSize();
   };
-  console.log(rowscols);
   return (
     <Box sx={rootStyles(rowscols[0])}>
       <DataGrid

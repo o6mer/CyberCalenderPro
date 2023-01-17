@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -18,7 +18,6 @@ import ListItemText from "@mui/material/ListItemText";
 import { SidebarData } from "./SideBarData";
 import { UserContext } from "../../contexts/UserContext";
 import { useUserHandle } from "../../hooks/useUserHandle";
-import Modal from "@mui/material/Modal";
 import MyModal from "./modal.jsx";
 
 const drawerWidth = 220;
@@ -93,7 +92,9 @@ export default function NavBar({ children }) {
   const { user } = React.useContext(UserContext);
   const links = SidebarData(user["userName"]);
   const [open, setOpen] = React.useState(0);
+  const [loginModal,setLoginModal] = React.useState(0);
   const { logout } = useUserHandle();
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -163,17 +164,10 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-          <MyModal />
-          {links
-            .filter((item) => item.title !== "Logout")
-            .map((item, index) => (
-              <NavLink key={item.path}>
-                <ListItem key={`side${index}`} disablePadding>
+        <ListItem key='sideEdit' disablePadding>
+                  <MyModal state={loginModal} setState={setLoginModal}/>
                   <ListItemButton
-                    selected={
-                      window.location.href ===
-                      window.location.origin + item.path
-                    }
+                    onClick={() => setLoginModal(1)}
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
@@ -181,6 +175,36 @@ export default function NavBar({ children }) {
                     }}
                   >
                     <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {links[0].icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={links[0].title}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </ListItem>
+          {links
+            .filter((item) => item.title !== "Edit" && item.title!=="Logout")
+            .map((item, index) => (
+              <NavLink key={item.path} to={item.path}>
+                <ListItem key={`side${index}`} disablePadding>
+                  <ListItemButton
+                    onClick={() => {navigate("/" + item.path)}}
+                    selected={window.location.href === window.location.origin+item.path}
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
+                    }}
+                  >
+                    <ListItemIcon
+
                       sx={{
                         minWidth: 0,
                         mr: open ? 3 : "auto",
@@ -208,7 +232,6 @@ export default function NavBar({ children }) {
             onClick={() => logout()}
           >
             {" "}
-            {/*ADD ONCLICK FUNCTION TO SIGNOUT */}
             <ListItemButton
               sx={{
                 minHeight: 48,
@@ -250,8 +273,18 @@ export default function NavBar({ children }) {
             onClick={toggleDrawer}
           >
             <List>
+            <ListItem key='sideEdit' disablePadding>
+                  <MyModal state={loginModal} setState={setLoginModal}/>
+                  <ListItem key='upEdit' disablePadding>
+                      <ListItemButton onClick={()=> setLoginModal(1)}>
+                        <ListItemIcon>{links[0].icon}</ListItemIcon>
+
+                        <ListItemText primary={links[0].title} />
+                      </ListItemButton>
+                    </ListItem>
+                </ListItem>
               {links
-                .filter((item) => item.title !== "Logout")
+                .filter((item) => item.title !== "Edit" && item.title!=="Logout")
                 .map((item, index) => (
                   <NavLink to={item.path} key={item.path}>
                     <ListItem key={`up${index}`} disablePadding>
@@ -275,7 +308,7 @@ export default function NavBar({ children }) {
               >
                 {" "}
                 {/*ADD ONCLICK FUNCTION TO SIGNOUT */}
-                <ListItemButton>
+                <ListItemButton onClick={() => logout()}>
                   <ListItemIcon>{links[links.length - 1].icon}</ListItemIcon>
 
                   <ListItemText primary={links[links.length - 1].title} />

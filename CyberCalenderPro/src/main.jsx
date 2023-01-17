@@ -13,6 +13,8 @@ import ErrorPage from "./components/General/error-page";
 import ProtectedRoutes from "./components/General/ProtectedRoutes";
 import SingleClass from "./components/classview/singleClass";
 import LandingPage from "./components/landing/LandingPage";
+import ClassView from "./components/classview/classselect.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -46,9 +48,14 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
+    path:"/classview",
+    element: <ClassView/>,
+  },
+  {
     path: "/SingleClass/:name",
     element: <SingleClass />,
   },
+
 ]);
 
 const theme = createTheme({

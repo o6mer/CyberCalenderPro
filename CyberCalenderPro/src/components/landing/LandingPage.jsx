@@ -127,7 +127,7 @@ const LandingPage = () => {
           </a>
         </div>
         <div className="flex flex-row md:gap-0 gap-4 md:flex-col">
-          <div className="text-white flex gap-1">
+          <div className="text-white flex ">
             <p>Omer:</p>
             <a
               href="https://www.linkedin.com/in/omer-liraz-12a337230/"

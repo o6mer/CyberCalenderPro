@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect,useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DashboardContext } from "../../contexts/DashboardContext";
 import propTypes from "prop-types";
 import { Tab, Tabs } from "@mui/material";
@@ -48,28 +48,21 @@ const Dashboard = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await axios.post("http://localhost:2000/classesdata");
+        const classesData = await axios.post(
+          "http://localhost:2000/classesdata"
+        );
+        const requestList = await axios.get("http://localhost:2000/unresolved");
 
-        const { data } = res.data;
-        if (!data) return;
+        if (!classesData || !requestList) return;
 
-        setClassesData(data);
+        console.log(classesData, requestList);
+        setRequestList(requestList.data.dates);
+        setClassesData(classesData.data.data);
       } catch (err) {
         console.log(err);
       }
     };
     getData();
-  }, []);
-  useEffect(() => {
-    const getRequests = async () => {
-      try {
-        const res = await axios.get("http://localhost:2000/unresolved");
-        setRequestList(res.data.dates);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getRequests();
   }, []);
 
   const [value, setValue] = useState(0);
@@ -84,23 +77,26 @@ const Dashboard = () => {
       <NavBar />
       <main className="h-full ">
         <div className="w-full flex justify-center">
-          <Tabs value={value} onChange={handleChange} aria-label="Dashboard Page Tabs">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="Dashboard Page Tabs"
+          >
             <Tab label="class list" name="class list" {...a11yProps(0)} />
             <Tab label="requests" name="requests" {...a11yProps(1)} />
             <Tab label="add class" name="add class" {...a11yProps(2)} />
           </Tabs>
         </div>
         <TabPanel value={value} index={0}>
-          <ClassesTableByTime/>
+          <ClassesTableByTime />
         </TabPanel>
         <TabPanel value={value} index={1}>
-        <RequestList />
+          <RequestList />
         </TabPanel>
         <TabPanel value={value} index={2}>
           <NewClassForm />
         </TabPanel>
       </main>
-      
     </>
   );
 };

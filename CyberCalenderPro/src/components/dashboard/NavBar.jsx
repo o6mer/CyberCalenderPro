@@ -5,6 +5,7 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Divider from "@mui/material/Divider";
 import { useUserHandle } from "../../hooks/useUserHandle";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,9 +45,6 @@ const NavBar = () => {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-        <MenuItem onClick={handleClose}>My account</MenuItem>
-        <Divider />
         <MenuItem onClick={onLogoutClicked}>Logout</MenuItem>
       </Menu>
     </nav>

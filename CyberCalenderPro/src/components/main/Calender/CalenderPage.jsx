@@ -61,7 +61,6 @@ const CalenderPage = () => {
       return setTimeout(() => setIsError(false), 2000);
     }
     try {
-      console.log(user);
       const res = await axios.post("http://localhost:2000/addMeeting", {
         date: selectedDate,
         className: selectedClass,

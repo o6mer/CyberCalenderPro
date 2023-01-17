@@ -59,7 +59,7 @@ const Dashboard = () => {
         onSubmit={submitHandler}
         className="flex flex-col w-full justify-center gap-4"
       >
-        <div className="flex items-center justify-around mt-9">
+        <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-9">
           <TextField
             error={classNameIsError}
             helperText={classNameIsError && "Field is required"}
@@ -84,40 +84,42 @@ const Dashboard = () => {
               setCapacityIsError(false);
             }}
           />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="ac"
-                checked={checklist.ac}
-                value={checklist.ac}
-                onChange={handleChecklistChange}
-              />
-            }
-            label="AC"
-          />
+          <div>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="ac"
+                  checked={checklist.ac}
+                  value={checklist.ac}
+                  onChange={handleChecklistChange}
+                />
+              }
+              label="AC"
+            />
 
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="zoom"
-                checked={checklist.zoom}
-                value={checklist.zoom}
-                onChange={handleChecklistChange}
-              />
-            }
-            label="Zoom"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                name="pcs"
-                checked={checklist.pcs}
-                value={checklist.pcs}
-                onChange={handleChecklistChange}
-              />
-            }
-            label="PC's"
-          />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="zoom"
+                  checked={checklist.zoom}
+                  value={checklist.zoom}
+                  onChange={handleChecklistChange}
+                />
+              }
+              label="Zoom"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="pcs"
+                  checked={checklist.pcs}
+                  value={checklist.pcs}
+                  onChange={handleChecklistChange}
+                />
+              }
+              label="PC's"
+            />
+          </div>
         </div>
         <div className="flex justify-around">
           <Button

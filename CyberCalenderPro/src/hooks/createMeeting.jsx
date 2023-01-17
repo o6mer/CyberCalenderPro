@@ -8,7 +8,6 @@ export default async function AddMeeting(
   class_name,
   user
 ) {
-  console.log(user);
   theDate = DayConvert(theDate);
   emailjs
     .send(
@@ -24,9 +23,7 @@ export default async function AddMeeting(
       "oEBiM-k9oB7AAUIPw"
     )
     .then(
-      (result) => {
-        console.log(result.text);
-      },
+      (result) => {},
       (error) => {
         console.log(error.text);
       }

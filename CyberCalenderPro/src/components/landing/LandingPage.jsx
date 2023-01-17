@@ -57,7 +57,7 @@ const LandingPage = () => {
       <section className="flex flex-col  py-24 px-8 md:px-48  gap-8 bg-primary">
         <p className="text-md font-bold uppercase">features</p>
         <div className="flex flex-col md:flex-row gap-4 py-8 ">
-          <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02]">
+          <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02] md:w-[33%]">
             <div className="w-fit bg-fourth text-white p-2 rounded-[50%]">
               <PersonIcon fontSize="medium" />
             </div>
@@ -66,7 +66,7 @@ const LandingPage = () => {
               Easy to use registratio. Quick login and a secure connection.
             </p>
           </div>
-          <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02]">
+          <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02] md:w-[33%]">
             <div className="w-fit bg-fourth text-white p-2 rounded-[50%]">
               <CalendarMonthIcon fontSize="medium" />
             </div>
@@ -76,7 +76,7 @@ const LandingPage = () => {
               class utilities and aviliabilty.
             </p>
           </div>
-          <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02]">
+          <div className="flex flex-col gap-2 bg-white p-4 rounded-lg shadow-lg transition-all hover:scale-[1.02] md:w-[33%]">
             <div className="w-fit bg-fourth text-white p-2 rounded-[50%]">
               <AdminPanelSettingsIcon fontSize="medium" />
             </div>
@@ -116,7 +116,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <footer className="bg-fourth px-8 md:px-48 py-8 flex flex-col md:flex-row items-center justify-around">
+      <footer className="bg-fourth px-8 md:px-48 py-8 flex flex-col md:flex-row items-center justify-around gap-4 md:gap-0">
         <div className="flex flex-col">
           <a
             href="/"
@@ -126,7 +126,7 @@ const LandingPage = () => {
             <p className="font-bold text-xl text-white">Classify</p>
           </a>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-row md:gap-0 gap-4 md:flex-col">
           <div className="text-white flex gap-1">
             <p>Omer:</p>
             <a
@@ -142,7 +142,7 @@ const LandingPage = () => {
               <GitHubIcon />
             </a>
           </div>
-          <div className="text-white flex gap-1">
+          <div className="text-white flex">
             <p>Netanel:</p>
             <a
               href="https://www.linkedin.com/in/netanel-arbiv-4553101b5/"
@@ -168,7 +168,7 @@ const LandingPage = () => {
             </a>
           </div>
         </div>
-        <p className="text-xl text-white w-[70%]">
+        <p className="text-xl text-white md:w-[70%]">
           This project was created by Omer Liraz, Netanel Arbiv and Roei Zaro as
           a mid coruse project in Cyber Pro university.
         </p>

@@ -50,15 +50,14 @@ export default function MyModal(prop) {
   const handleClose = () => prop.setState(false);
 
   async function UpdateSpecs() {
-    axios
-      .post("http://localhost:2000/changespecs", {
-        id: user.userId,
-        userName: userName,
-        Password: password,
-        Email: email,
-        phoneNumber: phoneNumber,
-      })
-      .then((res) => {});
+    await axios.post("http://localhost:2000/changespecs", {
+      id: user.userId,
+      userName: userName,
+      Password: password,
+      Email: email,
+      phoneNumber: phoneNumber,
+    });
+    prop.setState(0);
   }
   return (
     <div>
@@ -128,6 +127,7 @@ export default function MyModal(prop) {
                 sx={{ singleStyle }}
                 value={password}
                 variant="password"
+                type="password"
                 onChange={(e) => setPassword(e.target.value)}
                 id="input-with-icon-adornment"
                 startAdornment={

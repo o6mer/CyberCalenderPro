@@ -6,7 +6,7 @@ export const SidebarData = (user) => {
   const SidebarDataLinks = [
     {
       title: "Edit",
-      path: <Modal/>,
+      path: <Modal />,
       icon: <MuiIcons.Edit />,
     },
     {

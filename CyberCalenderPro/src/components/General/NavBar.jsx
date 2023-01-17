@@ -92,7 +92,7 @@ export default function NavBar({ children }) {
   const { user } = React.useContext(UserContext);
   const links = SidebarData(user["userName"]);
   const [open, setOpen] = React.useState(0);
-  const [loginModal,setLoginModal] = React.useState(0);
+  const [loginModal, setLoginModal] = React.useState(0);
   const { logout } = useUserHandle();
   const navigate = useNavigate();
   const handleDrawerOpen = () => {
@@ -164,39 +164,44 @@ export default function NavBar({ children }) {
         </DrawerHeader>
         <Divider />
         <List sx={{ height: "100vw" }}>
-        <ListItem key='sideEdit' disablePadding>
-                  <MyModal state={loginModal} setState={setLoginModal}/>
-                  <ListItemButton
-                    onClick={() => setLoginModal(1)}
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? "initial" : "center",
-                      px: 2.5,
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 3 : "auto",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {links[0].icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={links[0].title}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
+          <ListItem key="sideEdit" disablePadding>
+            <MyModal state={loginModal} setState={setLoginModal} />
+            <ListItemButton
+              onClick={() => setLoginModal(1)}
+              sx={{
+                minHeight: 48,
+                justifyContent: open ? "initial" : "center",
+                px: 2.5,
+              }}
+            >
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  mr: open ? 3 : "auto",
+                  justifyContent: "center",
+                }}
+              >
+                {links[0].icon}
+              </ListItemIcon>
+              <ListItemText
+                primary={links[0].title}
+                sx={{ opacity: open ? 1 : 0 }}
+              />
+            </ListItemButton>
+          </ListItem>
           {links
-            .filter((item) => item.title !== "Edit" && item.title!=="Logout")
+            .filter((item) => item.title !== "Edit" && item.title !== "Logout")
             .map((item, index) => (
               <NavLink key={item.path} to={item.path}>
                 <ListItem key={`side${index}`} disablePadding>
                   <ListItemButton
-                    onClick={() => {navigate("/" + item.path)}}
-                    selected={window.location.href === window.location.origin+item.path}
+                    onClick={() => {
+                      navigate("/" + item.path);
+                    }}
+                    selected={
+                      window.location.href ===
+                      window.location.origin + item.path
+                    }
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? "initial" : "center",
@@ -204,7 +209,6 @@ export default function NavBar({ children }) {
                     }}
                   >
                     <ListItemIcon
-
                       sx={{
                         minWidth: 0,
                         mr: open ? 3 : "auto",
@@ -273,18 +277,20 @@ export default function NavBar({ children }) {
             onClick={toggleDrawer}
           >
             <List>
-            <ListItem key='sideEdit' disablePadding>
-                  <MyModal state={loginModal} setState={setLoginModal}/>
-                  <ListItem key='upEdit' disablePadding>
-                      <ListItemButton onClick={()=> setLoginModal(1)}>
-                        <ListItemIcon>{links[0].icon}</ListItemIcon>
+              <ListItem key="sideEdit" disablePadding>
+                <MyModal state={loginModal} setState={setLoginModal} />
+                <ListItem key="upEdit" disablePadding>
+                  <ListItemButton onClick={() => setLoginModal(1)}>
+                    <ListItemIcon>{links[0].icon}</ListItemIcon>
 
-                        <ListItemText primary={links[0].title} />
-                      </ListItemButton>
-                    </ListItem>
+                    <ListItemText primary={links[0].title} />
+                  </ListItemButton>
                 </ListItem>
+              </ListItem>
               {links
-                .filter((item) => item.title !== "Edit" && item.title!=="Logout")
+                .filter(
+                  (item) => item.title !== "Edit" && item.title !== "Logout"
+                )
                 .map((item, index) => (
                   <NavLink to={item.path} key={item.path}>
                     <ListItem key={`up${index}`} disablePadding>

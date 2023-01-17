@@ -175,7 +175,7 @@ export default function ClassesTable() {
         setTimeout(() => setIsError(false), 2000);
         return;
       }
-      AddMeeting(new Date(),cl.time,groupSize,cl.class,user)
+      await AddMeeting(new Date(), cl.time, groupSize, cl.class, user)
       handleClose()
       setIsSent(true);
       setTimeout(() => setIsSent(false), 2000);

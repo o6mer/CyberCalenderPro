@@ -29,7 +29,13 @@ export default function Login() {
   }
 
   return (
-    <div>
+    <div className="w-full">
+      <nav className="w-full bg-fourth text-white p-4 flex items-center">
+        <a className="flex items-center gap-2" href="/">
+          <img src="../../../public/class.svg" alt="" className="w-8" />
+          <p className="font-bold text-xl">Classify</p>
+        </a>
+      </nav>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

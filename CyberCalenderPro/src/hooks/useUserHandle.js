@@ -9,9 +9,9 @@ export const useUserHandle = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user || !Object.keys(user).length) return;
+    console.log(user);
+    if (!user) return;
     localStorage.setItem("user", JSON.stringify({ userId: user.userId }));
-    setUser(user);
     if (user.role === "admin") {
       navigate("/dashboard");
     } else if (user.role === "user") {
